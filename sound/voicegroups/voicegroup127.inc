@@ -100,8 +100,8 @@ voicegroup127:: @ 869D0F4
 	voice_square_1 0, 2, 0, 0, 15, 0  @ 869D580
 	voice_square_1 0, 2, 0, 0, 15, 0  @ 869D58C
 	voice_square_1 0, 2, 0, 0, 15, 0  @ 869D598
-	voice_square_1 0, 2, 0, 0, 15, 0  @ 869D5A4
-	voice_square_1 0, 2, 0, 0, 15, 0  @ 869D5B0
+	voice_directsound 60, 0, Delta_SE_ChooseMenuItem, 255, 246, 0, 226  @ 869D328
+	voice_directsound 60, 0, Delta_SE_SelectMenuItem, 255, 246, 0, 226  @ 869D328
 	voice_square_1 0, 2, 0, 0, 15, 0  @ 869D5BC
 	voice_square_1 0, 2, 0, 0, 15, 0  @ 869D5C8
 	voice_square_1 0, 2, 0, 0, 15, 0  @ 869D5D4

@@ -4249,3 +4249,11 @@ DirectSoundWaveData_sd90_classical_whistle::
 	.align 2
 DirectSoundWaveData_sd90_enhanced_delay_shaku::
 	.incbin "sound/direct_sound_samples/sd90_enhanced_delay_shaku.bin"
+
+	.align 2
+Delta_SE_ChooseMenuItem::
+	.incbin "sound/delta_se/select.bin"
+
+	.align 2
+Delta_SE_SelectMenuItem::
+	.incbin "sound/delta_se/selected.bin"
