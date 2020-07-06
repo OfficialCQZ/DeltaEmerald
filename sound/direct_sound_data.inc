@@ -487,6 +487,14 @@ Cry_Pikachu::
 	.incbin "sound/direct_sound_samples/cry_pikachu.bin"
 
 	.align 2
+Cry_Pikachu_Battle::
+	.incbin "sound/direct_sound_samples/cry_pikachu_battle.bin"
+
+	.align 2
+Cry_Pikachu_Faint::
+	.incbin "sound/direct_sound_samples/cry_pikachu_faint.bin"
+
+	.align 2
 Cry_Raichu::
 	.incbin "sound/direct_sound_samples/cry_raichu.bin"
 

@@ -6,6 +6,7 @@
 #include "main.h"
 #include "pokemon.h"
 #include "constants/songs.h"
+#include "constants/species.h"
 #include "task.h"
 
 struct Fanfare
@@ -34,6 +35,7 @@ extern struct MusicPlayerInfo gMPlayInfo_SE2;
 extern struct MusicPlayerInfo gMPlayInfo_SE3;
 extern struct ToneData gCryTable[];
 extern struct ToneData gCryTable2[];
+extern struct ToneData gCryTablePika[];
 
 static void Task_Fanfare(u8 taskId);
 static void CreateFanfareTask(void);
@@ -304,6 +306,14 @@ bool8 IsBGMStopped(void)
     return FALSE;
 }
 
+void DeltaCryBattle(u16 species, s8 pan)
+{
+    m4aMPlayVolumeControl(&gMPlayInfo_BGM, 0xFFFF, 85);
+    PlayCryInternal(species, pan, CRY_VOLUME, 10, 20);
+    gPokemonCryBGMDuckingCounter = 2;
+    RestoreBGMVolumeAfterPokemonCry();
+}
+
 void PlayCry1(u16 species, s8 pan)
 {
     m4aMPlayVolumeControl(&gMPlayInfo_BGM, 0xFFFF, 85);
@@ -460,7 +470,19 @@ void PlayCryInternal(u16 species, s8 pan, s8 volume, u8 priority, u8 mode)
     SetPokemonCryPriority(priority);
 
     species--;
-    gMPlay_PokemonCry = SetPokemonCryTone(v0 ? &gCryTable2[species] : &gCryTable[species]);
+
+    if (species+1 == SPECIES_PIKACHU && mode == 20)
+    {
+        gMPlay_PokemonCry = SetPokemonCryTone(&gCryTablePika[1]);
+    }
+    else if (species+1 == SPECIES_PIKACHU && mode == 5)
+    {
+        SetPokemonCryPitch(15360);
+        gMPlay_PokemonCry = SetPokemonCryTone(&gCryTablePika[2]);
+    }
+    else {
+        gMPlay_PokemonCry = SetPokemonCryTone(v0 ? &gCryTable2[species] : &gCryTable[species]);
+    }
 }
 
 bool8 IsCryFinished(void)
