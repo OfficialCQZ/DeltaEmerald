@@ -729,7 +729,7 @@ static void Task_TitleScreenPhase3(u8 taskId)
     {
         PlayCryInternal(SPECIES_RAYQUAZA, 0, 100, 10, 0);
         FadeOutBGM(4);
-        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_WHITEALPHA);
+        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK);
         SetMainCallback2(CB2_GoToMainMenu);
     }
     else if ((gMain.heldKeys & CLEAR_SAVE_BUTTON_COMBO) == CLEAR_SAVE_BUTTON_COMBO)
