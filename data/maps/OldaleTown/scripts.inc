@@ -10,7 +10,7 @@ OldaleTown_OnTransition: @ 81E8EA8
 	call_if_set FLAG_ADVENTURE_STARTED, OldaleTown_EventScript_SetOldaleState
 	end
 
-@ This script seems pointless because nothing uses VAR_OLDALE_TOWN_STATE
+@ This script seems pointless because nothing uses VAR_OLDALE_TOWN_STATE. In this Delta Hack, it should be used.
 OldaleTown_EventScript_SetOldaleState:: @ 81E8ECC
 	setvar VAR_OLDALE_TOWN_STATE, 1
 	return
@@ -36,6 +36,10 @@ OldaleTown_EventScript_Girl:: @ 81E8EF3
 OldaleTown_EventScript_MartEmployee:: @ 81E8EFC
 	lock
 	faceplayer
+	@ special SpawnCameraObject
+	@ applymovement EVENT_OBJ_ID_CAMERA, Movement_Script
+	@ waitmovement 0
+	@ special RemoveCameraObject
 	goto_if_set FLAG_RECEIVED_POTION_OLDALE, OldaleTown_EventScript_ExplainPotion
 	goto_if_set FLAG_TEMP_1, OldaleTown_EventScript_ExplainPotion
 	setflag FLAG_TEMP_1
@@ -90,6 +94,19 @@ OldaleTown_EventScript_BagIsFull:: @ 81E8FC3
 	fadedefaultbgm
 	release
 	end
+
+OldaleTown_Movement_Camera:
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	step_end
 
 OldaleTown_Movement_EmployeeEast: @ 81E8FCE
 	walk_up
