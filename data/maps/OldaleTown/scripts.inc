@@ -23,6 +23,12 @@ OldaleTown_EventScript_BlockWestEntrance:: @ 81E8ED2
 OldaleTown_EventScript_MoveMartEmployee:: @ 81E8EDE
 	setobjectxyperm 2, 10, 12
 	setobjectmovementtype 2, MOVEMENT_TYPE_FACE_DOWN
+	setvar VAR_0x8008, 7
+	return
+
+OldaleTown_EventScript_MoveMartEmployeeBack:: @ 81E8EDE
+	setobjectxyperm 2, 13, 7
+	setobjectmovementtype 2, MOVEMENT_TYPE_FACE_DOWN
 	return
 
 OldaleTown_EventScript_CitySign:: @ 81E8EEA
@@ -33,39 +39,81 @@ OldaleTown_EventScript_Girl:: @ 81E8EF3
 	msgbox OldaleTown_Text_SavingMyProgress, MSGBOX_NPC
 	end
 
-OldaleTown_EventScript_MartApproach0::
+OldaleTown_EventScript_Mart0::
 	setvar VAR_0x8008, 0
 	goto_if_unset FLAG_RECEIVED_POTION_OLDALE, OldaleTown_EventScript_MartEmployee
+	return
+
+OldaleTown_EventScript_Mart1::
+	setvar VAR_0x8008, 1
+	goto_if_unset FLAG_RECEIVED_POTION_OLDALE, OldaleTown_EventScript_MartEmployee
+	return
+
+OldaleTown_EventScript_Mart2::
+	setvar VAR_0x8008, 2
+	goto_if_unset FLAG_RECEIVED_POTION_OLDALE, OldaleTown_EventScript_MartEmployee
+	return
+
+OldaleTown_EventScript_Mart3::
+	setvar VAR_0x8008, 3
+	goto_if_unset FLAG_RECEIVED_POTION_OLDALE, OldaleTown_EventScript_MartEmployee
+	return
+
+OldaleTown_EventScript_MartApproach0::
+	compare VAR_0x8008, 7
+	call_if_eq OldaleTown_EventScript_Mart0
+	releaseall
 	end
 
 OldaleTown_EventScript_MartApproach1::
-	setvar VAR_0x8008, 1
-	goto_if_unset FLAG_RECEIVED_POTION_OLDALE, OldaleTown_EventScript_MartEmployee
+	compare VAR_0x8008, 7
+	call_if_eq OldaleTown_EventScript_Mart1
+	releaseall
 	end
 
 OldaleTown_EventScript_MartApproach2::
-	setvar VAR_0x8008, 2
-	goto_if_unset FLAG_RECEIVED_POTION_OLDALE, OldaleTown_EventScript_MartEmployee
+	compare VAR_0x8008, 7
+	call_if_eq OldaleTown_EventScript_Mart2
+	releaseall
 	end
 
 OldaleTown_EventScript_MartApproach3::
-	setvar VAR_0x8008, 3
-	goto_if_unset FLAG_RECEIVED_POTION_OLDALE, OldaleTown_EventScript_MartEmployee
+	compare VAR_0x8008, 7
+	call_if_eq OldaleTown_EventScript_Mart3
+	releaseall
 	end
 
-OldaleTown_EventScript_MartEmployee:: @ 81E8EFC
-	lockall
+OverlyComplicatedMartCode::
+	setvar VAR_0x8008, 14
+	releaseall
+	end
+
+OldaleTown_EventScript_MartEmployee_Static::
 	goto_if_set FLAG_RECEIVED_POTION_OLDALE, OldaleTown_EventScript_ExplainPotion
-	goto_if_set FLAG_TEMP_1, OldaleTown_EventScript_ExplainPotion
+	releaseall
+	end
+
+OldaleTown_EventScript_MartEmployee::
+@ ----------- Let's just set it imemdiately so it doesn't trigger again.
+	setflag FLAG_RECEIVED_POTION_OLDALE
 	setflag FLAG_TEMP_1
+
+@ ----------- Lock the player.
+	lock
+
+@ ----------- Move the employee from the top.
 	applymovement 2, OldaleTown_Movement_Employee_Delta
 	waitmovement 0
+
+@ ----------- Music, plys the [!] sound effect.
 	playbgm MUS_TSURETEK, 0
 	playse SE_PIN
 	applymovement 2, Common_Movement_ExclamationMark
 	waitmovement 0
 	applymovement 2, Common_Movement_Delay48
 	waitmovement 0
+
+@ ----------- Check the variable set by the trigger.
 	compare VAR_0x8008, 0
 	call_if_eq Oldale_ApproachTheEmployee0
 	compare VAR_0x8008, 1
@@ -74,10 +122,14 @@ OldaleTown_EventScript_MartEmployee:: @ 81E8EFC
 	call_if_eq Oldale_ApproachTheEmployee2
 	compare VAR_0x8008, 3
 	call_if_eq Oldale_ApproachTheEmployee3
+
+@ ----------- "I work at the Pokémon Mart!"
 	msgbox OldaleTown_Text_IWorkAtPokemonMart, MSGBOX_DEFAULT
 	closemessage
+
+@ ----------- Let's have this go to another script.
 	goto OldaleTown_EventScript_ExplainPokemonMart
-	releaseall
+	release
 	end
 
 Oldale_ApproachTheEmployee0::
@@ -101,40 +153,68 @@ Oldale_ApproachTheEmployee3::
 	return
 
 OldaleTown_EventScript_ExplainPokemonMart::
+@ ----------- Spawn the camera object so we can direct it to the Poké Mart.
 	special SpawnCameraObject
 	applymovement OBJ_EVENT_ID_CAMERA, OldaleTown_Movement_Camera_ShowMart
 	waitmovement 0
+
+@ ----------- This is the Pokémon Mart etc.
 	msgbox OldaleTown_Text_ThisIsAPokemonMart, MSGBOX_DEFAULT
 	closemessage
+
+@ ----------- Fade to black, remove the camera once it returns.
 	fadescreen FADE_TO_BLACK
+
 	applymovement OBJ_EVENT_ID_CAMERA, OldaleTown_Movement_Camera_GoBack
 	waitmovement 0
 	special RemoveCameraObject
+
+@ ----------- Fade from black.
 	fadescreen FADE_FROM_BLACK
+
+@ ----------- Give the player 10 potions
 	giveitem ITEM_POTION, 10
-	compare VAR_RESULT, 0
-	goto_if_eq OldaleTown_EventScript_BagIsFull
+
+@ ----------- Check if the bag is full. Should never be the case because you have to go through this dude.
+	@ compare VAR_RESULT, 0
+	@ goto_if_eq OldaleTown_EventScript_BagIsFull
+
+@ ----------- Explain what the potion does.
 	msgbox OldaleTown_Text_PotionExplanation, MSGBOX_DEFAULT
 	closemessage
+
+@ ----------- Alright. Let's go to the Pokémon Center.
 	applymovement 2, OldaleTown_Movement_Employee_PokemonCenter
 	applymovement OBJ_EVENT_ID_PLAYER, OldaleTown_Movement_PlayerFollowEmployee
 	waitmovement 0
+
+@ ----------- This is the Pokémon Center!
 	msgbox OldaleTown_Text_ThisIsPokemonCenter, MSGBOX_DEFAULT
 	closemessage
+
+@ ----------- What we do is go back, back, back...
 	applymovement 2, OldaleTown_Movement_Employee_GoBack
 	waitmovement 0
+
+@ ----------- Fade to black, have the dude go off camera.
 	fadescreen FADE_TO_BLACK
 	applymovement 2, OldaleTown_Movement_Employee_GoBack2
 	waitmovement 0
-	setobjectxyperm 2, 13, 7
+
+@ ----------- Now, this should move the employee back! ...but I can't seem to get this work.
+	call_if_set FLAG_RECEIVED_POTION_OLDALE, OldaleTown_EventScript_MoveMartEmployeeBack
 	fadescreen FADE_FROM_BLACK
-	setflag FLAG_RECEIVED_POTION_OLDALE
+
+@ ----------- Do a second check.
+	call_if_set FLAG_RECEIVED_POTION_OLDALE, OldaleTown_EventScript_MoveMartEmployeeBack
 	fadedefaultbgm
+
+@ ----------- I'm just gonna do some tiresome, complicated code just because I can't seem to get the other thing to work.
 	release
-	end
+	return
 
 OldaleTown_EventScript_ExplainPotion:: @ 81E8FB9
-	msgbox OldaleTown_Text_PotionExplanation, MSGBOX_DEFAULT
+	msgbox OldaleTown_Text_PotionExplanation, MSGBOX_NPC
 	release
 	end
 
@@ -148,9 +228,9 @@ OldaleTown_Movement_Camera_ShowMart:
 	walk_up
 	walk_up
 	walk_up
-	walk_up
-	walk_up
-	walk_up
+	walk_diag_northeast
+	walk_diag_northeast
+	walk_diag_northeast
 	walk_up
 	walk_up
 	walk_up
@@ -158,16 +238,19 @@ OldaleTown_Movement_Camera_ShowMart:
 	step_end
 
 OldaleTown_Movement_Camera_GoBack:
-	walk_fast_down
-	walk_fast_down
-	walk_fast_down
-	walk_fast_down
-	walk_fast_down
-	walk_fast_down
-	walk_fast_down
-	walk_fast_down
-	walk_fast_down
-	walk_fast_down
+	walk_fastest_down
+	walk_fastest_down
+	walk_fastest_down
+	walk_fastest_down
+	walk_fastest_down
+	walk_fastest_down
+	walk_fastest_down
+	walk_fastest_down
+	walk_fastest_down
+	walk_fastest_down
+	walk_fastest_left
+	walk_fastest_left
+	walk_fastest_left
 	step_end
 
 OldaleTown_Movement_Employee_Delta:
@@ -196,10 +279,22 @@ OldaleTown_Movement_Employee_GoBack:
 	step_end
 
 OldaleTown_Movement_Employee_GoBack2:
-	walk_right
-	walk_up
-	walk_up
-	walk_up
+	walk_fastest_right
+	walk_fastest_up
+	walk_fastest_up
+	walk_fastest_up
+	walk_fastest_up
+	walk_fastest_up
+	walk_fastest_up
+	walk_fastest_up
+	walk_fastest_up
+	walk_fastest_up
+	walk_fastest_up
+	walk_fastest_up
+	walk_fastest_right
+	walk_fastest_right
+	walk_fastest_right
+	face_down
 	step_end
 
 OldaleTown_Movement_EmployeeEast: @ 81E8FCE
