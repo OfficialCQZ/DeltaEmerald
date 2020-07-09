@@ -21,7 +21,7 @@ OldaleTown_EventScript_BlockWestEntrance:: @ 81E8ED2
 	return
 
 OldaleTown_EventScript_MoveMartEmployee:: @ 81E8EDE
-	setobjectxyperm 2, 13, 14
+	setobjectxyperm 2, 10, 12
 	setobjectmovementtype 2, MOVEMENT_TYPE_FACE_DOWN
 	return
 
@@ -33,52 +33,101 @@ OldaleTown_EventScript_Girl:: @ 81E8EF3
 	msgbox OldaleTown_Text_SavingMyProgress, MSGBOX_NPC
 	end
 
+OldaleTown_EventScript_MartApproach0::
+	setvar VAR_0x8008, 0
+	goto_if_unset FLAG_RECEIVED_POTION_OLDALE, OldaleTown_EventScript_MartEmployee
+	end
+
+OldaleTown_EventScript_MartApproach1::
+	setvar VAR_0x8008, 1
+	goto_if_unset FLAG_RECEIVED_POTION_OLDALE, OldaleTown_EventScript_MartEmployee
+	end
+
+OldaleTown_EventScript_MartApproach2::
+	setvar VAR_0x8008, 2
+	goto_if_unset FLAG_RECEIVED_POTION_OLDALE, OldaleTown_EventScript_MartEmployee
+	end
+
+OldaleTown_EventScript_MartApproach3::
+	setvar VAR_0x8008, 3
+	goto_if_unset FLAG_RECEIVED_POTION_OLDALE, OldaleTown_EventScript_MartEmployee
+	end
+
 OldaleTown_EventScript_MartEmployee:: @ 81E8EFC
-	lock
-	faceplayer
-	@ special SpawnCameraObject
-	@ applymovement EVENT_OBJ_ID_CAMERA, Movement_Script
-	@ waitmovement 0
-	@ special RemoveCameraObject
+	lockall
 	goto_if_set FLAG_RECEIVED_POTION_OLDALE, OldaleTown_EventScript_ExplainPotion
 	goto_if_set FLAG_TEMP_1, OldaleTown_EventScript_ExplainPotion
 	setflag FLAG_TEMP_1
+	applymovement 2, OldaleTown_Movement_Employee_Delta
+	waitmovement 0
 	playbgm MUS_TSURETEK, 0
+	playse SE_PIN
+	applymovement 2, Common_Movement_ExclamationMark
+	waitmovement 0
+	applymovement 2, Common_Movement_Delay48
+	waitmovement 0
+	compare VAR_0x8008, 0
+	call_if_eq Oldale_ApproachTheEmployee0
+	compare VAR_0x8008, 1
+	call_if_eq Oldale_ApproachTheEmployee1
+	compare VAR_0x8008, 2
+	call_if_eq Oldale_ApproachTheEmployee2
+	compare VAR_0x8008, 3
+	call_if_eq Oldale_ApproachTheEmployee3
 	msgbox OldaleTown_Text_IWorkAtPokemonMart, MSGBOX_DEFAULT
 	closemessage
-	switch VAR_FACING
-	case DIR_SOUTH, OldaleTown_EventScript_GoToMartSouth
-	case DIR_NORTH, OldaleTown_EventScript_GoToMartNorth
-	case DIR_EAST, OldaleTown_EventScript_GoToMartEast
-	end
-
-OldaleTown_EventScript_GoToMartSouth:: @ 81E8F47
-	applymovement 2, OldaleTown_Movement_EmployeeSouth
-	applymovement OBJ_EVENT_ID_PLAYER, OldaleTown_Movement_PlayerSouth
-	waitmovement 0
 	goto OldaleTown_EventScript_ExplainPokemonMart
+	releaseall
 	end
 
-OldaleTown_EventScript_GoToMartNorth:: @ 81E8F5E
-	applymovement 2, OldaleTown_Movement_EmployeeNorth
-	applymovement OBJ_EVENT_ID_PLAYER, OldaleTown_Movement_PlayerNorth
+Oldale_ApproachTheEmployee0::
+	applymovement OBJ_EVENT_ID_PLAYER, OldaleTown_Movement_Player0
 	waitmovement 0
-	goto OldaleTown_EventScript_ExplainPokemonMart
-	end
+	return
 
-OldaleTown_EventScript_GoToMartEast:: @ 81E8F75
-	applymovement OBJ_EVENT_ID_PLAYER, OldaleTown_Movement_PlayerEast
-	applymovement 2, OldaleTown_Movement_EmployeeEast
+Oldale_ApproachTheEmployee1::
+	applymovement OBJ_EVENT_ID_PLAYER, OldaleTown_Movement_Player1
 	waitmovement 0
-	goto OldaleTown_EventScript_ExplainPokemonMart
-	end
+	return
 
-OldaleTown_EventScript_ExplainPokemonMart:: @ 81E8F8C
+Oldale_ApproachTheEmployee2::
+	applymovement OBJ_EVENT_ID_PLAYER, OldaleTown_Movement_Player2
+	waitmovement 0
+	return
+
+Oldale_ApproachTheEmployee3::
+	applymovement OBJ_EVENT_ID_PLAYER, OldaleTown_Movement_Player3
+	waitmovement 0
+	return
+
+OldaleTown_EventScript_ExplainPokemonMart::
+	special SpawnCameraObject
+	applymovement OBJ_EVENT_ID_CAMERA, OldaleTown_Movement_Camera_ShowMart
+	waitmovement 0
 	msgbox OldaleTown_Text_ThisIsAPokemonMart, MSGBOX_DEFAULT
-	giveitem ITEM_POTION
+	closemessage
+	fadescreen FADE_TO_BLACK
+	applymovement OBJ_EVENT_ID_CAMERA, OldaleTown_Movement_Camera_GoBack
+	waitmovement 0
+	special RemoveCameraObject
+	fadescreen FADE_FROM_BLACK
+	giveitem ITEM_POTION, 10
 	compare VAR_RESULT, 0
 	goto_if_eq OldaleTown_EventScript_BagIsFull
 	msgbox OldaleTown_Text_PotionExplanation, MSGBOX_DEFAULT
+	closemessage
+	applymovement 2, OldaleTown_Movement_Employee_PokemonCenter
+	applymovement OBJ_EVENT_ID_PLAYER, OldaleTown_Movement_PlayerFollowEmployee
+	waitmovement 0
+	msgbox OldaleTown_Text_ThisIsPokemonCenter, MSGBOX_DEFAULT
+	closemessage
+	applymovement 2, OldaleTown_Movement_Employee_GoBack
+	waitmovement 0
+	fadescreen FADE_TO_BLACK
+	applymovement 2, OldaleTown_Movement_Employee_GoBack2
+	waitmovement 0
+	setobjectxyperm 2, 13, 7
+	fadescreen FADE_FROM_BLACK
 	setflag FLAG_RECEIVED_POTION_OLDALE
 	fadedefaultbgm
 	release
@@ -95,7 +144,7 @@ OldaleTown_EventScript_BagIsFull:: @ 81E8FC3
 	release
 	end
 
-OldaleTown_Movement_Camera:
+OldaleTown_Movement_Camera_ShowMart:
 	walk_up
 	walk_up
 	walk_up
@@ -103,6 +152,51 @@ OldaleTown_Movement_Camera:
 	walk_up
 	walk_up
 	walk_up
+	walk_up
+	walk_up
+	walk_up
+	step_end
+
+OldaleTown_Movement_Camera_GoBack:
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	step_end
+
+OldaleTown_Movement_Employee_Delta:
+	walk_down
+	walk_down
+	walk_down
+	walk_down
+	step_end
+
+OldaleTown_Movement_Employee_PokemonCenter:
+	walk_left
+	walk_down
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_in_place_fastest_right
+	step_end
+
+OldaleTown_Movement_Employee_GoBack:
+	walk_down
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	step_end
+
+OldaleTown_Movement_Employee_GoBack2:
+	walk_right
 	walk_up
 	walk_up
 	walk_up
@@ -159,36 +253,38 @@ OldaleTown_Movement_Unknown1: @ 81E8FEB
 	walk_in_place_fastest_down
 	step_end
 
-OldaleTown_Movement_PlayerEast: @ 81E8FF9
+OldaleTown_Movement_Player0:
+	walk_up
+	walk_right
 	walk_right
 	walk_up
+	step_end
+
+OldaleTown_Movement_Player1:
 	walk_up
+	walk_right
 	walk_up
-	walk_up
+	step_end
+
+OldaleTown_Movement_Player2:
 	walk_up
 	walk_up
 	step_end
 
-OldaleTown_Movement_PlayerSouth: @ 81E9001
-	delay_16
-	delay_16
-	delay_16
-	delay_16
+OldaleTown_Movement_Player3:
 	walk_up
-	walk_up
-	walk_up
-	walk_up
+	walk_left
 	walk_up
 	step_end
 
-OldaleTown_Movement_PlayerNorth: @ 81E900B
-	walk_up
-	walk_up
-	walk_up
-	walk_up
-	walk_up
-	walk_up
-	walk_up
+OldaleTown_Movement_PlayerFollowEmployee:
+	delay_16
+	delay_16
+	delay_16
+	walk_left
+	walk_left
+	walk_left
+	walk_left
 	step_end
 
 OldaleTown_Movement_Unknown2: @ 81E9013
@@ -417,4 +513,8 @@ OldaleTown_Text_BrendanLetsGoBack: @ 81E948A
 OldaleTown_Text_CitySign: @ 81E94DA
 	.string "OLDALE TOWN\n"
 	.string "“Where things start off scarce.”$"
+
+OldaleTown_Text_ThisIsPokemonCenter: @ 81E94DA
+	.string "this is a pokémon center.\n"
+	.string "test string$"
 
