@@ -91,11 +91,15 @@ Route103_EventScript_StartBrendanBattleMudkip:: @ 81EC4DE
 	end
 
 Route103_EventScript_AfterMayBattle:: @ 81EC4EE
+	msgbox RivalHealParties, MSGBOX_DEFAULT
+	playse SE_KAIFUKU
 	msgbox Route103_Text_MayTimeToHeadBack, MSGBOX_DEFAULT
 	goto Route103_EventScript_RivalExit
 	end
 
 Route103_EventScript_AfterBrendanBattle:: @ 81EC4FC
+	msgbox RivalHealParties, MSGBOX_DEFAULT
+	playse SE_KAIFUKU
 	msgbox Route103_Text_BrendanTimeToHeadBack, MSGBOX_DEFAULT
 	goto Route103_EventScript_RivalExit
 	end
@@ -307,6 +311,10 @@ Route103_Text_MayLetsBattle: @ 81EC7DE
 Route103_Text_MayDefeated: @ 81EC881
 	.string "Wow! That's great!\n"
 	.string "{PLAYER}{KUN}, you're pretty good!$"
+
+RivalHealParties: @ 81EC881
+	.string "Placeholder text.\n"
+	.string "Let me heal up both parties quick.$"
 
 Route103_Text_MayTimeToHeadBack: @ 81EC8AE
 	.string "MAY: I think I know why my dad has\n"
