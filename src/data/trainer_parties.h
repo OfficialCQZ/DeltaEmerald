@@ -6786,7 +6786,7 @@ static const struct TrainerMonNoItemCustomMoves sParty_BrendanRoute103Mudkip[] =
     .iv = 0,
     .lvl = 5,
     .species = SPECIES_TREECKO,
-    .moves = {MOVE_POUND, MOVE_LEER}
+    .moves = {MOVE_POUND, MOVE_LEER, MOVE_NONE, MOVE_NONE}
     }
 };
 
@@ -6831,7 +6831,7 @@ static const struct TrainerMonNoItemCustomMoves sParty_BrendanRoute103Treecko[] 
     .iv = 0,
     .lvl = 5,
     .species = SPECIES_TORCHIC,
-    .moves = {MOVE_SCRATCH, MOVE_GROWL},
+    .moves = {MOVE_SCRATCH, MOVE_GROWL, MOVE_NONE, MOVE_NONE},
     }
 };
 
@@ -6876,7 +6876,7 @@ static const struct TrainerMonNoItemCustomMoves sParty_BrendanRoute103Torchic[] 
     .iv = 0,
     .lvl = 5,
     .species = SPECIES_MUDKIP,
-    .moves = {MOVE_TACKLE, MOVE_GROWL},
+    .moves = {MOVE_TACKLE, MOVE_GROWL, MOVE_NONE, MOVE_NONE},
     }
 };
 
@@ -6921,7 +6921,7 @@ static const struct TrainerMonNoItemCustomMoves sParty_MayRoute103Mudkip[] = {
     .iv = 0,
     .lvl = 5,
     .species = SPECIES_TREECKO,
-    .moves = {MOVE_POUND, MOVE_LEER},
+    .moves = {MOVE_POUND, MOVE_LEER, MOVE_NONE, MOVE_NONE},
     }
 };
 
@@ -6966,7 +6966,7 @@ static const struct TrainerMonNoItemCustomMoves sParty_MayRoute103Treecko[] = {
     .iv = 0,
     .lvl = 5,
     .species = SPECIES_TORCHIC,
-    .moves = {MOVE_SCRATCH, MOVE_GROWL},
+    .moves = {MOVE_SCRATCH, MOVE_GROWL, MOVE_NONE, MOVE_NONE},
     }
 };
 
@@ -7011,7 +7011,7 @@ static const struct TrainerMonNoItemCustomMoves sParty_MayRoute103Torchic[] = {
     .iv = 0,
     .lvl = 5,
     .species = SPECIES_MUDKIP,
-    .moves = {MOVE_TACKLE, MOVE_GROWL},
+    .moves = {MOVE_TACKLE, MOVE_GROWL, MOVE_NONE, MOVE_NONE},
     }
 };
 
