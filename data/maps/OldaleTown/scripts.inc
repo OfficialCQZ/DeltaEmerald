@@ -173,6 +173,8 @@ OldaleTown_EventScript_ExplainPokemonMart::
 	fadescreen FADE_FROM_BLACK
 
 @ ----------- Give the player 10 potions
+	msgbox Oldale_Delta_TakeMyPotions, MSGBOX_DEFAULT
+	closemessage
 	giveitem ITEM_POTION, 10
 
 @ ----------- Check if the bag is full. Should never be the case because you have to go through this dude.
@@ -295,41 +297,6 @@ OldaleTown_Movement_Employee_GoBack2:
 	walk_fastest_right
 	walk_fastest_right
 	face_down
-	step_end
-
-OldaleTown_Movement_EmployeeEast: @ 81E8FCE
-	walk_up
-	walk_up
-	walk_up
-	walk_up
-	walk_up
-	walk_up
-	walk_up
-	walk_in_place_fastest_down
-	step_end
-
-OldaleTown_Movement_EmployeeSouth: @ 81E8FD7
-	walk_left
-	walk_up
-	walk_up
-	walk_right
-	walk_up
-	walk_up
-	walk_up
-	walk_up
-	walk_up
-	walk_in_place_fastest_down
-	step_end
-
-OldaleTown_Movement_EmployeeNorth: @ 81E8FE2
-	walk_up
-	walk_up
-	walk_up
-	walk_up
-	walk_up
-	walk_up
-	walk_up
-	walk_in_place_fastest_down
 	step_end
 
 OldaleTown_Movement_Unknown1: @ 81E8FEB
@@ -558,22 +525,25 @@ OldaleTown_Text_SavingMyProgress: @ 81E918E
 	.string "progress.$"
 
 OldaleTown_Text_IWorkAtPokemonMart: @ 81E91C0
-	.string "Hi!\n"
-	.string "I work at a POKéMON MART.\p"
-	.string "Can I get you to come with me?$"
+	.string "Hi there! I work at the Poké Mart.\p"
+	.string "From what I can see, you're a novice\n"
+	.string "Trainer. Am I right? OK.\p"
+	.string "Being super kindhearted as I am,\n"
+	.string "I'm going to give you useful advice.$"
 
 OldaleTown_Text_ThisIsAPokemonMart: @ 81E91FD
-	.string "This is a POKéMON MART.\n"
-	.string "Just look for our blue roof.\p"
-	.string "We sell a variety of goods including\n"
-	.string "POKé BALLS for catching POKéMON.\p"
-	.string "Here, I'd like you to have this as\n"
-	.string "a promotional item.$"
+	.string "First of all, that's a Poké Mart\n"
+	.string "there. Just look for our blue roof.\p"
+	.string "We sell a variety of goods, including\n"
+	.string "Poké Balls for catching Pokémon!$"
+
+Oldale_Delta_TakeMyPotions:
+	.string "I'd like you to have these as part of\n"
+	.string "a special promotion!$"
 
 OldaleTown_Text_PotionExplanation: @ 81E92AF
-	.string "A POTION can be used anytime, so it's\n"
-	.string "even more useful than a POKéMON CENTER\l"
-	.string "in certain situations.$"
+	.string "Potions can be used anytime,\n"
+	.string "so they can be very useful to have.$"
 
 OldaleTown_Text_WaitDontComeInHere: @ 81E9313
 	.string "Aaaaah! Wait!\n"
@@ -610,6 +580,11 @@ OldaleTown_Text_CitySign: @ 81E94DA
 	.string "“Where things start off scarce.”$"
 
 OldaleTown_Text_ThisIsPokemonCenter: @ 81E94DA
-	.string "this is a pokémon center.\n"
-	.string "test string$"
+	.string "And this is a Pokémon Center!\n"
+	.string "Look for a red roof!\p"
+	.string "Ask a woman inside, and she'll restore\n"
+	.string "your Pokémon's health.\p"
+	.string "That's it. That was the advice from me-\n"
+	.string "the supremely kindhearted clerk.\p"
+	.string "Have a great journey!$"
 

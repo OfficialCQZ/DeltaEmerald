@@ -1,6 +1,7 @@
 LittlerootTown_MaysHouse_2F_MapScripts:: @ 81F9296
 	map_script MAP_SCRIPT_ON_TRANSITION, LittlerootTown_MaysHouse_2F_OnTransition
 	map_script MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE, LittlerootTown_MaysHouse_2F_OnWarp
+	map_script MAP_SCRIPT_ON_FRAME_TABLE, LittlerootTown_MaysHouse_2F_OnFrame
 	.byte 0
 
 LittlerootTown_MaysHouse_2F_OnTransition: @ 81F92A1
@@ -26,6 +27,7 @@ LittlerootTown_MaysHouse_2F_EventScript_TryUpdateMayPos:: @ 81F92E6
 	goto_if_eq LittlerootTown_MaysHouse_2F_EventScript_Ret
 	compare VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 2
 	goto_if_ge LittlerootTown_MaysHouse_2F_EventScript_Ret
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_RIVAL_BEDROOM
 	setobjectxyperm 1, 8, 2
 	setobjectmovementtype 1, MOVEMENT_TYPE_FACE_UP
 	return
@@ -41,10 +43,15 @@ LittlerootTown_MaysHouse_2F_EventScript_CheckSetReadyToMeetMay:: @ 81F930A
 
 LittlerootTown_MaysHouse_2F_EventScript_SetReadyToMeetMay:: @ 81F9317
 	setvar VAR_LITTLEROOT_RIVAL_STATE, 2
+	clearflag FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_RIVAL_BEDROOM
 	return
 
 LittlerootTown_MaysHouse_2F_OnWarp: @ 81F931D
 	map_script_2 VAR_SECRET_BASE_INITIALIZED, 0, LittlerootTown_MaysHouse_2F_EventScript_CheckInitDecor
+	.2byte 0
+
+LittlerootTown_MaysHouse_2F_OnFrame:
+	map_script_2 VAR_LITTLEROOT_RIVAL_STATE, 2, LittlerootTown_MaysHouse_2F_EventScript_MeetMay
 	.2byte 0
 
 LittlerootTown_MaysHouse_2F_EventScript_CheckInitDecor:: @ 81F9327
@@ -62,8 +69,10 @@ LittlerootTown_MaysHouse_2F_EventScript_RivalsPokeBall:: @ 81F9334
 	end
 
 LittlerootTown_MaysHouse_2F_EventScript_MeetMay:: @ 81F934A
+	lockall
 	delay 10
-	addobject 1
+	msgbox RivalsHouse_2F_Text_MayGettingReady, MSGBOX_DEFAULT
+	closemessage
 	applymovement 1, LittlerootTown_MaysHouse_2F_Movement_MayEnters
 	waitmovement 0
 	playse SE_PIN
@@ -73,177 +82,47 @@ LittlerootTown_MaysHouse_2F_EventScript_MeetMay:: @ 81F934A
 	waitmovement 0
 	delay 10
 	playbgm MUS_GIRL_SUP, 1
-	compare VAR_FACING, DIR_NORTH
-	call_if_eq LittlerootTown_MaysHouse_2F_EventScript_MeetMayNorth
-	compare VAR_FACING, DIR_SOUTH
-	call_if_eq LittlerootTown_MaysHouse_2F_EventScript_MeetMaySouth
-	compare VAR_FACING, DIR_WEST
-	call_if_eq LittlerootTown_MaysHouse_2F_EventScript_MeetMayWest
-	compare VAR_FACING, DIR_EAST
-	call_if_eq LittlerootTown_MaysHouse_2F_EventScript_MeetMayEast
+	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFastestRight
+	waitmovement 0
+	msgbox RivalsHouse_2F_Text_MayWhoAreYou, MSGBOX_DEFAULT
+	closemessage
+	applymovement OBJ_EVENT_ID_PLAYER, LittlerootTown_MaysHouse_2F_Movement_MakeWay
+	applymovement 1, LittlerootTown_MaysHouse_2F_Movement_MayHeadsOut
+	waitmovement 0
+	playse SE_KAIDAN
+	removeobject 1
 	setvar VAR_LITTLEROOT_RIVAL_STATE, 3
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_2F_POKE_BALL
-	clearflag FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_RIVAL_BEDROOM
 	setvar VAR_LITTLEROOT_TOWN_STATE, 1
 	savebgm MUS_DUMMY
 	fadedefaultbgm
 	releaseall
 	end
 
-LittlerootTown_MaysHouse_2F_EventScript_MeetMayNorth:: @ 81F93BA
-	applymovement 1, LittlerootTown_MaysHouse_2F_Movement_MayApproachPlayerNorth
-	waitmovement 0
-	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFastestLeft
-	waitmovement 0
-	msgbox RivalsHouse_2F_Text_MayWhoAreYou, MSGBOX_DEFAULT
-	closemessage
-	applymovement OBJ_EVENT_ID_PLAYER, LittlerootTown_MaysHouse_2F_Movement_PlayerWatchMayNorth
-	applymovement 1, LittlerootTown_MaysHouse_2F_Movement_MayWalkToPCNorth
-	waitmovement 0
-	return
+LittlerootTown_MaysHouse_2F_Movement_MayEnters:
+	face_left
+	step_end
 
-LittlerootTown_MaysHouse_2F_EventScript_MeetMaySouth:: @ 81F93E9
-	applymovement 1, LittlerootTown_MaysHouse_2F_Movement_MayApproachPlayerSouth
-	waitmovement 0
-	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFastestLeft
-	waitmovement 0
-	msgbox RivalsHouse_2F_Text_MayWhoAreYou, MSGBOX_DEFAULT
-	closemessage
-	applymovement OBJ_EVENT_ID_PLAYER, LittlerootTown_MaysHouse_2F_Movement_PlayerWatchMaySouth
-	applymovement 1, LittlerootTown_MaysHouse_2F_Movement_MayWalkToPCSouth
-	waitmovement 0
-	return
-
-LittlerootTown_MaysHouse_2F_EventScript_MeetMayWest:: @ 81F9418
-	applymovement 1, LittlerootTown_MaysHouse_2F_Movement_MayApproachPlayerWest
-	waitmovement 0
-	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFastestUp
-	waitmovement 0
-	msgbox RivalsHouse_2F_Text_MayWhoAreYou, MSGBOX_DEFAULT
-	closemessage
-	applymovement 1, LittlerootTown_MaysHouse_2F_Movement_MayWalkToPCWest
-	waitmovement 0
-	return
-
-LittlerootTown_MaysHouse_2F_EventScript_MeetMayEast:: @ 81F9440
-	applymovement 1, LittlerootTown_MaysHouse_2F_Movement_MayApproachPlayerEast
-	waitmovement 0
-	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFastestLeft
-	waitmovement 0
-	msgbox RivalsHouse_2F_Text_MayWhoAreYou, MSGBOX_DEFAULT
-	closemessage
-	applymovement OBJ_EVENT_ID_PLAYER, LittlerootTown_MaysHouse_2F_Movement_PlayerWatchMayEast
-	applymovement 1, LittlerootTown_MaysHouse_2F_Movement_MayWalkToPCEast
-	waitmovement 0
-	return
-
-LittlerootTown_MaysHouse_2F_Movement_MayEnters: @ 81F946F
+LittlerootTown_MaysHouse_2F_Movement_MayHeadsOut:
 	walk_down
-	walk_down
-	walk_in_place_fastest_right
-	step_end
-
-LittlerootTown_MaysHouse_2F_Movement_MayApproachPlayerNorth: @ 81F9473
-	walk_right
-	walk_right
-	walk_down
-	walk_down
-	walk_right
-	step_end
-
-LittlerootTown_MaysHouse_2F_Movement_MayWalkToPCNorth: @ 81F9479
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
 	walk_up
 	walk_up
-	walk_up
-	walk_in_place_fastest_right
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_in_place_fastest_up
 	step_end
 
-LittlerootTown_MaysHouse_2F_Movement_PlayerWatchMayNorth: @ 81F9483
-	delay_16
-	walk_in_place_fastest_up
+LittlerootTown_MaysHouse_2F_Movement_MakeWay:
 	delay_16
 	delay_16
 	delay_16
 	delay_16
-	walk_in_place_fastest_right
-	step_end
-
-LittlerootTown_MaysHouse_2F_Movement_MayApproachPlayerSouth: @ 81F948B
-	walk_right
-	walk_right
-	walk_right
-	step_end
-
-LittlerootTown_MaysHouse_2F_Movement_MayWalkToPCSouth: @ 81F948F
-	walk_up
-	walk_in_place_fastest_right
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_in_place_fastest_up
-	step_end
-
-LittlerootTown_MaysHouse_2F_Movement_PlayerWatchMaySouth: @ 81F9497
 	delay_16
-	walk_in_place_fastest_up
-	delay_16
-	delay_16
-	walk_in_place_fastest_right
-	step_end
-
-LittlerootTown_MaysHouse_2F_Movement_MayApproachPlayerWest: @ 81F949D
 	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_in_place_fastest_down
-	step_end
-
-LittlerootTown_MaysHouse_2F_Movement_MayWalkToPCWest: @ 81F94A4
-	walk_up
-	walk_right
-	walk_right
-	walk_in_place_fastest_up
-	step_end
-
-@ Unused, the player is already facing this direction so its unneeded
-LittlerootTown_MaysHouse_2F_Movement_PlayerWatchMayWest: @ 81F94A9
-	delay_16
-	delay_16
-	walk_in_place_fastest_right
-	step_end
-
-LittlerootTown_MaysHouse_2F_Movement_MayApproachPlayerEast: @ 81F94AD
-	walk_right
-	walk_right
-	walk_down
-	walk_in_place_fastest_right
-	step_end
-
-LittlerootTown_MaysHouse_2F_Movement_MayWalkToPCEast: @ 81F94B2
-	walk_up
-	walk_up
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_in_place_fastest_up
-	step_end
-
-LittlerootTown_MaysHouse_2F_Movement_PlayerWatchMayEast: @ 81F94BB
-	delay_16
-	walk_in_place_fastest_up
-	delay_16
-	delay_16
-	walk_in_place_fastest_right
+	face_left
 	step_end
 
 RivalsHouse_2F_EventScript_Rival:: @ 81F94C1
