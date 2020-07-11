@@ -1627,9 +1627,9 @@ static void Task_NewGameBirchSpeech_SoItsPlayerName(u8 taskId)
 
 static void Task_NewGameBirchSpeech_CreateNameYesNo(u8 taskId)
 {
-    // Delta_LoadORASGUITiles(0, 0xF3, 0); ughhhhhhhhhhhh how do i work this out
-    // PutWindowTilemap(0);
-    // CopyWindowToVram(0, 2);
+    Delta_LoadORASGUITiles(0, 0xF3, 0);
+    PutWindowTilemap(0);
+    CopyWindowToVram(0, 2);
     if (!RunTextPrintersAndIsPrinter0Active())
     {
         CreateYesNoMenuParameterized(2, 1, 0xF3, 0xDF, 2, 15);
@@ -1642,9 +1642,9 @@ static void Task_NewGameBirchSpeech_ProcessNameYesNoMenu(u8 taskId)
     switch (Menu_ProcessInputNoWrapClearOnChoose())
     {
         case 0:
-            // LoadMainMenuWindowFrameTiles(0, 0xF3);
-            // PutWindowTilemap(0);
-            // CopyWindowToVram(0, 2);
+            LoadMainMenuWindowFrameTiles(0, 0xF3);
+            PutWindowTilemap(0);
+            CopyWindowToVram(0, 2);
             PlaySE(SE_SELECT);
             gSprites[gTasks[taskId].tPlayerSpriteId].oam.objMode = ST_OAM_OBJ_BLEND;
             NewGameBirchSpeech_StartFadeOutTarget1InTarget2(taskId, 2);
@@ -1653,6 +1653,9 @@ static void Task_NewGameBirchSpeech_ProcessNameYesNoMenu(u8 taskId)
             break;
         case -1:
         case 1:
+            LoadMainMenuWindowFrameTiles(0, 0xF3);
+            PutWindowTilemap(0);
+            CopyWindowToVram(0, 2);
             PlaySE(SE_SELECT);
             gTasks[taskId].func = Task_NewGameBirchSpeech_BoyOrGirl;
     }

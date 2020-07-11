@@ -51,8 +51,8 @@ static const u16 sTextWindowFrame19_Pal[] = INCBIN_U16("graphics/text_window/19.
 static const u16 sTextWindowFrame20_Pal[] = INCBIN_U16("graphics/text_window/20.gbapal");
 static const u16 sDelta1_Pal[] = INCBIN_U16("graphics/text_window/delta1.gbapal");
 
-static const u8 sDelta_GenVI_Menu1_Gfx[] = INCBIN_U8("graphics/text_window/delta1.4bpp");
-static const u16 sDelta_GenVI_Menu1_Pal[] = INCBIN_U16("graphics/text_window/delta1.gbapal");
+static const u8 sDelta_GenVI_Menu1_Gfx[] = INCBIN_U8("graphics/text_window/gen6_choicemenu.4bpp");
+static const u16 sDelta_GenVI_Menu1_Pal[] = INCBIN_U16("graphics/text_window/gen6_choicemenu.gbapal");
 
 static const u16 sUnknown_0851017C[][16] =
 {
