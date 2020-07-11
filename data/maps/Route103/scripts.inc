@@ -92,14 +92,20 @@ Route103_EventScript_StartBrendanBattleMudkip:: @ 81EC4DE
 
 Route103_EventScript_AfterMayBattle:: @ 81EC4EE
 	msgbox RivalHealParties, MSGBOX_DEFAULT
+	closemessage
+	special HealPlayerParty
 	playse SE_KAIFUKU
+	delay 20
 	msgbox Route103_Text_MayTimeToHeadBack, MSGBOX_DEFAULT
 	goto Route103_EventScript_RivalExit
 	end
 
 Route103_EventScript_AfterBrendanBattle:: @ 81EC4FC
 	msgbox RivalHealParties, MSGBOX_DEFAULT
+	closemessage
+	special HealPlayerParty
 	playse SE_KAIFUKU
+	delay 20
 	msgbox Route103_Text_BrendanTimeToHeadBack, MSGBOX_DEFAULT
 	goto Route103_EventScript_RivalExit
 	end

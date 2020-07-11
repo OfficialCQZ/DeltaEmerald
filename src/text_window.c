@@ -51,6 +51,9 @@ static const u16 sTextWindowFrame19_Pal[] = INCBIN_U16("graphics/text_window/19.
 static const u16 sTextWindowFrame20_Pal[] = INCBIN_U16("graphics/text_window/20.gbapal");
 static const u16 sDelta1_Pal[] = INCBIN_U16("graphics/text_window/delta1.gbapal");
 
+static const u8 sDelta_GenVI_Menu1_Gfx[] = INCBIN_U8("graphics/text_window/delta1.4bpp");
+static const u16 sDelta_GenVI_Menu1_Pal[] = INCBIN_U16("graphics/text_window/delta1.gbapal");
+
 static const u16 sUnknown_0851017C[][16] =
 {
     INCBIN_U16("graphics/text_window/message_box.gbapal"),
@@ -85,6 +88,11 @@ static const struct TilesPal sWindowFrames[WINDOW_FRAMES_COUNT] =
     {sDelta1_Gfx, sDelta1_Pal}
 };
 
+static const struct TilesPalDelta deltaWindowFrames[] =
+{
+    {sDelta_GenVI_Menu1_Gfx, sDelta_GenVI_Menu1_Pal}          // 31 (GEN6 Styled Yes/No Menu - OR/AS)
+};
+
 // code
 const struct TilesPal *GetWindowFrameTilesPal(u8 id)
 {
@@ -92,6 +100,10 @@ const struct TilesPal *GetWindowFrameTilesPal(u8 id)
         return &sWindowFrames[0];
     else
         return &sWindowFrames[id];
+}
+const struct TilesPalDelta *GetWindowFrameTilesPalDelta(u8 id)
+{
+    return &deltaWindowFrames[id];
 }
 
 void LoadMessageBoxGfx(u8 windowId, u16 destOffset, u8 palOffset)
@@ -114,6 +126,17 @@ void LoadWindowGfx(u8 windowId, u8 frameId, u16 destOffset, u8 palOffset)
 void LoadUserWindowBorderGfx(u8 windowId, u16 destOffset, u8 palOffset)
 {
     LoadWindowGfx(windowId, gSaveBlock2Ptr->optionsWindowFrameType, destOffset, palOffset);
+}
+
+void LoadORASChoiceWindowBorderGfx(u8 windowId, u16 destOffset, u8 palOffset)
+{
+    LoadCustomWindowGfx(windowId, 0, destOffset, palOffset);
+}
+
+void LoadCustomWindowGfx(u8 windowId, u8 frameId, u16 destOffset, u8 palOffset)
+{
+    LoadBgTiles(GetWindowAttribute(windowId, WINDOW_BG), deltaWindowFrames[frameId].tiles, 0x120, destOffset);
+    LoadPalette(deltaWindowFrames[frameId].pal, palOffset, 0x20);
 }
 
 void DrawTextBorderOuter(u8 windowId, u16 tileNum, u8 palNum)
