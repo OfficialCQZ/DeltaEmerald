@@ -945,47 +945,49 @@ LittlerootTown_EventScript_SetReceivedRunningShoes:: @ 81E8686
 
 LittlerootTown_EventScript_GiveRunningShoes:: @ 81E8693
 	msgbox LittlerootTown_Text_WearTheseRunningShoes, MSGBOX_DEFAULT
-	playfanfare MUS_FANFA4
-	message LittlerootTown_Text_SwitchShoesWithRunningShoes
-	waitfanfare
+	@ playfanfare MUS_FANFA4
+	@ message LittlerootTown_Text_SwitchShoesWithRunningShoes
+	@ waitfanfare
 	setflag FLAG_RECEIVED_RUNNING_SHOES
-	msgbox LittlerootTown_Text_ExplainRunningShoes, MSGBOX_DEFAULT
+	@ msgbox LittlerootTown_Text_ExplainRunningShoes, MSGBOX_DEFAULT
 	msgbox LittlerootTown_Text_ComeHomeIfAnythingHappens, MSGBOX_DEFAULT
 	closemessage
 	delay 30
 	return
 
-LittlerootTown_Text_OurNewHomeLetsGoInside: @ 81E86BC
-	.string "MOM: {PLAYER}, we're here, honey!\p"
-	.string "It must be tiring riding with our things\n"
-	.string "in the moving truck.\p"
-	.string "Well, this is LITTLEROOT TOWN.\p"
-	.string "How do you like it?\n"
-	.string "This is our new home!\p"
-	.string "It has a quaint feel, but it seems to be\n"
-	.string "an easy place to live, don't you think?\p"
-	.string "And, you get your own room, {PLAYER}!\n"
-	.string "Let's go inside.$"
+LittlerootTown_Text_OurNewHomeLetsGoInside:
+	.string "{PLAYER}! You're here at last!\p"
+	.string "Wasn't it tough riding in the back of\n"
+	.string "the bumpy moving truck all that way?\p"
+	.string "Well, this is Littleroot Town.\p"
+	.string "What do you think?\n"
+	.string "This is going to be our new home!\p"
+	.string "It has a quaint feel, but it looks like\n"
+	.string "it should be a nice place to live,\l"
+	.string "don't you think?\p"
+	.string "And you get your own room this time,\n"
+	.string "{PLAYER}!\p"
+	.string "Come on. You have to see the inside!$"
 
 LittlerootTown_Text_WaitPlayer: @ 81E87E1
 	.string "MOM: Wait, {PLAYER}!$"
 
 LittlerootTown_Text_WearTheseRunningShoes: @ 81E87F0
-	.string "MOM: {PLAYER}! {PLAYER}! Did you\n"
-	.string "introduce yourself to PROF. BIRCH?\p"
-	.string "Oh! What an adorable POKéMON!\n"
-	.string "You got it from PROF. BIRCH. How nice!\p"
-	.string "You're your father's child, all right.\n"
-	.string "You look good together with POKéMON!\p"
-	.string "Here, honey! If you're going out on an\n"
-	.string "adventure, wear these RUNNING SHOES.\p"
-	.string "They'll put a zip in your step!$"
+	.string "{PLAYER}! {PLAYER}! Did you introduce\n"
+	.string "yourself to Professor Birch?\p"
+	.string "Oh! What an adorable Pokémon! You\n"
+	.string "got it from the professor? How nice!\p"
+	.string "You are your father's child, all right.\n"
+	.string "You look good together with a Pokémon!$"
+	@ .string "Here, honey! If you're going out on an\n"
+	@ .string "adventure, wear these RUNNING SHOES.\p"
+	@ .string "They'll put a zip in your step!$"
 
 LittlerootTown_Text_SwitchShoesWithRunningShoes: @ 81E8925
 	.string "{PLAYER} switched shoes with the\n"
 	.string "RUNNING SHOES.$"
 
-LittlerootTown_Text_ExplainRunningShoes: @ 81E894F
+LittlerootTown_Text_ExplainRunningShoes: @ 81E894F, unused in Delta Hack
 	.string "MOM: {PLAYER}, those shoes came with\n"
 	.string "instructions.\p"
 	.string "“Press the B Button while wearing these\n"
@@ -994,18 +996,17 @@ LittlerootTown_Text_ExplainRunningShoes: @ 81E894F
 	.string "in the great outdoors!”$"
 
 LittlerootTown_Text_ComeHomeIfAnythingHappens: @ 81E8A03
-	.string "… … … … … … … …\n"
-	.string "… … … … … … … …\p"
+	.string "…\p"
 	.string "To think that you have your very own\n"
-	.string "POKéMON now…\l"
+	.string "Pokémon now…\l"
 	.string "Your father will be overjoyed.\p"
-	.string "…But please be careful.\n"
-	.string "If anything happens, you can come home.\p"
-	.string "Go on, go get them, honey!$"
+	.string "But don't push yourself too hard.\p"
+	.string "If anything happens, you can always\n"
+	.string "come home, honey.$"
 
 LittlerootTown_Text_CanUsePCToStoreItems: @ 81E8ACF
 	.string "If you use a PC, you can store items\n"
-	.string "and POKéMON.\p"
+	.string "and Pokémon.\p"
 	.string "The power of science is staggering!$"
 
 LittlerootTown_Text_BirchSpendsDaysInLab: @ 81E8B25
