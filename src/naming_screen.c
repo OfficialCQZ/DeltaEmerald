@@ -1467,6 +1467,12 @@ static void HandleDpadMovement(struct Task *task)
             cursorY = 0;
     }
     SetCursorPos(cursorX, cursorY);
+
+    if (dpadDir != 0)
+    {
+        PlaySE(DELTA_SE_CHOOSE);
+    }
+
 }
 
 #undef tState
@@ -1591,7 +1597,7 @@ static void DeleteTextCharacter(void)
     var2 = GetKeyRoleAtCursorPos();
     if (var2 == 0 || var2 == 2)
         sub_80E3948(1, 0, 1);
-    PlaySE(SE_BOWA);
+    PlaySE(DELTA_SE_SELECT);
 }
 
 static bool8 sub_80E4B54(void)
@@ -1603,8 +1609,7 @@ static bool8 sub_80E4B54(void)
     AddTextCharacter(GetCharAtKeyboardPos(x, y));
     sub_80E4D10();
     CopyBgTilemapBufferToVram(3);
-    PlaySE(SE_SELECT);
-
+    PlaySE(DELTA_SE_SELECT);
     if (GetPreviousTextCaretPosition() != gNamingScreenData->template->maxChars - 1)
         return FALSE;
     else
