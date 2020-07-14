@@ -1,5 +1,5 @@
 const u8 gDummyPokedexText[] = _(
-    "This is a newly discovered POKéMON.\n"
+    "This is a newly discovered Pokémon.\n"
     "It is currently under investigation.\n"
     "No detailed information is available\n"
     "at this time.");

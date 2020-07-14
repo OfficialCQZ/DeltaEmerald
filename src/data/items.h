@@ -3705,7 +3705,7 @@ const struct Item gItems[] =
 
     [ITEM_ITEMFINDER] =
     {
-        .name = _("Itemfinder"),
+        .name = _("Dowsing Mchn"),
         .itemId = ITEM_ITEMFINDER,
         .price = 0,
         .description = sItemfinderDesc,
