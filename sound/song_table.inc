@@ -627,7 +627,7 @@ gSongTable:: @ 86B49F0
 	song dummy_song_header, 0, 0
 	song dummy_song_header, 0, 0
 	song dummy_song_header, 0, 0
-	song dummy_song_header, 0, 0
+	song dseq_mus_soaring_day, 0, 0            @ 102 - Soaring Dreams
 	song dummy_song_header, 0, 0
 	song dummy_song_header, 0, 0
 	song dummy_song_header, 0, 0
