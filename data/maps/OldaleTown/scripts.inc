@@ -1,5 +1,6 @@
 OldaleTown_MapScripts:: @ 81E8EA2
 	map_script MAP_SCRIPT_ON_TRANSITION, OldaleTown_OnTransition
+	map_script MAP_SCRIPT_ON_FRAME_TABLE, OldaleTown_OnFrame
 	.byte 0
 
 OldaleTown_OnTransition: @ 81E8EA8
@@ -9,6 +10,10 @@ OldaleTown_OnTransition: @ 81E8EA8
 	call_if_unset FLAG_RECEIVED_POTION_OLDALE, OldaleTown_EventScript_MoveMartEmployee
 	call_if_set FLAG_ADVENTURE_STARTED, OldaleTown_EventScript_SetOldaleState
 	end
+
+OldaleTown_OnFrame: @ 81E8EA8
+	map_script_2 VAR_OLDALE_TOWN_STATE, 7, OldaleTown_EventScript_Mart2
+	.2byte 0
 
 @ This script seems pointless because nothing uses VAR_OLDALE_TOWN_STATE. In this Delta Hack, it should be used.
 OldaleTown_EventScript_SetOldaleState:: @ 81E8ECC
@@ -23,6 +28,7 @@ OldaleTown_EventScript_BlockWestEntrance:: @ 81E8ED2
 OldaleTown_EventScript_MoveMartEmployee:: @ 81E8EDE
 	setobjectxyperm 2, 10, 12
 	setobjectmovementtype 2, MOVEMENT_TYPE_FACE_DOWN
+	setvar VAR_OLDALE_TOWN_STATE, 7
 	setvar VAR_0x8008, 7
 	return
 
@@ -39,54 +45,11 @@ OldaleTown_EventScript_Girl:: @ 81E8EF3
 	msgbox OldaleTown_Text_SavingMyProgress, MSGBOX_NPC
 	end
 
-OldaleTown_EventScript_Mart0::
-	setvar VAR_0x8008, 0
-	goto_if_unset FLAG_RECEIVED_POTION_OLDALE, OldaleTown_EventScript_MartEmployee
-	return
-
-OldaleTown_EventScript_Mart1::
-	setvar VAR_0x8008, 1
-	goto_if_unset FLAG_RECEIVED_POTION_OLDALE, OldaleTown_EventScript_MartEmployee
-	return
-
 OldaleTown_EventScript_Mart2::
 	setvar VAR_0x8008, 2
+	setvar VAR_OLDALE_TOWN_STATE, 0
 	goto_if_unset FLAG_RECEIVED_POTION_OLDALE, OldaleTown_EventScript_MartEmployee
 	return
-
-OldaleTown_EventScript_Mart3::
-	setvar VAR_0x8008, 3
-	goto_if_unset FLAG_RECEIVED_POTION_OLDALE, OldaleTown_EventScript_MartEmployee
-	return
-
-OldaleTown_EventScript_MartApproach0::
-	compare VAR_0x8008, 7
-	call_if_eq OldaleTown_EventScript_Mart0
-	releaseall
-	end
-
-OldaleTown_EventScript_MartApproach1::
-	compare VAR_0x8008, 7
-	call_if_eq OldaleTown_EventScript_Mart1
-	releaseall
-	end
-
-OldaleTown_EventScript_MartApproach2::
-	compare VAR_0x8008, 7
-	call_if_eq OldaleTown_EventScript_Mart2
-	releaseall
-	end
-
-OldaleTown_EventScript_MartApproach3::
-	compare VAR_0x8008, 7
-	call_if_eq OldaleTown_EventScript_Mart3
-	releaseall
-	end
-
-OverlyComplicatedMartCode::
-	setvar VAR_0x8008, 14
-	releaseall
-	end
 
 OldaleTown_EventScript_MartEmployee_Static::
 	goto_if_set FLAG_RECEIVED_POTION_OLDALE, OldaleTown_EventScript_ExplainPotion
@@ -97,6 +60,20 @@ OldaleTown_EventScript_MartEmployee::
 @ ----------- Let's just set it imemdiately so it doesn't trigger again.
 	setflag FLAG_RECEIVED_POTION_OLDALE
 	setflag FLAG_TEMP_1
+
+@ ----------- July 22 - Fix the player to a position.
+
+	fadescreen FADE_TO_BLACK
+	getplayerxy VAR_0x8008, VAR_0x8009
+
+	compare VAR_0x8008, 8
+	call_if_eq Oldale_ApproachTheEmployee0
+	compare VAR_0x8008, 9
+	call_if_eq Oldale_ApproachTheEmployee1
+	compare VAR_0x8008, 11
+	call_if_eq Oldale_ApproachTheEmployee3
+
+	fadescreen FADE_FROM_BLACK
 
 @ ----------- Lock the player.
 	lock
@@ -114,14 +91,7 @@ OldaleTown_EventScript_MartEmployee::
 	waitmovement 0
 
 @ ----------- Check the variable set by the trigger.
-	compare VAR_0x8008, 0
-	call_if_eq Oldale_ApproachTheEmployee0
-	compare VAR_0x8008, 1
-	call_if_eq Oldale_ApproachTheEmployee1
-	compare VAR_0x8008, 2
-	call_if_eq Oldale_ApproachTheEmployee2
-	compare VAR_0x8008, 3
-	call_if_eq Oldale_ApproachTheEmployee3
+	call Oldale_ApproachTheEmployee2
 
 @ ----------- "I work at the Pokémon Mart!"
 	msgbox OldaleTown_Text_IWorkAtPokemonMart, MSGBOX_DEFAULT
@@ -129,6 +99,7 @@ OldaleTown_EventScript_MartEmployee::
 
 @ ----------- Let's have this go to another script.
 	goto OldaleTown_EventScript_ExplainPokemonMart
+	setvar VAR_OLDALE_TOWN_STATE, 2
 	release
 	end
 
@@ -316,16 +287,14 @@ OldaleTown_Movement_Unknown1: @ 81E8FEB
 	step_end
 
 OldaleTown_Movement_Player0:
-	walk_up
-	walk_right
-	walk_right
-	walk_up
+	walk_fastest_right
+	walk_fastest_right
+	face_up
 	step_end
 
 OldaleTown_Movement_Player1:
-	walk_up
-	walk_right
-	walk_up
+	walk_fastest_right
+	face_up
 	step_end
 
 OldaleTown_Movement_Player2:
@@ -334,9 +303,8 @@ OldaleTown_Movement_Player2:
 	step_end
 
 OldaleTown_Movement_Player3:
-	walk_up
-	walk_left
-	walk_up
+	walk_fastest_left
+	face_up
 	step_end
 
 OldaleTown_Movement_PlayerFollowEmployee:
