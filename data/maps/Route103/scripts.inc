@@ -93,19 +93,29 @@ Route103_EventScript_StartBrendanBattleMudkip:: @ 81EC4DE
 Route103_EventScript_AfterMayBattle:: @ 81EC4EE
 	msgbox RivalHealParties, MSGBOX_DEFAULT
 	closemessage
+	fadescreen FADE_TO_BLACK
 	special HealPlayerParty
 	playse SE_KAIFUKU
-	delay 20
+	delay 64
+	fadescreen FADE_FROM_BLACK
+	message Delta_TeamsHealthRestored
+	delay 128
 	msgbox Route103_Text_MayTimeToHeadBack, MSGBOX_DEFAULT
+	delay 32
+	msgbox DeltaR103_Str_MayHeadBack, MSGBOX_DEFAULT
 	goto Route103_EventScript_RivalExit
 	end
 
 Route103_EventScript_AfterBrendanBattle:: @ 81EC4FC
 	msgbox RivalHealParties, MSGBOX_DEFAULT
 	closemessage
+	fadescreen FADE_TO_BLACK
 	special HealPlayerParty
 	playse SE_KAIFUKU
-	delay 20
+	delay 64
+	fadescreen FADE_FROM_BLACK
+	message Delta_TeamsHealthRestored
+	delay 128
 	msgbox Route103_Text_BrendanTimeToHeadBack, MSGBOX_DEFAULT
 	goto Route103_EventScript_RivalExit
 	end
@@ -302,47 +312,58 @@ Route103_EventScript_Isabelle:: @ 81EC78F
 	end
 
 Route103_Text_MayRoute103Pokemon: @ 81EC7A6
-	.string "MAY: Let's see… The POKéMON found\n"
-	.string "on ROUTE 103 include…$"
+	.string "Let's see… On Route 103, I found\n"
+	.string "this Pokémon… and this one…\l"
+	.string "and this one, too…$"
 
 Route103_Text_MayLetsBattle: @ 81EC7DE
-	.string "Oh, hi, {PLAYER}{KUN}!\p"
-	.string "…Oh, I see, my dad gave you\n"
-	.string "a POKéMON as a gift.\p"
-	.string "Since we're here, let's have a quick\n"
-	.string "battle!\p"
+	.string "Oh! Hey, {PLAYER}!\p"
+	.string "What's that?\p"
+	.string "Oh! My dad gave you a Pokémon\n"
+	.string "as a gift, huh?\p"
+	.string "Well then, why don't we go ahead and\n"
+	.string "have a quick battle?\p"
 	.string "I'll give you a taste of what being\n"
-	.string "a TRAINER is like.$"
+	.string "a Trainer is really like!$"
 
 Route103_Text_MayDefeated: @ 81EC881
 	.string "Wow! That's great!\n"
 	.string "{PLAYER}{KUN}, you're pretty good!$"
 
-RivalHealParties: @ 81EC881
-	.string "Placeholder text.\n"
-	.string "Let me heal up both parties quick.$"
+RivalHealParties:
+	.string "It was a good battle.\n"
+	.string "Thanks!\p"
+	.string "Let me heal up both our\n"
+	.string "parties real quick.$"
+
+Delta_TeamsHealthRestored:
+	.string "Your team's health was restored!$"
 
 Route103_Text_MayTimeToHeadBack: @ 81EC8AE
-	.string "MAY: I think I know why my dad has\n"
-	.string "an eye out for you now.\p"
-	.string "I mean, you just got that POKéMON,\n"
-	.string "but it already likes you.\p"
-	.string "You might be able to befriend any\n"
-	.string "kind of POKéMON easily.\p"
-	.string "Well, it's time to head back to\n"
-	.string "the LAB.$"
+	.string "I think I know why my dad has his\n"
+	.string "eye on you now.\p"
+	.string "I mean, you just got that Pokémon,\n"
+	.string "and you've already got that strong\l"
+	.string "of a bond.\p"
+	.string "I bet you could probably befriend\n"
+	.string "any kind of Pokémon you meet!\p$"
 
-Route103_Text_BrendanRoute103Pokemon: @ 81EC989
-	.string "BRENDAN: Okay, so it's this one and\n"
-	.string "that one that live on ROUTE 103…$"
+DeltaR103_Str_MayHeadBack:
+	.string "Phew… I guess I'd better head\n"
+	.string "back to the lab!$"
 
-Route103_Text_BrendanLetsBattle: @ 81EC9CE
-	.string "Hey, it's {PLAYER}!\p"
-	.string "…Oh, yeah, Dad gave you a POKéMON.\p"
-	.string "Since we're here, how about a little\n"
-	.string "battle?\p"
-	.string "I'll teach you what being a TRAINER's\n"
-	.string "about!$"
+Route103_Text_BrendanRoute103Pokemon:
+	.string "OK, so it's this one and that one\n"
+	.string "that live on Route 103…$"
+
+Route103_Text_BrendanLetsBattle:
+	.string "Huh? Hey, {PLAYER}!\p"
+	.string "Ohhh. So you finally got a Pokémon\n"
+	.string "from my dad?\p"
+	.string "Then how about a little battle?\n"
+	.string "Since we're here and all!\p"
+	.string "I'm going to teach you what being a\n"
+	.string "Trainer's all about!$"
 
 Route103_Text_BrendanDefeated: @ 81ECA59
 	.string "Huh, {PLAYER}, you're not too shabby.$"
@@ -367,6 +388,6 @@ Route103_Text_ShortcutToOldale: @ 81ECBB5
 	.string "Fufufu, that's useful, isn't it?$"
 
 Route103_Text_RouteSign: @ 81ECC1A
-	.string "ROUTE 103\n"
-	.string "{DOWN_ARROW} OLDALE TOWN$"
+	.string "Route 103\n"
+	.string "{DOWN_ARROW} Oldale Town$"
 

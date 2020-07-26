@@ -983,7 +983,7 @@ LittlerootTown_Text_WearTheseRunningShoes: @ 81E87F0
 	@ .string "adventure, wear these RUNNING SHOES.\p"
 	@ .string "They'll put a zip in your step!$"
 
-LittlerootTown_Text_SwitchShoesWithRunningShoes: @ 81E8925
+LittlerootTown_Text_SwitchShoesWithRunningShoes: @ 81E8925, unused in Delta Hack
 	.string "{PLAYER} switched shoes with the\n"
 	.string "RUNNING SHOES.$"
 
