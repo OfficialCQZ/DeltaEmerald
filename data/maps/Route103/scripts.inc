@@ -101,7 +101,6 @@ Route103_EventScript_AfterMayBattle:: @ 81EC4EE
 	message Delta_TeamsHealthRestored
 	delay 128
 	msgbox Route103_Text_MayTimeToHeadBack, MSGBOX_DEFAULT
-	delay 32
 	msgbox DeltaR103_Str_MayHeadBack, MSGBOX_DEFAULT
 	goto Route103_EventScript_RivalExit
 	end
