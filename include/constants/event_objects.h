@@ -241,7 +241,11 @@
 #define OBJ_EVENT_GFX_LUGIA                      237
 #define OBJ_EVENT_GFX_HOOH                       238
 
-#define NUM_OBJ_EVENT_GFX                        239
+#define DELTA_OBJ_NUM                            1
+#define NUM_OBJ_EVENT_GFX                        (239 + DELTA_OBJ_NUM)
+
+// Delta Emerald Hack
+#define DELTA_OBJ_LASS                           239
 
 
 // These are dynamic object gfx ids.
