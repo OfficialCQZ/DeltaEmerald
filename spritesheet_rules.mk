@@ -694,3 +694,8 @@ $(FLDEFFGFXDIR)/unknown_35.4bpp: %.4bpp: %.png
 
 $(FLDEFFGFXDIR)/unused_grass.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 2
+
+# Delta Emerald Hacking...
+
+$(OBJEVENTGFXDIR)/people/delta_emerald/lass.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4

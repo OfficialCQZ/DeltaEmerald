@@ -91,7 +91,7 @@ Route103_EventScript_StartBrendanBattleMudkip:: @ 81EC4DE
 	end
 
 Route103_EventScript_AfterMayBattle:: @ 81EC4EE
-	msgbox RivalHealParties, MSGBOX_DEFAULT
+	msgbox DeltaR103_MayHealParties, MSGBOX_DEFAULT
 	closemessage
 	fadescreen FADE_TO_BLACK
 	special HealPlayerParty
@@ -106,7 +106,7 @@ Route103_EventScript_AfterMayBattle:: @ 81EC4EE
 	end
 
 Route103_EventScript_AfterBrendanBattle:: @ 81EC4FC
-	msgbox RivalHealParties, MSGBOX_DEFAULT
+	msgbox DeltaR103_BrendanHealParties, MSGBOX_DEFAULT
 	closemessage
 	fadescreen FADE_TO_BLACK
 	special HealPlayerParty
@@ -329,11 +329,17 @@ Route103_Text_MayDefeated: @ 81EC881
 	.string "Wow! That's great!\n"
 	.string "{PLAYER}{KUN}, you're pretty good!$"
 
-RivalHealParties:
+DeltaR103_MayHealParties:
 	.string "It was a good battle.\n"
 	.string "Thanks!\p"
 	.string "Let me heal up both our\n"
 	.string "parties real quick.$"
+
+DeltaR103_BrendanHealParties:
+	.string "It was a good battle.\n"
+	.string "Thanks!\p"
+	.string "Here! Lemme heal up both\n"
+	.string "our parties real quick.$"
 
 Delta_TeamsHealthRestored:
 	.string "Your team's health was restored!$"
@@ -345,7 +351,7 @@ Route103_Text_MayTimeToHeadBack: @ 81EC8AE
 	.string "and you've already got that strong\l"
 	.string "of a bond.\p"
 	.string "I bet you could probably befriend\n"
-	.string "any kind of Pokémon you meet!\p$"
+	.string "any kind of Pokémon you meet!$"
 
 DeltaR103_Str_MayHeadBack:
 	.string "Phew… I guess I'd better head\n"
@@ -383,7 +389,7 @@ Route103_Text_ShouldHaveBroughtPotion: @ 81ECB73
 
 Route103_Text_ShortcutToOldale: @ 81ECBB5
 	.string "If you cross the sea from here,\n"
-	.string "it'll be a shortcut to OLDALE TOWN.\p"
+	.string "it'll be a shortcut to Oldale Town.\p"
 	.string "Fufufu, that's useful, isn't it?$"
 
 Route103_Text_RouteSign: @ 81ECC1A
