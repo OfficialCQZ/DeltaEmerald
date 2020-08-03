@@ -899,7 +899,7 @@ static bool8 HandleMainMenuInput(u8 taskId)
     else if (gMain.newKeys & B_BUTTON)
     {
         PlaySE(DELTA_SE_SELECT);
-        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_WHITEALPHA);
+        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK);
         SetGpuReg(REG_OFFSET_WIN0H, WIN_RANGE(0, 240));
         SetGpuReg(REG_OFFSET_WIN0V, WIN_RANGE(0, 160));
         gTasks[taskId].func = Task_HandleMainMenuBPressed;

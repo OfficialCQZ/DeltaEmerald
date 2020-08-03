@@ -283,8 +283,11 @@ LittlerootTown_EventScript_GoSaveBirch:: @ 81E805D
 	end
 
 LittlerootTown_EventScript_YouSavedBirch:: @ 81E807A
-	special GetPlayerBigGuyGirlString
-	msgbox LittlerootTown_Text_YouSavedBirch, MSGBOX_DEFAULT
+	checkplayergender
+	compare VAR_RESULT, MALE
+	msgbox DeltaLittleroot_Text_IntrepidGuy, MSGBOX_DEFAULT
+	compare VAR_RESULT, FEMALE
+	msgbox DeltaLittleroot_Text_IntrepidGirl, MSGBOX_DEFAULT
 	release
 	end
 
@@ -1005,7 +1008,7 @@ LittlerootTown_Text_CanUsePCToStoreItems: @ 81E8ACF
 LittlerootTown_Text_BirchSpendsDaysInLab: @ 81E8B25
 	.string "Professor Birch will spend days on\n"
 	.string "end in his lab researching something,\l"
-	.string "then he’ll suddenly go out into the\l"
+	.string "then he'll suddenly go out into the\l"
 	.string "field to gather more data…\p"
 	.string "When does he ever spend time at home?$"
 
@@ -1015,19 +1018,16 @@ LittlerootTown_Text_IfYouGoInGrassPokemonWillJumpOut: @ 81E8BB8
 	.string "jump out at you!$"
 
 LittlerootTown_Text_DangerousIfYouDontHavePokemon: @ 81E8C07
-	.string "It’s not safe to go out there if\n"
-	.string "you don’t have any Pokémon with you.$"
+	.string "It's not safe to go out there if\n"
+	.string "you don't have any Pokémon with you.$"
 
 LittlerootTown_Text_CanYouGoSeeWhatsHappening: @ 81E8C3A
-	.string "Um, hi!\p"
-	.string "There are scary POKéMON outside!\n"
-	.string "I can hear their cries!\p"
-	.string "I want to go see what's going on,\n"
-	.string "but I don't have any POKéMON…\p"
-	.string "Can you go see what's happening\n"
-	.string "for me?$"
+	.string "I think I hear someone screaming\n"
+	.string "up ahead!\p"
+	.string "What should I do? What should we do?\n"
+	.string "Somebody has to go help…$"
 
-LittlerootTown_Text_YouSavedBirch: @ 81E8CE3
+LittlerootTown_Text_YouSavedBirch: @ 81E8CE3 unused
 	.string "You saved PROF. BIRCH!\n"
 	.string "I'm so glad!$"
 
