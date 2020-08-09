@@ -285,11 +285,19 @@ LittlerootTown_EventScript_GoSaveBirch:: @ 81E805D
 LittlerootTown_EventScript_YouSavedBirch:: @ 81E807A
 	checkplayergender
 	compare VAR_RESULT, MALE
-	msgbox DeltaLittleroot_Text_IntrepidGuy, MSGBOX_DEFAULT
+	call_if_eq Delta_Littleroot_Event_IntrepidGuy
 	compare VAR_RESULT, FEMALE
-	msgbox DeltaLittleroot_Text_IntrepidGirl, MSGBOX_DEFAULT
+	call_if_eq Delta_Littleroot_Event_IntrepidGirl
 	release
 	end
+
+Delta_Littleroot_Event_IntrepidGuy::
+	msgbox DeltaLittleroot_Text_IntrepidGuy, MSGBOX_DEFAULT
+	return
+
+Delta_Littleroot_Event_IntrepidGirl::
+	msgbox DeltaLittleroot_Text_IntrepidGirl, MSGBOX_DEFAULT
+	return
 
 LittlerootTown_EventScript_GoodLuck:: @ 81E8087
 	msgbox LittlerootTown_Text_GoodLuckCatchingPokemon, MSGBOX_DEFAULT

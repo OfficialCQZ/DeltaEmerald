@@ -1,6 +1,6 @@
 Route102_Text_CalvinIntro: @ 8294513
-	.string "If you have POKéMON with you, then\n"
-	.string "you're an official POKéMON TRAINER!\l"
+	.string "If you have Pokémon with you, then\n"
+	.string "you're an official Pokémon Trainer!\l"
 	.string "You can't say no to my challenge!$"
 
 Route102_Text_CalvinDefeated: @ 829457C
@@ -8,8 +8,8 @@ Route102_Text_CalvinDefeated: @ 829457C
 	.string "I should have trained mine more…$"
 
 Route102_Text_CalvinPostBattle: @ 82945AC
-	.string "Listen, you. If you're strong,\n"
-	.string "you should have told me before!$"
+	.string "Listen, you. If you're strong, you\n"
+	.string "should have told me from the start!$"
 
 Route102_Text_CalvinRegister: @ 82945EB
 	.string "I've been working hard at this since\n"
@@ -22,8 +22,8 @@ Route102_Text_CalvinRegisterShort: @ 8294668
 	.string "you register me in your POKéNAV?$"
 
 Route102_Text_CalvinRematchIntro: @ 82946AE
-	.string "Ever since I lost to you, I desperately\n"
-	.string "trained my POKéMON.\l"
+	.string "Ever since I lost to you, I've\n"
+	.string "trained my Pokémon like crazy.\l"
 	.string "You can't say no to my challenge!$"
 
 Route102_Text_CalvinRematchDefeated: @ 829470C
@@ -35,7 +35,7 @@ Route102_Text_CalvinRematchPostBattle: @ 829473C
 	.string "I'll get stronger, too.$"
 
 Route102_Text_AllenIntro: @ 8294775
-	.string "Did you just become a TRAINER?\n"
+	.string "Did you just become a Trainer?\n"
 	.string "We're both beginners!$"
 
 Route102_Text_AllenDefeated: @ 82947AA
@@ -47,19 +47,19 @@ Route102_Text_AllenPostBattle: @ 82947DB
 	.string "I wish I would win soon…$"
 
 Route102_Text_RickIntro: @ 829480C
-	.string "Hahah! Our eyes met!\n"
-	.string "I'll take you on with my BUG POKéMON!$"
+	.string "Haha! Our eyes met!\n"
+	.string "I'll take you on with my Bug Pokémon!$"
 
 Route102_Text_RickDefeated: @ 8294847
 	.string "Ow! Down and out!$"
 
 Route102_Text_RickPostBattle: @ 8294859
-	.string "If you lock eyes with a TRAINER,\n"
+	.string "If you lock eyes with a Trainer,\n"
 	.string "you have to challenge! It's a rule!$"
 
 Route102_Text_TianaIntro: @ 829489E
 	.string "I'm going to keep winning and aim\n"
-	.string "to be the best TRAINER.\p"
+	.string "to be the best Trainer.\p"
 	.string "Help me further my career!$"
 
 Route102_Text_TianaDefeated: @ 82948F3
@@ -67,7 +67,7 @@ Route102_Text_TianaDefeated: @ 82948F3
 
 Route102_Text_TianaPostBattle: @ 8294916
 	.string "To keep winning my way up, I see that\n"
-	.string "I have to catch more POKéMON.$"
+	.string "I have to catch more Pokémon.$"
 
 Route103_Text_DaisyIntro: @ 829495A
 	.string "Did you feel the tug of our\n"
@@ -77,16 +77,15 @@ Route103_Text_DaisyDefeated: @ 829498F
 	.string "You weren't led astray by our aroma…$"
 
 Route103_Text_DaisyPostBattle: @ 82949B4
-	.string "Aromatherapy is a form of mental\n"
-	.string "healing that works with fragrances.$"
+	.string "Aromatherapy can heal your mind\n"
+	.string "and body.$"
 
 Route103_Text_AmyIntro: @ 82949F9
-	.string "AMY: I'm AMY.\n"
-	.string "And this is my little sister LIV.\l"
-	.string "We battle together!$"
+	.string "I'm Amy, and this is my twin sister,\n"
+	.string "Liv! We're gonna fight you together!$"
 
 Route103_Text_AmyDefeated: @ 8294A3D
-	.string "AMY: Uh-oh, we lost.$"
+	.string "Amy: We lost…$"
 
 Route103_Text_AmyPostBattle: @ 8294A52
 	.string "AMY: You have to think about all\n"
@@ -94,16 +93,14 @@ Route103_Text_AmyPostBattle: @ 8294A52
 	.string "against two TRAINERS.$"
 
 Route103_Text_AmyNotEnoughPokemon: @ 8294AAE
-	.string "AMY: Uh-oh, you have only one\n"
-	.string "POKéMON with you.\l"
-	.string "You can't battle us like that.$"
+	.string "What?! You only have one Pokémon!\n"
+	.string "You can't battle us like that!$"
 
 Route103_Text_LivIntro: @ 8294AFD
-	.string "LIV: We battle together as one\n"
-	.string "team.$"
+	.string "The two of us fight together as one!$"
 
 Route103_Text_LivDefeated: @ 8294B22
-	.string "LIV: Oh, we lost, big sister…$"
+	.string "LIV: We lost, Sis…$"
 
 Route103_Text_LivPostBattle: @ 8294B40
 	.string "LIV: We work perfectly together,\n"
@@ -282,7 +279,7 @@ Route104_Text_MiaNotEnoughMons: @ 8295449
 
 Route104_Text_IvanIntro: @ 82954BD
 	.string "Why keep it a secret?\n"
-	.string "I'm the WATER POKéMON expert!\p"
+	.string "I'm the Water-Pokémon expert!\p"
 	.string "Huh?\n"
 	.string "You don't know me?$"
 
@@ -291,8 +288,8 @@ Route104_Text_IvanDefeat: @ 8295509
 	.string "say so, but I guess not… Bleah…$"
 
 Route104_Text_IvanPostBattle: @ 829554E
-	.string "I got too into fishing.\n"
-	.string "I forgot I had to raise my POKéMON…$"
+	.string "I got so into fishing that I forgot\n"
+	.string "I had to raise my Pokémon…$"
 
 Route104_Text_BillyIntro: @ 829558A
 	.string "Leaving footprints in the sand is\n"

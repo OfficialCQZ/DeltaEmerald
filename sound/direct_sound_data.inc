@@ -4252,8 +4252,12 @@ DirectSoundWaveData_sd90_enhanced_delay_shaku::
 
 	.align 2
 Delta_SE_ChooseMenuItem::
-	.incbin "sound/delta_se/select.bin"
+	.incbin "sound/delta_se/sg_se_select.bin"
 
 	.align 2
 Delta_SE_SelectMenuItem::
-	.incbin "sound/delta_se/selected.bin"
+	.incbin "sound/delta_se/se_choose.bin"
+
+	.align 2
+Delta_SE_Complete::
+	.incbin "sound/delta_se/se_complete.bin"

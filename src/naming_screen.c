@@ -1284,7 +1284,7 @@ static bool8 KeyboardKeyHandler_OK(u8 event)
     sub_80E3948(2, 1, 0);
     if (event == KBEVENT_PRESSED_A)
     {
-        PlaySE(SE_SELECT);
+        PlaySE(DELTA_SE_COMPLETE);
         gNamingScreenData->state = MAIN_STATE_6;
         return TRUE;
     }

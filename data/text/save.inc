@@ -3,7 +3,7 @@ gText_ConfirmSave:: @ 82C87B4
 	.string "Would you like to save the game?$"
 
 gText_AlreadySavedFile:: @ 82C87D5
-	.string "There is already a saved file.\n"
+	.string "There's already a saved file.\n"
 	.string "Is it okay to overwrite it?$"
 
 gText_SavingDontTurnOff:: @ 82C8810
