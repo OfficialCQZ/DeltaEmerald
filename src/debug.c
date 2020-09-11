@@ -28,7 +28,7 @@ enum {
 
 static const u8 gDebugText_Cancel[] = _("Cancel");
 
-static const u8 gDebugText_BGM_Soaring_Day[] = _("BGM Soaring");
+static const u8 gDebugText_BGM_Soaring_Day[] = _("BGM SoarDay");
 
 static const struct ListMenuItem sDebugMenuItems[] =
 {

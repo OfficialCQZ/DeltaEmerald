@@ -1,3 +1,5 @@
+.set LOCALID_RIVAL, 1
+
 LittlerootTown_MaysHouse_2F_MapScripts:: @ 81F9296
 	map_script MAP_SCRIPT_ON_TRANSITION, LittlerootTown_MaysHouse_2F_OnTransition
 	map_script MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE, LittlerootTown_MaysHouse_2F_OnWarp
@@ -28,8 +30,8 @@ LittlerootTown_MaysHouse_2F_EventScript_TryUpdateMayPos:: @ 81F92E6
 	compare VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 2
 	goto_if_ge LittlerootTown_MaysHouse_2F_EventScript_Ret
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_RIVAL_BEDROOM
-	setobjectxyperm 1, 8, 2
-	setobjectmovementtype 1, MOVEMENT_TYPE_FACE_UP
+	setobjectxyperm LOCALID_RIVAL, 8, 2
+	setobjectmovementtype LOCALID_RIVAL, MOVEMENT_TYPE_FACE_UP
 	return
 
 LittlerootTown_MaysHouse_2F_EventScript_Ret:: @ 81F9309
@@ -73,12 +75,12 @@ LittlerootTown_MaysHouse_2F_EventScript_MeetMay:: @ 81F934A
 	delay 10
 	msgbox RivalsHouse_2F_Text_MayGettingReady, MSGBOX_DEFAULT
 	closemessage
-	applymovement 1, LittlerootTown_MaysHouse_2F_Movement_MayEnters
+	applymovement LOCALID_RIVAL, LittlerootTown_MaysHouse_2F_Movement_MayEnters
 	waitmovement 0
 	playse SE_PIN
-	applymovement 1, Common_Movement_ExclamationMark
+	applymovement LOCALID_RIVAL, Common_Movement_ExclamationMark
 	waitmovement 0
-	applymovement 1, Common_Movement_Delay48
+	applymovement LOCALID_RIVAL, Common_Movement_Delay48
 	waitmovement 0
 	delay 10
 	playbgm MUS_GIRL_SUP, 1
@@ -87,10 +89,10 @@ LittlerootTown_MaysHouse_2F_EventScript_MeetMay:: @ 81F934A
 	msgbox RivalsHouse_2F_Text_MayWhoAreYou, MSGBOX_DEFAULT
 	closemessage
 	applymovement OBJ_EVENT_ID_PLAYER, LittlerootTown_MaysHouse_2F_Movement_MakeWay
-	applymovement 1, LittlerootTown_MaysHouse_2F_Movement_MayHeadsOut
+	applymovement LOCALID_RIVAL, LittlerootTown_MaysHouse_2F_Movement_MayHeadsOut
 	waitmovement 0
 	playse SE_KAIDAN
-	removeobject 1
+	removeobject LOCALID_RIVAL
 	setvar VAR_LITTLEROOT_RIVAL_STATE, 3
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_2F_POKE_BALL
 	setvar VAR_LITTLEROOT_TOWN_STATE, 1

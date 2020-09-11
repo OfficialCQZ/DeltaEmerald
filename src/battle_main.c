@@ -98,7 +98,7 @@ static void SpriteCb_WildMonShowHealthbox(struct Sprite *sprite);
 static void SpriteCb_WildMonAnimate(struct Sprite *sprite);
 static void sub_80398D0(struct Sprite *sprite);
 static void SpriteCB_AnimFaintOpponent(struct Sprite *sprite);
-static void sub_8039AF4(struct Sprite *sprite);
+static void SpriteCb_BlinkVisible(struct Sprite *sprite);
 static void SpriteCallbackDummy_3(struct Sprite *sprite);
 static void oac_poke_ally_(struct Sprite *sprite);
 static void SpecialStatusesClear(void);
@@ -859,7 +859,7 @@ static void CB2_HandleStartBattle(void)
                     sub_8036A5C();
                     SetPlayerBerryDataInBattleStruct();
 
-                    if (gTrainerBattleOpponent_A == TRAINER_OPPONENT_C00)
+                    if (gTrainerBattleOpponent_A == TRAINER_UNION_ROOM)
                     {
                         gLinkPlayers[0].id = 0;
                         gLinkPlayers[1].id = 1;
@@ -1348,9 +1348,9 @@ static void CB2_PreInitMultiBattle(void)
         {
             gBattleCommunication[MULTIUSE_STATE]++;
             if (gWirelessCommType)
-                sub_800ADF8();
+                SetLinkStandbyCallback();
             else
-                sub_800AC34();
+                SetCloseLinkCallback();
         }
         break;
     case 3:
@@ -2226,7 +2226,7 @@ static void sub_8038F34(void)
     case 6:
         if (IsLinkTaskFinished() == TRUE)
         {
-            sub_800ADF8();
+            SetLinkStandbyCallback();
             BattlePutTextOnWindow(gText_LinkStandby3, 0);
             gBattleCommunication[MULTIUSE_STATE]++;
         }
@@ -2240,7 +2240,7 @@ static void sub_8038F34(void)
         break;
     case 8:
         if (!gWirelessCommType)
-            sub_800AC34();
+            SetCloseLinkCallback();
         gBattleCommunication[MULTIUSE_STATE]++;
         break;
     case 9:
@@ -2414,7 +2414,7 @@ static void sub_803939C(void)
             HandleBattleWindow(0x18, 8, 0x1D, 0xD, WINDOW_CLEAR);
             if (gMain.field_439_x4)
             {
-                sub_800ADF8();
+                SetLinkStandbyCallback();
                 BattlePutTextOnWindow(gText_LinkStandby3, 0);
             }
             gBattleCommunication[MULTIUSE_STATE]++;
@@ -2424,7 +2424,7 @@ static void sub_803939C(void)
         if (--gBattleCommunication[1] == 0)
         {
             if (gMain.field_439_x4 && !gWirelessCommType)
-                sub_800AC34();
+                SetCloseLinkCallback();
             gBattleCommunication[MULTIUSE_STATE]++;
         }
         break;
@@ -2463,7 +2463,7 @@ static void sub_803939C(void)
         {
             if (gMain.field_439_x4)
             {
-                sub_800ADF8();
+                SetLinkStandbyCallback();
                 BattlePutTextOnWindow(gText_LinkStandby3, 0);
             }
             gBattleCommunication[MULTIUSE_STATE]++;
@@ -2648,31 +2648,31 @@ static void SpriteCB_AnimFaintOpponent(struct Sprite *sprite)
     }
 }
 
-void sub_8039AD8(struct Sprite *sprite)
+// Used when selecting a move, which can hit multiple targets, in double battles.
+void SpriteCb_ShowAsMoveTarget(struct Sprite *sprite)
 {
     sprite->data[3] = 8;
     sprite->data[4] = sprite->invisible;
-    sprite->callback = sub_8039AF4;
+    sprite->callback = SpriteCb_BlinkVisible;
 }
 
-static void sub_8039AF4(struct Sprite *sprite)
+static void SpriteCb_BlinkVisible(struct Sprite *sprite)
 {
-    sprite->data[3]--;
-    if (sprite->data[3] == 0)
+    if (--sprite->data[3] == 0)
     {
         sprite->invisible ^= 1;
         sprite->data[3] = 8;
     }
 }
 
-void sub_8039B2C(struct Sprite *sprite)
+void SpriteCb_HideAsMoveTarget(struct Sprite *sprite)
 {
     sprite->invisible = sprite->data[4];
     sprite->data[4] = FALSE;
     sprite->callback = SpriteCallbackDummy_2;
 }
 
-void sub_8039B58(struct Sprite *sprite)
+void SpriteCb_OpponentMonFromBall(struct Sprite *sprite)
 {
     if (sprite->affineAnimEnded)
     {
@@ -2816,7 +2816,7 @@ static void SpriteCB_BounceEffect(struct Sprite *sprite)
 #undef sBouncerSpriteId
 #undef sWhich
 
-void sub_8039E44(struct Sprite *sprite)
+void SpriteCb_PlayerMonFromBall(struct Sprite *sprite)
 {
     if (sprite->affineAnimEnded)
         BattleAnimateBackSprite(sprite, sprite->sSpeciesId);
@@ -2948,7 +2948,7 @@ static void BattleStartClearSetData(void)
     gBattleStruct->moneyMultiplier = 1;
 
     gBattleStruct->givenExpMons = 0;
-    gBattleStruct->field_92 = 0;
+    gBattleStruct->palaceFlags = 0;
 
     gRandomTurnNumber = Random();
 
@@ -2969,7 +2969,7 @@ void SwitchInClearSetData(void)
     if (gBattleMoves[gCurrentMove].effect != EFFECT_BATON_PASS)
     {
         for (i = 0; i < NUM_BATTLE_STATS; i++)
-            gBattleMons[gActiveBattler].statStages[i] = 6;
+            gBattleMons[gActiveBattler].statStages[i] = DEFAULT_STAT_STAGE;
         for (i = 0; i < gBattlersCount; i++)
         {
             if ((gBattleMons[i].status2 & STATUS2_ESCAPE_PREVENTION) && gDisableStructs[i].battlerPreventingEscape == gActiveBattler)
@@ -2993,7 +2993,7 @@ void SwitchInClearSetData(void)
              && (gDisableStructs[i].battlerWithSureHit == gActiveBattler))
             {
                 gStatuses3[i] &= ~(STATUS3_ALWAYS_HITS);
-                gStatuses3[i] |= 0x10;
+                gStatuses3[i] |= STATUS3_ALWAYS_HITS_TURN(2);
             }
         }
         if (gStatuses3[gActiveBattler] & STATUS3_POWER_TRICK)
@@ -3044,7 +3044,7 @@ void SwitchInClearSetData(void)
     gBattleStruct->lastTakenMoveFrom[gActiveBattler][2] = 0;
     gBattleStruct->lastTakenMoveFrom[gActiveBattler][3] = 0;
     gBattleStruct->lastMoveFailed &= ~(gBitTable[gActiveBattler]);
-    gBattleStruct->field_92 &= ~(gBitTable[gActiveBattler]);
+    gBattleStruct->palaceFlags &= ~(gBitTable[gActiveBattler]);
 
     for (i = 0; i < gBattlersCount; i++)
     {
@@ -3068,7 +3068,7 @@ void FaintClearSetData(void)
     s32 i;
 
     for (i = 0; i < NUM_BATTLE_STATS; i++)
-        gBattleMons[gActiveBattler].statStages[i] = 6;
+        gBattleMons[gActiveBattler].statStages[i] = DEFAULT_STAT_STAGE;
 
     gBattleMons[gActiveBattler].status2 = 0;
     gStatuses3[gActiveBattler] = 0;
@@ -3131,7 +3131,7 @@ void FaintClearSetData(void)
     gBattleStruct->lastTakenMoveFrom[gActiveBattler][2] = 0;
     gBattleStruct->lastTakenMoveFrom[gActiveBattler][3] = 0;
 
-    gBattleStruct->field_92 &= ~(gBitTable[gActiveBattler]);
+    gBattleStruct->palaceFlags &= ~(gBitTable[gActiveBattler]);
 
     for (i = 0; i < gBattlersCount; i++)
     {
@@ -3638,7 +3638,7 @@ void BattleTurnPassed(void)
     gRandomTurnNumber = Random();
 
     if (gBattleTypeFlags & BATTLE_TYPE_PALACE)
-        BattleScriptExecute(BattleScript_82DB881);
+        BattleScriptExecute(BattleScript_PalacePrintFlavorText);
     else if (gBattleTypeFlags & BATTLE_TYPE_ARENA && gBattleStruct->arenaTurnCounter == 0)
         BattleScriptExecute(BattleScript_ArenaTurnBeginning);
     else if (ShouldDoTrainerSlide(GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT), gTrainerBattleOpponent_A, TRAINER_SLIDE_LAST_LOW_HP))
@@ -5360,7 +5360,7 @@ static void HandleAction_UseItem(void)
     ClearFuryCutterDestinyBondGrudge(gBattlerAttacker);
     gLastUsedItem = gBattleResources->bufferB[gBattlerAttacker][1] | (gBattleResources->bufferB[gBattlerAttacker][2] << 8);
 
-    if (gLastUsedItem <= ITEM_PREMIER_BALL) // is ball
+    if (gLastUsedItem <= LAST_BALL) // is ball
     {
         gBattlescriptCurrInstr = gBattlescriptsForBallThrow[gLastUsedItem];
     }

@@ -38,32 +38,32 @@ static EWRAM_DATA u8 sPopupTaskId = 0;
 // .rodata
 static const u8 gMapPopUp_Table[][960] =
 {
-    INCBIN_U8("graphics/interface/map_popup/delta_emerald.4bpp"),
-    INCBIN_U8("graphics/interface/map_popup/delta_emerald.4bpp"),
-    INCBIN_U8("graphics/interface/map_popup/delta_emerald.4bpp"),
-    INCBIN_U8("graphics/interface/map_popup/delta_emerald.4bpp"),
-    INCBIN_U8("graphics/interface/map_popup/delta_emerald.4bpp"),
-    INCBIN_U8("graphics/interface/map_popup/delta_emerald.4bpp"),
+    INCBIN_U8("graphics/interface/map_popup/wood.4bpp"),
+    INCBIN_U8("graphics/interface/map_popup/marble.4bpp"),
+    INCBIN_U8("graphics/interface/map_popup/stone.4bpp"),
+    INCBIN_U8("graphics/interface/map_popup/brick.4bpp"),
+    INCBIN_U8("graphics/interface/map_popup/underwater.4bpp"),
+    INCBIN_U8("graphics/interface/map_popup/stone2.4bpp"),
 };
 
 static const u8 gMapPopUp_Outline_Table[][960] =
 {
-    INCBIN_U8("graphics/interface/map_popup/delta_emerald_outline.4bpp"),
-    INCBIN_U8("graphics/interface/map_popup/delta_emerald_outline.4bpp"),
-    INCBIN_U8("graphics/interface/map_popup/delta_emerald_outline.4bpp"),
-    INCBIN_U8("graphics/interface/map_popup/delta_emerald_outline.4bpp"),
-    INCBIN_U8("graphics/interface/map_popup/delta_emerald_outline.4bpp"),
-    INCBIN_U8("graphics/interface/map_popup/delta_emerald_outline.4bpp"),
+    INCBIN_U8("graphics/interface/map_popup/wood_outline.4bpp"),
+    INCBIN_U8("graphics/interface/map_popup/marble_outline.4bpp"),
+    INCBIN_U8("graphics/interface/map_popup/stone_outline.4bpp"),
+    INCBIN_U8("graphics/interface/map_popup/brick_outline.4bpp"),
+    INCBIN_U8("graphics/interface/map_popup/underwater_outline.4bpp"),
+    INCBIN_U8("graphics/interface/map_popup/stone2_outline.4bpp"),
 };
 
 static const u16 gMapPopUp_Palette_Table[][16] =
 {
-    INCBIN_U16("graphics/interface/map_popup/delta_emerald.gbapal"),
-    INCBIN_U16("graphics/interface/map_popup/delta_emerald.gbapal"),
-    INCBIN_U16("graphics/interface/map_popup/delta_emerald.gbapal"),
-    INCBIN_U16("graphics/interface/map_popup/delta_emerald.gbapal"),
-    INCBIN_U16("graphics/interface/map_popup/delta_emerald.gbapal"),
-    INCBIN_U16("graphics/interface/map_popup/delta_emerald.gbapal"),
+    INCBIN_U16("graphics/interface/map_popup/wood.gbapal"),
+    INCBIN_U16("graphics/interface/map_popup/marble_outline.gbapal"),
+    INCBIN_U16("graphics/interface/map_popup/stone_outline.gbapal"),
+    INCBIN_U16("graphics/interface/map_popup/brick_outline.gbapal"),
+    INCBIN_U16("graphics/interface/map_popup/underwater_outline.gbapal"),
+    INCBIN_U16("graphics/interface/map_popup/stone2_outline.gbapal"),
 };
 
 static const u16 gUnknown_0857F444[16] = INCBIN_U16("graphics/interface/map_popup/857F444.gbapal");

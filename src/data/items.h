@@ -3705,7 +3705,7 @@ const struct Item gItems[] =
 
     [ITEM_ITEMFINDER] =
     {
-        .name = _("Dowsing Mchn"),
+        .name = _("Itemfinder"),
         .itemId = ITEM_ITEMFINDER,
         .price = 0,
         .description = sItemfinderDesc,
@@ -3756,7 +3756,7 @@ const struct Item gItems[] =
         .pocket = POCKET_KEY_ITEMS,
         .type = 2,
         .fieldUseFunc = ItemUseOutOfBattle_Rod,
-        .secondaryId = 2,
+        .secondaryId = SUPER_ROD,
     },
 
     [ITEM_SS_TICKET] =

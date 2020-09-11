@@ -51,16 +51,6 @@
 #define MSG_DISPLAY             0x7
 #define BATTLE_COMMUNICATION_ENTRIES_COUNT  0x8
 
-#define MOVE_TARGET_SELECTED            0x0
-#define MOVE_TARGET_DEPENDS             0x1
-#define MOVE_TARGET_USER_OR_SELECTED    0x2
-#define MOVE_TARGET_RANDOM              0x4
-#define MOVE_TARGET_BOTH                0x8
-#define MOVE_TARGET_USER                0x10
-#define MOVE_TARGET_FOES_AND_ALLY       0x20
-#define MOVE_TARGET_OPPONENTS_FIELD     0x40
-#define MOVE_TARGET_ALLY                0x80
-
 #define BATTLE_BUFFER_LINK_SIZE 0x1000
 
 struct ResourceFlags
@@ -68,11 +58,12 @@ struct ResourceFlags
     u32 flags[4];
 };
 
-#define RESOURCE_FLAG_FLASH_FIRE    0x1
-#define RESOURCE_FLAG_ROOST         0x2
-#define RESOURCE_FLAG_UNBURDEN      0x4
-#define RESOURCE_FLAG_INTIMIDATED   0x8
-#define RESOURCE_FLAG_TRACED        0x10
+#define RESOURCE_FLAG_FLASH_FIRE     0x1
+#define RESOURCE_FLAG_ROOST          0x2
+#define RESOURCE_FLAG_UNBURDEN       0x4
+#define RESOURCE_FLAG_INTIMIDATED    0x8
+#define RESOURCE_FLAG_TRACED         0x10
+#define RESOURCE_FLAG_EMERGENCY_EXIT 0x20
 
 struct DisableStruct
 {
@@ -148,8 +139,8 @@ struct ProtectStruct
     u32 usedGravityPreventedMove:1;
     u32 powderSelfDmg:1;
     u32 usedThroatChopPreventedMove:1;
-    u32 physicalDmg;
-    u32 specialDmg;
+    s32 physicalDmg;
+    s32 specialDmg;
     u8 physicalBattlerId;
     u8 specialBattlerId;
 };
@@ -238,7 +229,7 @@ struct WishFutureKnock
 struct AI_SavedBattleMon
 {
     u8 ability;
-    u16 moves[4];
+    u16 moves[MAX_MON_MOVES];
     u16 heldItem;
     u16 species;
 };
@@ -258,17 +249,15 @@ struct AI_ThinkingStruct
     bool8 switchMon; // Because all available moves have no/little effect.
 };
 
-struct UsedMoves
-{
-    u16 moves[MAX_MON_MOVES];
-    u16 unknown[MAX_MON_MOVES];
-};
+#define AI_MOVE_HISTORY_COUNT 3
 
 struct BattleHistory
 {
-    struct UsedMoves usedMoves[MAX_BATTLERS_COUNT];
     u8 abilities[MAX_BATTLERS_COUNT];
     u8 itemEffects[MAX_BATTLERS_COUNT];
+    u16 usedMoves[MAX_BATTLERS_COUNT][MAX_MON_MOVES];
+    u16 moveHistory[MAX_BATTLERS_COUNT][AI_MOVE_HISTORY_COUNT]; // 3 last used moves for each battler
+    u8 moveHistoryIndex[MAX_BATTLERS_COUNT];
     u16 trainerItems[MAX_BATTLERS_COUNT];
     u8 itemsNo;
 };
@@ -326,7 +315,7 @@ struct BattleResults
     u16 playerMon2Species;    // 0x26
     u16 caughtMonSpecies;     // 0x28
     u8 caughtMonNick[POKEMON_NAME_LENGTH + 1];     // 0x2A
-    u8 filler35[1];           // 0x35
+    u8 filler35;              // 0x35
     u8 catchAttempts[11];     // 0x36
 };
 
@@ -477,7 +466,7 @@ struct BattleStruct
     u8 stringMoveType;
     u8 expGetterBattlerId;
     u8 field_91; // related to gAbsentBattlerFlags, possibly absent flags turn ago?
-    u8 field_92; // battle palace related
+    u8 palaceFlags; // First 4 bits are "is < 50% HP and not asleep" for each battler, last 4 bits are selected moves to pass to AI
     u8 field_93; // related to choosing pokemon?
     u8 wallyBattleState;
     u8 wallyMovesState;
@@ -549,6 +538,7 @@ struct BattleStruct
     bool8 friskedAbility; // If identifies two mons, show the ability pop-up only once.
     u8 sameMoveTurns[MAX_BATTLERS_COUNT]; // For Metronome, number of times the same moves has been SUCCESFULLY used.
     u16 moveEffect2; // For Knock Off
+    u16 changedSpecies[PARTY_SIZE]; // For Zygarde or future forms when multiple mons can change into the same pokemon.
 };
 
 #define GET_MOVE_TYPE(move, typeArg)                        \
@@ -642,7 +632,9 @@ struct BattleAnimationInfo
     u8 field_5;
     u8 field_6;
     u8 field_7;
-    u8 ballThrowCaseId;
+    u8 ballThrowCaseId:6;
+    u8 isCriticalCapture:1;
+    u8 criticalCaptureSuccess:1;
     u8 field_9_x1:1;
     u8 field_9_x2:1;
     u8 field_9_x1C:3;

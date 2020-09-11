@@ -3,29 +3,29 @@ static const u8 sDummyDesc[] = _(
 
 // Pokeballs
 static const u8 sMasterBallDesc[] = _(
-    "The best Ball that\n"
-    "catches a Pokémon\n"
+    "The best BALL that\n"
+    "catches a POKéMON\n"
     "without fail.");
 
 static const u8 sUltraBallDesc[] = _(
-    "A better Ball with\n"
+    "A better BALL with\n"
     "a higher catch rate\n"
-    "than a Great Ball.");
+    "than a GREAT BALL.");
 
 static const u8 sGreatBallDesc[] = _(
-    "A good Ball with a\n"
+    "A good BALL with a\n"
     "higher catch rate\n"
-    "than a Poké Ball.");
+    "than a POKé BALL.");
 
 static const u8 sPokeBallDesc[] = _(
     "A tool used for\n"
     "catching wild\n"
-    "Pokémon.");
+    "POKéMON.");
 
 static const u8 sSafariBallDesc[] = _(
-    "A special Ball that\n"
+    "A special BALL that\n"
     "is used only in the\n"
-    "Safari Zone.");
+    "SAFARI ZONE.");
 
 static const u8 sNetBallDesc[] = _(
     "A BALL that works\n"
@@ -2757,32 +2757,32 @@ static const u8 sHoneyDesc[] = _(
 static const u8 sHealthWingDesc[] = _(
     "An item that raises\n"
     "the base HP of\n"
-    "a Pokémon.");
+    "a POKéMON.");
 
 static const u8 sMuscleWingDesc[] = _(
     "An item that raises\n"
     "the base ATTACK of\n"
-    "a Pokémon.");
+    "a POKéMON.");
 
 static const u8 sResistWingDesc[] = _(
     "An item that raises\n"
     "the base DEFENSE\n"
-    "of a Pokémon.");
+    "of a POKéMON.");
 
 static const u8 sGeniusWingDesc[] = _(
     "An item that raises\n"
     "the base SP. ATK.\n"
-    "of a Pokémon.");
+    "of a POKéMON.");
 
 static const u8 sCleverWingDesc[] = _(
     "An item that raises\n"
     "the base SP. DEF.\n"
-    "of a Pokémon.");
+    "of a POKéMON.");
 
 static const u8 sSwiftWingDesc[] = _(
     "An item that raises\n"
     "the base SPEED of\n"
-    "a Pokémon.");
+    "a POKéMON.");
 
 static const u8 sPrettyWingDesc[] = _(
     "A beautiful yet\n"

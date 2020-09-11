@@ -16,7 +16,6 @@ InsideOfTruck_OnResume: @ 823BF01
 InsideOfTruck_EventScript_SetIntroFlags:: @ 823BF04
 	lockall
 	setflag FLAG_HIDE_MAP_NAME_POPUP
-	setflag FLAG_SYS_B_DASH
 	checkplayergender
 	compare VAR_RESULT, MALE
 	goto_if_eq InsideOfTruck_EventScript_SetIntroFlagsMale
@@ -51,20 +50,11 @@ InsideOfTruck_EventScript_SetIntroFlagsFemale:: @ 823BF46
 	end
 
 InsideOfTruck_EventScript_MovingBox:: @ 823BF6C
-	msgbox InsideOfTruck_Text_BoxPrintedWithMonLogo, MSGBOX_DEFAULT
-	closemessage
-	end
-
-InsideOfTruck_EventScript_AzurillDelta::
-	msgbox InsideOfTruck_Text_ItsAnAzurillDoll, MSGBOX_DEFAULT
-	closemessage
+	msgbox InsideOfTruck_Text_BoxPrintedWithMonLogo, MSGBOX_SIGN
 	end
 
 InsideOfTruck_Text_BoxPrintedWithMonLogo: @ 823BF75
-	.string "The box is printed with a Pokémon logo.\p"
-	.string "It's a Pokémon brand moving and\n"
-	.string "delivery service!$"
+	.string "The box is printed with a POKéMON logo.\p"
+	.string "It's a POKéMON brand moving and\n"
+	.string "delivery service.$"
 
-InsideOfTruck_Text_ItsAnAzurillDoll: @ 823BF75
-	.string "It's an Azurill doll!\p"
-	.string "It has a familiar smell…$"
