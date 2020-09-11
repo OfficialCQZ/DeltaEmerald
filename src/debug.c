@@ -18,27 +18,37 @@
 void Debug_ShowMainMenu(void);
 static void Debug_DestroyMainMenu(u8);
 static void DebugAction_BGM_Soaring(u8);
+static void DebugAction_BGM_Title(u8);
+static void DebugAction_BGM_Stop(u8);
 static void DebugAction_Cancel(u8);
 static void DebugTask_HandleMainMenuInput(u8);
 
 enum {
     DEBUG_MENU_ITEM_BGMSOARING,
+    DEBUG_MENU_ITEM_BGMTITLE,
+    DEBUG_MENU_ITEM_STOPBGM,
     DEBUG_MENU_ITEM_CANCEL,
 };
 
 static const u8 gDebugText_Cancel[] = _("Cancel");
 
 static const u8 gDebugText_BGM_Soaring_Day[] = _("BGM SoarDay");
+static const u8 gDebugText_BGM_Title[] = _("BGM Title");
+static const u8 gDebugText_BGM_Stop[] = _("Stop BGM");
 
 static const struct ListMenuItem sDebugMenuItems[] =
 {
     [DEBUG_MENU_ITEM_BGMSOARING] = {gDebugText_BGM_Soaring_Day, DEBUG_MENU_ITEM_BGMSOARING},
+    [DEBUG_MENU_ITEM_BGMTITLE] = {gDebugText_BGM_Title, DEBUG_MENU_ITEM_BGMTITLE},
+    [DEBUG_MENU_ITEM_STOPBGM] = {gDebugText_BGM_Stop, DEBUG_MENU_ITEM_STOPBGM},
     [DEBUG_MENU_ITEM_CANCEL] = {gDebugText_Cancel, DEBUG_MENU_ITEM_CANCEL}
 };
 
 static void (*const sDebugMenuActions[])(u8) =
 {
     [DEBUG_MENU_ITEM_BGMSOARING] = DebugAction_BGM_Soaring,
+    [DEBUG_MENU_ITEM_BGMTITLE] = DebugAction_BGM_Title,
+    [DEBUG_MENU_ITEM_STOPBGM] = DebugAction_BGM_Stop,
     [DEBUG_MENU_ITEM_CANCEL] = DebugAction_Cancel,
 };
 
@@ -138,6 +148,16 @@ static void DebugTask_HandleMainMenuInput(u8 taskId)
 static void DebugAction_BGM_Soaring(u8 taskId)
 {
     m4aSongNumStart(DELTA_SEQ_SOARING_DAY);
+}
+
+static void DebugAction_BGM_Title(u8 taskId)
+{
+    m4aSongNumStart(MUS_TITLE3);
+}
+
+static void DebugAction_BGM_Stop(u8 taskId)
+{
+    m4aSongNumStart(MUS_DUMMY);
 }
 
 static void DebugAction_Cancel(u8 taskId)

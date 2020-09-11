@@ -159,11 +159,41 @@ LittlerootTown_ProfessorBirchsLab_EventScript_DeclineSeeingRival:: @ 81F9E48
 	end
 
 LittlerootTown_ProfessorBirchsLab_EventScript_GivePokedexEvent:: @ 81F9E67
+	special SpawnCameraObject
+	applymovement OBJ_EVENT_ID_CAMERA, LittlerootTown_ProfessorBirchsLab_Movement_OverHereCamera
+	waitmovement 0
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_OverHere, MSGBOX_DEFAULT
+	fadescreen FADE_TO_BLACK
+	applymovement OBJ_EVENT_ID_CAMERA, LittlerootTown_ProfessorBirchsLab_Movement_CameraBack
+	waitmovement 0
+	closemessage
+	special RemoveCameraObject
+	fadescreen FADE_FROM_BLACK
 	lockall
 	applymovement OBJ_EVENT_ID_PLAYER, LittlerootTown_ProfessorBirchsLab_Movement_PlayerEnterLabForPokedex
 	waitmovement 0
 	goto LittlerootTown_ProfessorBirchsLab_EventScript_GivePokedex
 	end
+
+LittlerootTown_ProfessorBirchsLab_Movement_OverHereCamera: @ 81F9E78
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	step_end
+
+LittlerootTown_ProfessorBirchsLab_Movement_CameraBack: @ 81F9E78
+	walk_fastest_down
+	walk_fastest_down
+	walk_fastest_down
+	walk_fastest_down
+	walk_fastest_down
+	walk_fastest_down
+	walk_fastest_down
+	step_end
 
 LittlerootTown_ProfessorBirchsLab_Movement_PlayerEnterLabForPokedex: @ 81F9E78
 	walk_up
@@ -1050,3 +1080,6 @@ LittlerootTown_ProfessorBirchsLab_Text_ScottAboardSSTidalCall: @ 81FBD1A
 	.string "we meet. I'll be waiting!\p"
 	.string "… … … … … …\n"
 	.string "… … … … … Click!$"
+
+LittlerootTown_ProfessorBirchsLab_Text_OverHere: @ 81FBC2D
+	.string "{PLAYER}! Over here!$"
