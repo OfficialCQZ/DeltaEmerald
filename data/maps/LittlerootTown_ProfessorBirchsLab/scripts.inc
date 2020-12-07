@@ -168,10 +168,10 @@ LittlerootTown_ProfessorBirchsLab_EventScript_GivePokedexEvent:: @ 81F9E67
 	waitmovement 0
 	closemessage
 	special RemoveCameraObject
-	fadescreen FADE_FROM_BLACK
-	lockall
 	applymovement OBJ_EVENT_ID_PLAYER, LittlerootTown_ProfessorBirchsLab_Movement_PlayerEnterLabForPokedex
+	fadescreen FADE_FROM_BLACK
 	waitmovement 0
+	lockall
 	goto LittlerootTown_ProfessorBirchsLab_EventScript_GivePokedex
 	end
 
