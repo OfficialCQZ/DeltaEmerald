@@ -176,19 +176,19 @@
             "encounter_rate": 4,
             "mons": [
               {
+                "min_level": 15,
+                "max_level": 15,
+                "species": "SPECIES_MARILL"
+              },
+              {
                 "min_level": 20,
-                "max_level": 30,
-                "species": "SPECIES_MARILL"
+                "max_level": 25,
+                "species": "SPECIES_AZUMARILL"
               },
               {
-                "min_level": 10,
+                "min_level": 20,
                 "max_level": 20,
-                "species": "SPECIES_MARILL"
-              },
-              {
-                "min_level": 30,
-                "max_level": 35,
-                "species": "SPECIES_MARILL"
+                "species": "SPECIES_SURSKIT"
               },
               {
                 "min_level": 5,
@@ -196,9 +196,9 @@
                 "species": "SPECIES_MARILL"
               },
               {
-                "min_level": 20,
-                "max_level": 30,
-                "species": "SPECIES_GOLDEEN"
+                "min_level": 25,
+                "max_level": 25,
+                "species": "SPECIES_MASQUERAIN"
               }
             ]
           },
