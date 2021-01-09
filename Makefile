@@ -254,6 +254,11 @@ override ASFLAGS += --defsym DEBUG=1
 override CPPFLAGS += -D DEBUG=1
 endif
 
+ifeq ($(DDEBUGMGBA),1)
+override ASFLAGS += --defsym MGBA=1
+override CPPFLAGS += -D MGBA=1
+endif
+
 $(C_BUILDDIR)/%.o : $(C_SUBDIR)/%.c $$(c_dep)
 	@$(CPP) $(CPPFLAGS) $< -o $(C_BUILDDIR)/$*.i
 	@$(PREPROC) $(C_BUILDDIR)/$*.i charmap.txt | $(CC1) $(CFLAGS) -o $(C_BUILDDIR)/$*.s
@@ -341,5 +346,7 @@ libagbsyscall:
 	@$(MAKE) -C libagbsyscall TOOLCHAIN=$(TOOLCHAIN)
 
 debug: ; @$(MAKE) DDEBUG=1 DINFO=1
+
+debugmgba: ; @$(MAKE) DDEBUGMGBA=1 DDEBUG=1 DINFO=1
 
 modern_debug: ; @$(MAKE) MODERN=1 DDEBUG=1 DINFO=1
