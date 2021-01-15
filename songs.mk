@@ -39,11 +39,11 @@ $(MID_SUBDIR)/mus_b_tower.s: %.s: %.mid
 $(MID_SUBDIR)/mus_b_tube.s: %.s: %.mid
 	$(MID) $< $@ -E -R$(STD_REVERB) -G112 -V092
 
-$(MID_SUBDIR)/mus_battle20.s: %.s: %.mid
+$(MID_SUBDIR)/mus_vs_trainer.s: %.s: %.mid
 	$(MID) $< $@ -E -R$(STD_REVERB) -G119 -V080 -P1
 
-$(MID_SUBDIR)/mus_battle27.s: %.s: %.mid
-	$(MID) $< $@ -E -R$(STD_REVERB) -G117 -V080 -P1
+$(MID_SUBDIR)/mus_vs_wild.s: %.s: %.mid
+	$(MID) $< $@ -E -R$(STD_REVERB) -G256 -V080 -P1
 
 $(MID_SUBDIR)/mus_battle30.s: %.s: %.mid
 	$(MID) $< $@ -E -R$(STD_REVERB) -G126 -V080 -P1

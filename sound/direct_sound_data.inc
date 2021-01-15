@@ -4261,3 +4261,25 @@ Delta_SE_SelectMenuItem::
 	.align 2
 Delta_SE_Complete::
 	.incbin "sound/delta_se/se_complete.bin"
+
+@ Delta - B2W2 Instruments
+
+	.align 2
+DeltaMus_bw2_kick::
+	.incbin "sound/delta_se/bw2_kick.bin"
+
+	.align 2
+DeltaMus_bw2_snare::
+	.incbin "sound/delta_se/bw2_snare.bin"
+
+	.align 2
+DeltaMus_bw2_cymbal_crash::
+	.incbin "sound/delta_se/bw2_cymbal_crash.bin"
+
+	.align 2
+DeltaMus_bw2_close_hihat::
+	.incbin "sound/delta_se/bw2_close_hihat.bin"
+
+	.align 2
+DeltaMus_bw2_open_hihat::
+	.incbin "sound/delta_se/bw2_open_hihat.bin"
