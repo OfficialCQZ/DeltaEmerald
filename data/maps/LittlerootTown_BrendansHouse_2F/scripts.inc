@@ -279,6 +279,7 @@ LittlerootTown_BrendansHouse_2F_EventScript_CheckRivalsPC:: @ 81F864C
 	end
 
 PlayersHouse_2F_EventScript_Notebook:: @ 81F8656
+	special PlayerSubjectStringVar2
 	msgbox PlayersHouse_2F_Text_Notebook, MSGBOX_SIGN
 	end
 
@@ -287,30 +288,31 @@ PlayersHouse_2F_EventScript_GameCube:: @ 81F865F
 	end
 
 PlayersHouse_2F_Text_ClockIsStopped: @ 81F8668
-	.string "The clock is stopped…\p"
-	.string "Better set it and start it!$"
+	.string "The clock on the wall isn't moving…\p"
+	.string "You've got to set the time!$"
 
 PlayersHouse_2F_Text_HowDoYouLikeYourRoom: @ 81F869A
-	.string "MOM: {PLAYER}, how do you like your\n"
-	.string "new room?\p"
+	.string "How do you like your new room,\n"
+	.string "{PLAYER}?\p"
 	.string "Good! Everything's put away neatly!\p"
 	.string "They finished moving everything in\n"
 	.string "downstairs, too.\p"
-	.string "POKéMON movers are so convenient!\p"
-	.string "Oh, you should make sure that\n"
+	.string "It really is so nice having Pokémon\n"
+	.string "around to help us!\p"
+	.string "Oh, but you should make sure that\n"
 	.string "everything's all there on your desk.$"
 
 PlayersHouse_2F_Text_Notebook: @ 81F877F
-	.string "{PLAYER} flipped open the notebook.\p"
+	.string "{PLAYER}'s notebook is full of\n"
+	.string "adventure rules {STR_VAR_2} jotted down!\p"
 	.string "ADVENTURE RULE NO. 1\n"
-	.string "Open the MENU with START.\p"
+	.string "Open the menu with the START button.\p"
 	.string "ADVENTURE RULE NO. 2\n"
-	.string "Record your progress with SAVE.\p"
-	.string "The remaining pages are blank…$"
+	.string "Record your progress with Save.$"
 
 Common_Text_LookCloserAtMap: @ 81F8820
-	.string "{PLAYER} took a closer look at the\n"
-	.string "HOENN region map.$"
+	.string "{PLAYER} peered closely at the Hoenn\n"
+	.string "region's Town Map!$"
 
 PlayersHouse_2F_Text_ItsAGameCube: @ 81F884F
 	.string "It's a Nintendo GameCube.\p"

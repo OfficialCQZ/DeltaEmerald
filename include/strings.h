@@ -2983,4 +2983,17 @@ extern const u8 gText_Smartness[];
 extern const u8 gText_Cuteness[];
 extern const u8 gText_Beauty3[];
 
+// Delta pronouns
+extern const u8 gText_Delta_HeCaps[];
+extern const u8 gText_Delta_SheCaps[];
+extern const u8 gText_Delta_He[];
+extern const u8 gText_Delta_She[];
+
+extern const u8 gText_Delta_HisCaps[];
+extern const u8 gText_Delta_HerCaps[];
+extern const u8 gText_Delta_His[];
+extern const u8 gText_Delta_Her[];
+
+extern const u8 gText_Delta_Him[];
+
 #endif // GUARD_STRINGS_H

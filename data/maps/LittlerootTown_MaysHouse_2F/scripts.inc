@@ -7,6 +7,7 @@ LittlerootTown_MaysHouse_2F_MapScripts:: @ 81F9296
 	.byte 0
 
 LittlerootTown_MaysHouse_2F_OnTransition: @ 81F92A1
+	setvar VAR_LITTLEROOT_HOUSES_STATE_BRENDAN, 2
 	compare VAR_LITTLEROOT_RIVAL_STATE, 2
 	call_if_lt LittlerootTown_MaysHouse_2F_EventScript_CheckSetReadyToMeetMay
 	compare VAR_LITTLEROOT_RIVAL_STATE, 3
