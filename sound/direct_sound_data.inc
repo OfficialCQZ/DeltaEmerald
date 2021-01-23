@@ -4262,6 +4262,18 @@ Delta_SE_SelectMenuItem::
 Delta_SE_Complete::
 	.incbin "sound/delta_se/se_complete.bin"
 
+	.align 2
+Delta_SE_XY_CANCEL1::
+	.incbin "sound/delta_se/se_xy_cancel1.bin"
+
+	.align 2
+Delta_SE_XY_DECIDE1::
+	.incbin "sound/delta_se/se_xy_decide1.bin"
+
+	.align 2
+Delta_SE_XY_PAGE3::
+	.incbin "sound/delta_se/se_xy_page3.bin"
+
 @ Delta - B2W2 Instruments
 
 	.align 2

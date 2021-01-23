@@ -97,7 +97,7 @@ Route103_EventScript_AfterMayBattle:: @ 81EC4EE
 	closemessage
 	fadescreen FADE_TO_BLACK
 	special HealPlayerParty
-	playse SE_KAIFUKU
+	playse SE_USE_ITEM
 	delay 64
 	fadescreen FADE_FROM_BLACK
 	message Delta_TeamsHealthRestored
@@ -112,7 +112,7 @@ Route103_EventScript_AfterBrendanBattle:: @ 81EC4FC
 	closemessage
 	fadescreen FADE_TO_BLACK
 	special HealPlayerParty
-	playse SE_KAIFUKU
+	playse SE_USE_ITEM
 	delay 64
 	fadescreen FADE_FROM_BLACK
 	message Delta_TeamsHealthRestored

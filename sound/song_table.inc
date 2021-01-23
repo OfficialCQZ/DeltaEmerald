@@ -644,6 +644,9 @@ gSongTable:: @ 86B49F0
 	song deltase_select, 2, 2            @ Delta Hack! Choose
 	song deltase_selected, 2, 2            @ Delta Hack! Selection
 	song deltase_complete, 2, 2            @ Delta Hack! Complete
+	song deltase_xy_cancel1, 2, 2          @ Delta Hack! XY Cancel 1
+	song deltase_xy_decide1, 2, 2          @ Delta Hack! XY Decide 1
+	song deltase_xy_page3, 2, 2            @ Delta Hack! XY Page 3
 
 	.align 2
 dummy_song_header: @ 86B5D00

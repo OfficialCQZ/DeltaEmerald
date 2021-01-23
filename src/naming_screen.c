@@ -752,7 +752,7 @@ static bool8 MainState_StartPageSwap(void)
     StartPageSwapAnim();
     SetCursorInvisibility(TRUE);
     TryStartButtonFlash(BUTTON_PAGE, FALSE, TRUE);
-    PlaySE(SE_WIN_OPEN);
+    PlaySE(DELTA_SE_XY_PAGE3);
     sNamingScreen->state = STATE_WAIT_PAGE_SWAP;
     return FALSE;
 }
@@ -1828,7 +1828,7 @@ static void DeleteTextCharacter(void)
     // It incorrectly leaves the Back key 1 shade lighter than its default
     if (keyRole == KEY_ROLE_CHAR || keyRole == KEY_ROLE_BACKSPACE)
         TryStartButtonFlash(BUTTON_BACK, FALSE, TRUE);
-    PlaySE(DELTA_SE_SELECT);
+    PlaySE(DELTA_SE_XY_CANCEL1);
 }
 
 // Returns TRUE if the text entry is now full
@@ -1841,7 +1841,7 @@ static bool8 AddTextCharacter(void)
     BufferCharacter(GetCharAtKeyboardPos(x, y));
     DrawTextEntry();
     CopyBgTilemapBufferToVram(3);
-    PlaySE(DELTA_SE_SELECT);
+    PlaySE(DELTA_SE_XY_DECIDE1);
 
     if (GetPreviousTextCaretPosition() != sNamingScreen->template->maxChars - 1)
         return FALSE;

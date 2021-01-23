@@ -4355,7 +4355,7 @@ void ItemUseCB_Medicine(u8 taskId, TaskFunc task)
     gPartyMenuUseExitCallback = TRUE;
     if (!IsItemFlute(item))
     {
-        PlaySE(SE_KAIFUKU);
+        PlaySE(SE_USE_ITEM);
         if (gPartyMenu.action != PARTY_ACTION_REUSABLE_ITEM)
             RemoveBagItem(item, 1);
     }
@@ -4448,7 +4448,7 @@ void Task_AbilityCapsule(u8 taskId)
         }
         break;
     case 3:
-        PlaySE(SE_KAIFUKU);
+        PlaySE(SE_USE_ITEM);
         StringExpandPlaceholders(gStringVar4, doneText);
         DisplayPartyMenuMessage(gStringVar4, 1);
         ScheduleBgCopyTilemapToVram(2);
@@ -4526,7 +4526,7 @@ void ItemUseCB_ReduceEV(u8 taskId, TaskFunc task)
     else
     {
         gPartyMenuUseExitCallback = TRUE;
-        PlaySE(SE_KAIFUKU);
+        PlaySE(SE_USE_ITEM);
         RemoveBagItem(item, 1);
         GetMonNickname(mon, gStringVar1);
         ItemEffectToStatString(effectType, gStringVar2);
@@ -4691,7 +4691,7 @@ static void TryUsePPItem(u8 taskId)
     {
         gPartyMenuUseExitCallback = TRUE;
         mon = &gPlayerParty[ptr->slotId];
-        PlaySE(SE_KAIFUKU);
+        PlaySE(SE_USE_ITEM);
         RemoveBagItem(item, 1);
         move = GetMonData(mon, MON_DATA_MOVE1 + *moveSlot);
         StringCopy(gStringVar1, gMoveNames[move]);
@@ -5195,7 +5195,7 @@ static void UseSacredAsh(u8 taskId)
         return;
     }
 
-    PlaySE(SE_KAIFUKU);
+    PlaySE(SE_USE_ITEM);
     SetPartyMonAilmentGfx(mon, &sPartyMenuBoxes[gPartyMenu.slotId]);
     if (gSprites[sPartyMenuBoxes[gPartyMenu.slotId].statusSpriteId].invisible)
         DisplayPartyPokemonLevelCheck(mon, &sPartyMenuBoxes[gPartyMenu.slotId], 1);
