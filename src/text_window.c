@@ -53,6 +53,8 @@ static const u16 sDelta1_Pal[] = INCBIN_U16("graphics/text_window/delta1.gbapal"
 
 static const u8 sDelta_GenVI_Menu1_Gfx[] = INCBIN_U8("graphics/text_window/gen6_choicemenu.4bpp");
 static const u16 sDelta_GenVI_Menu1_Pal[] = INCBIN_U16("graphics/text_window/gen6_choicemenu.gbapal");
+static const u8 sDelta_Battle_Menu1_Gfx[] = INCBIN_U8("graphics/text_window/delta_battle1.4bpp");
+static const u16 sDelta_Battle_Menu1_Pal[] = INCBIN_U16("graphics/text_window/delta_battle1.gbapal");
 
 static const u16 sTextWindowPalettes[][16] =
 {
@@ -90,7 +92,8 @@ static const struct TilesPal sWindowFrames[WINDOW_FRAMES_COUNT] =
 
 static const struct TilesPalDelta deltaWindowFrames[] =
 {
-    {sDelta_GenVI_Menu1_Gfx, sDelta_GenVI_Menu1_Pal}          // 31 (GEN6 Styled Yes/No Menu - OR/AS)
+    {sDelta_GenVI_Menu1_Gfx, sDelta_GenVI_Menu1_Pal},          // 31 (GEN6 Styled Yes/No Menu - OR/AS)
+    {sDelta_Battle_Menu1_Gfx, sDelta_Battle_Menu1_Pal}          // 31 (GEN6 Styled Yes/No Menu - OR/AS)
 };
 
 // code
@@ -126,6 +129,11 @@ void LoadWindowGfx(u8 windowId, u8 frameId, u16 destOffset, u8 palOffset)
 void LoadUserWindowBorderGfx(u8 windowId, u16 destOffset, u8 palOffset)
 {
     LoadWindowGfx(windowId, gSaveBlock2Ptr->optionsWindowFrameType, destOffset, palOffset);
+}
+
+void LoadBattleMenuWindowBorderGfx(u8 windowId, u16 destOffset, u8 palOffset)
+{
+    LoadCustomWindowGfx(windowId, 1, destOffset, palOffset);
 }
 
 void LoadORASChoiceWindowBorderGfx(u8 windowId, u16 destOffset, u8 palOffset)

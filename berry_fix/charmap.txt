@@ -986,7 +986,7 @@ PH_NURSE_SOLO = 61 02
 
 @ music name change
 
-SE_USE_ITEM: 01 00
+SE_USE_ITEM = 01 00
 
 A_BUTTON = F8 00
 B_BUTTON = F8 01

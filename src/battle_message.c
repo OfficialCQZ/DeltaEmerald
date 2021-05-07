@@ -3578,10 +3578,11 @@ void BattlePutTextOnWindow(const u8 *text, u8 windowId)
 
         gTextFlags.canABSpeedUpPrint = 1;
     }
-    else
+
+    if (windowId == 2)
     {
-        speed = textInfo[windowId].speed;
-        gTextFlags.canABSpeedUpPrint = 0;
+        printerTemplate.bgColor = 0;
+        printerTemplate.lineSpacing = textInfo[windowId].lineSpacing + 2;
     }
 
     AddTextPrinter(&printerTemplate, speed, NULL);
