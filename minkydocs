@@ -1,0 +1,6 @@
+minkydocs
+
+BattleWindowText
+
+	fillValue = background
+	bgColor = highlight
