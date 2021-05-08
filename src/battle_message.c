@@ -1792,7 +1792,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
         .shadowColor = 6,
     },
     { // 2 "Fight/Pokemon/Bag/Run"
-        .fillValue = PIXEL_FILL(0xE),
+        .fillValue = PIXEL_FILL(0xF),
         .fontId = 1,
         .x = 0,
         .y = 1,
@@ -1800,7 +1800,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
         .lineSpacing = 0,
         .speed = 0,
         .fgColor = 13,
-        .bgColor = 14,
+        .bgColor = 14, //14
         .shadowColor = 15,
     },
     { // 3 Top left move
@@ -3577,12 +3577,6 @@ void BattlePutTextOnWindow(const u8 *text, u8 windowId)
             speed = GetPlayerTextSpeedDelay();
 
         gTextFlags.canABSpeedUpPrint = 1;
-    }
-
-    if (windowId == 2)
-    {
-        printerTemplate.bgColor = 0;
-        printerTemplate.lineSpacing = textInfo[windowId].lineSpacing + 2;
     }
 
     AddTextPrinter(&printerTemplate, speed, NULL);

@@ -38,15 +38,15 @@ voicegroup257:: @ 8676658
 	voice_directsound 64, 84, DirectSoundWaveData_unknown_tsuzumi, 255, 0, 255, 0  @ 86767FC
 	voice_directsound 64, 64, DeltaMus_stylusrmx_kick, 255, 0, 255, 0  @ 8676808
 	voice_directsound_no_resample 64, 64, DirectSoundWaveData_sd90_solo_snare, 255, 180, 175, 228  @ 8676814
-	voice_directsound_no_resample 64, 64, DeltaMus_bw2_snare, 255, 0, 255, 242  @ 8676820
+	voice_directsound_no_resample 64, 64, DeltaMus_stylusrmx_snare, 255, 0, 255, 255  @ 8676820
 	voice_directsound_no_resample 64, 54, DirectSoundWaveData_sc88_standard_hand_clap, 255, 255, 255, 127  @ 867682C
 	voice_directsound 65, 64, DirectSoundWaveData_sc88_orchestra_snare, 255, 0, 255, 242  @ 8676838
 	voice_directsound 64, 24, DirectSoundWaveData_sd90_ambient_tom, 255, 0, 255, 226  @ 8676844
-	voice_directsound_no_resample 64, 80, DeltaMus_bw2_close_hihat, 255, 0, 255, 242  @ 8676850
+	voice_directsound_no_resample 64, 80, DeltaMus_ad2_close_hihat, 255, 0, 255, 242  @ 8676850
 	voice_directsound 68, 34, DirectSoundWaveData_sd90_ambient_tom, 255, 0, 255, 226  @ 867685C
 	voice_directsound_no_resample 60, 64, DirectSoundWaveData_sc88_standard3_snare, 255, 0, 255, 242  @ 8676868
 	voice_directsound 72, 44, DirectSoundWaveData_sd90_ambient_tom, 255, 0, 255, 226  @ 8676874
-	voice_directsound_no_resample 64, 80, DeltaMus_bw2_open_hihat, 255, 230, 0, 0  @ 8676850
+	voice_directsound_no_resample 64, 80, DeltaMus_ad2_open_hihat, 255, 230, 0, 0  @ 8676850
 	voice_directsound 76, 84, DirectSoundWaveData_sd90_ambient_tom, 255, 0, 255, 226  @ 867688C
 	voice_directsound 80, 94, DirectSoundWaveData_sd90_ambient_tom, 255, 0, 255, 226  @ 8676898
 	voice_directsound_no_resample 64, 80, DeltaMus_stylusrmx_crash_cymbal, 255, 250, 0, 127  @ 8676850

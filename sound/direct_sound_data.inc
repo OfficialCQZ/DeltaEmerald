@@ -4252,48 +4252,54 @@ DirectSoundWaveData_sd90_enhanced_delay_shaku::
 
 	.align 2
 Delta_SE_ChooseMenuItem::
-	.incbin "sound/delta_se/sg_se_select.bin"
+	.incbin "sound/delta_samples/sg_se_select.bin"
 
 	.align 2
 Delta_SE_SelectMenuItem::
-	.incbin "sound/delta_se/se_choose.bin"
+	.incbin "sound/delta_samples/se_choose.bin"
 
 	.align 2
 Delta_SE_Complete::
-	.incbin "sound/delta_se/se_complete.bin"
+	.incbin "sound/delta_samples/se_complete.bin"
 
 	.align 2
 Delta_SE_XY_CANCEL1::
-	.incbin "sound/delta_se/se_xy_cancel1.bin"
+	.incbin "sound/delta_samples/se_xy_cancel1.bin"
 
 	.align 2
 Delta_SE_XY_DECIDE1::
-	.incbin "sound/delta_se/se_xy_decide1.bin"
+	.incbin "sound/delta_samples/se_xy_decide1.bin"
 
 	.align 2
 Delta_SE_XY_PAGE3::
-	.incbin "sound/delta_se/se_xy_page3.bin"
-
-@ Delta - B2W2 Instruments
-
-	.align 2
-DeltaMus_bw2_snare::
-	.incbin "sound/delta_se/bw2_snare.bin"
-
-	.align 2
-DeltaMus_bw2_close_hihat::
-	.incbin "sound/delta_se/bw2_close_hihat.bin"
-
-	.align 2
-DeltaMus_bw2_open_hihat::
-	.incbin "sound/delta_se/bw2_open_hihat.bin"
+	.incbin "sound/delta_samples/se_xy_page3.bin"
 
 @ Delta - ORAS Instruments
 
 	.align 2
 DeltaMus_stylusrmx_crash_cymbal::
-	.incbin "sound/delta_se/stylusrmx_crash_cymbal.bin"
+	.incbin "sound/delta_samples/stylusrmx_crash_cymbal.bin"
 
 	.align 2
 DeltaMus_stylusrmx_kick::
-	.incbin "sound/delta_se/stylusrmx_kick.bin"
+	.incbin "sound/delta_samples/stylusrmx_kick.bin"
+
+	.align 2
+DeltaMus_stylusrmx_snare::
+	.incbin "sound/delta_samples/stylusrmx_snare.bin"
+
+	.align 2
+DeltaMus_ad2_close_hihat::
+	.incbin "sound/delta_samples/ad2_close_hihat.bin"
+
+	.align 2
+DeltaMus_ad2_open_hihat::
+	.incbin "sound/delta_samples/ad2_open_hihat.bin"
+
+	.align 2
+DeltaMus_omnisphere_gaga_saw::
+	.incbin "sound/delta_samples/omnisphere_gaga_saw.bin"
+
+	.align 2
+DeltaMus_omnisphere_3_osc_fooling::
+	.incbin "sound/delta_samples/omnisphere_3_osc_fooling.bin"

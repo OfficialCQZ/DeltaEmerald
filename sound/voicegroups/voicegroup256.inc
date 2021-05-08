@@ -1,8 +1,8 @@
 	.align 2
 voicegroup256:: @ 869A454
 	voice_keysplit_all voicegroup257  @ 869A454
-	voice_square_1 0, 2, 0, 0, 15, 0  @ 869A460
-	voice_square_1 0, 2, 0, 0, 15, 0  @ 869A46C
+	voice_directsound 60, 0, DeltaMus_omnisphere_gaga_saw, 255, 253, 127, 40  @ Omnisphere Gaga Saw - 2 (1)
+	voice_directsound 60, 0, DeltaMus_omnisphere_3_osc_fooling, 255, 253, 127, 40  @ Omnisphere Gaga Saw - 2 (1)
 	voice_square_1 0, 2, 0, 0, 15, 0  @ 869A478
 	voice_square_2 2, 0, 1, 1, 1  @ 869A484
 	voice_square_1 0, 2, 0, 1, 1, 1  @ 869A490
@@ -47,7 +47,7 @@ voicegroup256:: @ 869A454
 	voice_square_1 0, 2, 0, 0, 15, 0  @ 869A664
 	voice_square_1 0, 2, 0, 0, 15, 0  @ 869A670
 	voice_directsound 60, 0, DirectSoundWaveData_sc88_harp, 255, 246, 0, 235  @ 869A67C
-	voice_directsound 60, 0, DirectSoundWaveData_sc88_timpani, 255, 246, 0, 226  @ 869A688
+	voice_directsound 60, 0, DirectSoundWaveData_sc88_timpani, 255, 246, 0, 226  @ 869A688 Timpani 48 (47)
 	voice_keysplit voicegroup006, KeySplitTable2  @ 869A694
 	voice_square_1 0, 2, 0, 0, 15, 0  @ 869A6A0
 	voice_square_1 0, 2, 0, 0, 15, 0  @ 869A6AC
