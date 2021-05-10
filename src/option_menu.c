@@ -76,10 +76,13 @@ static void FrameType_DrawChoices(u8 selection);
 static u8   ButtonMode_ProcessInput(u8 selection);
 static void ButtonMode_DrawChoices(u8 selection);
 static void DrawTextOption(void);
+static void DrawTextSpeedPreview(const u8 *text, u8 speed);
 static void DrawOptionMenuTexts(void);
 static void sub_80BB154(void);
 
 EWRAM_DATA static bool8 sArrowPressed = FALSE;
+
+static const u8 deltaText_SpeedPreview[] = _("Choose from three speeds!");
 
 static const u16 sOptionMenuText_Pal[] = INCBIN_U16("graphics/misc/option_menu_text.gbapal");
 // note: this is only used in the Japanese release
@@ -426,6 +429,7 @@ static u8 TextSpeed_ProcessInput(u8 selection)
 
         sArrowPressed = TRUE;
     }
+    //DrawTextSpeedPreview(deltaText_SpeedPreview, selection);
     return selection;
 }
 
@@ -630,6 +634,13 @@ static void DrawTextOption(void)
 {
     FillWindowPixelBuffer(WIN_TEXT_OPTION, PIXEL_FILL(1));
     AddTextPrinterParameterized(WIN_TEXT_OPTION, 1, gText_Option, 8, 1, TEXT_SPEED_FF, NULL);
+    CopyWindowToVram(WIN_TEXT_OPTION, 3);
+}
+
+static void DrawTextSpeedPreview(const u8 *text, u8 speed)
+{
+    FillWindowPixelBuffer(WIN_TEXT_OPTION, PIXEL_FILL(1));
+    AddTextPrinterParameterized(WIN_TEXT_OPTION, 1, deltaText_SpeedPreview, 8, 1, speed, NULL);
     CopyWindowToVram(WIN_TEXT_OPTION, 3);
 }
 

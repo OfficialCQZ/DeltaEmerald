@@ -1,6 +1,11 @@
 minkydocs
 
 BattleWindowText
+sTextOnWindowsInfo_Normal[]
 
 	fillValue = background
 	bgColor = highlight
+
+gText_BattleMenu
+
+PlayerHandleChooseAction
