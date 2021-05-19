@@ -2,7 +2,7 @@
 voicegroup256:: @ 869A454
 	voice_keysplit_all voicegroup257  @ 869A454
 	voice_directsound 60, 0, DeltaMus_omnisphere_gaga_saw, 255, 253, 127, 40  @ Omnisphere Gaga Saw - 2 (1)
-	voice_directsound 60, 0, DeltaMus_omnisphere_3_osc_fooling, 255, 253, 127, 40  @ Omnisphere Gaga Saw - 2 (1)
+	voice_directsound 60, 0, DeltaMus_omnisphere_3_osc_fooling, 255, 253, 127, 40  @ Omnisphere Gaga Saw - 3 (2)
 	voice_square_1 0, 2, 0, 0, 15, 0  @ 869A478
 	voice_square_2 2, 0, 1, 1, 1  @ 869A484
 	voice_square_1 0, 2, 0, 1, 1, 1  @ 869A490

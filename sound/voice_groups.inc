@@ -194,3 +194,4 @@
 
 .include "sound/voicegroups/voicegroup256.inc"
 .include "sound/voicegroups/voicegroup257.inc"
+.include "sound/voicegroups/voicegroup258.inc"

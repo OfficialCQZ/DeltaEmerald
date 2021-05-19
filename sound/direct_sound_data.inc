@@ -4297,6 +4297,22 @@ DeltaMus_ad2_open_hihat::
 	.incbin "sound/delta_samples/ad2_open_hihat.bin"
 
 	.align 2
+DeltaMus_ad2_crash_sabian_aax::
+	.incbin "sound/delta_samples/ad2_crash_sabian_aax.bin"
+
+	.align 2
+DeltaMus_ad2_crash_sabian_vault::
+	.incbin "sound/delta_samples/ad2_crash_sabian_vault.bin"
+
+	.align 2
+DeltaMus_ad2_pearl_snare::
+	.incbin "sound/delta_samples/ad2_pearl_snare.bin"
+
+	.align 2
+DeltaMus_ad2_ride_sabian_hhx::
+	.incbin "sound/delta_samples/ad2_ride_sabian_hhx.bin"
+
+	.align 2
 DeltaMus_omnisphere_gaga_saw::
 	.incbin "sound/delta_samples/omnisphere_gaga_saw.bin"
 
