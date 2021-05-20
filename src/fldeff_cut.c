@@ -62,7 +62,6 @@ static void HandleLongGrassOnHyper(u8, s16, s16);
 static u8 sCutSquareSide;
 static u8 sTileCountFromPlayer_X;
 static u8 sTileCountFromPlayer_Y;
-static u32 sUnused;
 static bool8 sHyperCutTiles[CUT_HYPER_AREA];
 
 // EWRAM variables
@@ -141,7 +140,7 @@ bool8 SetUpFieldMove_Cut(void)
     s16 x, y;
     u8 i, j;
     u8 tileBehavior;
-    u8 userAbility;
+    u16 userAbility;
     bool8 cutTiles[CUT_NORMAL_AREA];
     bool8 ret;
 
@@ -227,9 +226,9 @@ bool8 SetUpFieldMove_Cut(void)
                 y = gPlayerFacingPosition.y + sHyperCutStruct[i].y;
                 tileCuttable = TRUE;
 
-                for (j = 0; j < 2; ++j) {
-                    if (sHyperCutStruct[i].unk2[j] == 0)
-                        break;
+                for (j = 0; j < 2; ++j)
+                {
+                    if (sHyperCutStruct[i].unk2[j] == 0) break; // one line required to match -g
                     if (cutTiles[(u8)(sHyperCutStruct[i].unk2[j] - 1)] == FALSE)
                     {
                         tileCuttable = FALSE;
@@ -311,7 +310,7 @@ bool8 FldEff_CutGrass(void)
     s16 x, y;
     u8 i = 0;
 
-    PlaySE(SE_W015);
+    PlaySE(SE_M_CUT);
     PlayerGetDestCoords(&gPlayerFacingPosition.x, &gPlayerFacingPosition.y);
     for (i = 0; i < CUT_HYPER_AREA; i++)
     {
@@ -324,7 +323,7 @@ bool8 FldEff_CutGrass(void)
             y = yAdd + gPlayerFacingPosition.y;
 
             SetCutGrassMetatile(x, y);
-            sub_808E75C(x, y);
+            AllowObjectAtPosTriggerGroundEffects(x, y);
         }
     }
 
@@ -634,7 +633,7 @@ void FixLongGrassMetatilesWindowBottom(s16 x, s16 y)
 
 static void StartCutTreeFieldEffect(void)
 {
-    PlaySE(SE_W015);
+    PlaySE(SE_M_CUT);
     FieldEffectActiveListRemove(FLDEFF_USE_CUT_ON_TREE);
     EnableBothScriptContexts();
 }

@@ -88,7 +88,7 @@ OldaleTown_EventScript_MartEmployee::
 	waitmovement 0
 
 @ ----------- Music, plys the [!] sound effect.
-	playbgm MUS_TSURETEK, 0
+	playbgm MUS_FOLLOW_ME, 0
 	playse SE_PIN
 	applymovement LOCALID_MART_EMPLOYEE, Common_Movement_ExclamationMark
 	waitmovement 0

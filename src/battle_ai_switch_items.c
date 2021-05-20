@@ -11,7 +11,6 @@
 #include "constants/item_effects.h"
 #include "constants/items.h"
 #include "constants/moves.h"
-#include "constants/species.h"
 
 // this file's functions
 static bool8 HasSuperEffectiveMoveAgainstOpponents(bool8 noRng);
@@ -24,7 +23,7 @@ void GetAIPartyIndexes(u32 battlerId, s32 *firstId, s32 *lastId)
     {
         *firstId = 0, *lastId = 6;
     }
-    else if (gBattleTypeFlags & (BATTLE_TYPE_TWO_OPPONENTS | BATTLE_TYPE_INGAME_PARTNER | BATTLE_TYPE_x800000))
+    else if (gBattleTypeFlags & (BATTLE_TYPE_TWO_OPPONENTS | BATTLE_TYPE_INGAME_PARTNER | BATTLE_TYPE_TOWER_LINK_MULTI))
     {
         if ((battlerId & BIT_FLANK) == B_FLANK_LEFT)
             *firstId = 0, *lastId = 3;
@@ -138,7 +137,7 @@ static bool8 ShouldSwitchIfWonderGuard(void)
 static bool8 FindMonThatAbsorbsOpponentsMove(void)
 {
     u8 battlerIn1, battlerIn2;
-    u8 absorbingTypeAbility;
+    u16 absorbingTypeAbility;
     s32 firstId;
     s32 lastId; // + 1
     struct Pokemon *party;
@@ -189,7 +188,7 @@ static bool8 FindMonThatAbsorbsOpponentsMove(void)
     for (i = firstId; i < lastId; i++)
     {
         u16 species;
-        u8 monAbility;
+        u16 monAbility;
 
         if (GetMonData(&party[i], MON_DATA_HP) == 0)
             continue;
@@ -370,7 +369,7 @@ static bool8 FindMonWithFlagsAndSuperEffective(u16 flags, u8 moduloPercent)
     for (i = firstId; i < lastId; i++)
     {
         u16 species;
-        u8 monAbility;
+        u16 monAbility;
 
         if (GetMonData(&party[i], MON_DATA_HP) == 0)
             continue;
@@ -774,10 +773,14 @@ static u8 GetAI_ItemType(u16 itemId, const u8 *itemEffect)
         return AI_ITEM_HEAL_HP;
     else if (itemEffect[3] & ITEM3_STATUS_ALL)
         return AI_ITEM_CURE_CONDITION;
+#ifdef ITEM_EXPANSION
+    else if ((itemEffect[0] & ITEM0_DIRE_HIT) || itemEffect[1])
+#else
     else if (itemEffect[0] & (ITEM0_DIRE_HIT | ITEM0_X_ATTACK) || itemEffect[1] != 0 || itemEffect[2] != 0)
+#endif
         return AI_ITEM_X_STAT;
     else if (itemEffect[3] & ITEM3_GUARD_SPEC)
-        return AI_ITEM_GUARD_SPECS;
+        return AI_ITEM_GUARD_SPEC;
     else
         return AI_ITEM_NOT_RECOGNIZABLE;
 }
@@ -851,32 +854,33 @@ static bool8 ShouldUseItem(void)
             *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) = 0;
             if (itemEffects[3] & ITEM3_SLEEP && gBattleMons[gActiveBattler].status1 & STATUS1_SLEEP)
             {
-                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= 0x20;
+                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= (1 << AI_HEAL_SLEEP);
                 shouldUse = TRUE;
             }
-            if (itemEffects[3] & ITEM3_POISON && (gBattleMons[gActiveBattler].status1 & STATUS1_POISON || gBattleMons[gActiveBattler].status1 & STATUS1_TOXIC_POISON))
+            if (itemEffects[3] & ITEM3_POISON && (gBattleMons[gActiveBattler].status1 & STATUS1_POISON 
+                                               || gBattleMons[gActiveBattler].status1 & STATUS1_TOXIC_POISON))
             {
-                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= 0x10;
+                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= (1 << AI_HEAL_POISON);
                 shouldUse = TRUE;
             }
             if (itemEffects[3] & ITEM3_BURN && gBattleMons[gActiveBattler].status1 & STATUS1_BURN)
             {
-                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= 0x8;
+                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= (1 << AI_HEAL_BURN);
                 shouldUse = TRUE;
             }
             if (itemEffects[3] & ITEM3_FREEZE && gBattleMons[gActiveBattler].status1 & STATUS1_FREEZE)
             {
-                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= 0x4;
+                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= (1 << AI_HEAL_FREEZE);
                 shouldUse = TRUE;
             }
             if (itemEffects[3] & ITEM3_PARALYSIS && gBattleMons[gActiveBattler].status1 & STATUS1_PARALYSIS)
             {
-                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= 0x2;
+                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= (1 << AI_HEAL_PARALYSIS);
                 shouldUse = TRUE;
             }
             if (itemEffects[3] & ITEM3_CONFUSION && gBattleMons[gActiveBattler].status2 & STATUS2_CONFUSION)
             {
-                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= 0x1;
+                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= (1 << AI_HEAL_CONFUSION);
                 shouldUse = TRUE;
             }
             break;
@@ -884,21 +888,38 @@ static bool8 ShouldUseItem(void)
             *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) = 0;
             if (gDisableStructs[gActiveBattler].isFirstTurn == 0)
                 break;
+        #ifndef ITEM_EXPANSION
             if (itemEffects[0] & ITEM0_X_ATTACK)
-                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= 0x1;
+                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= (1 << AI_X_ATTACK);
             if (itemEffects[1] & ITEM1_X_DEFEND)
-                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= 0x2;
+                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= (1 << AI_X_DEFEND);
             if (itemEffects[1] & ITEM1_X_SPEED)
-                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= 0x4;
+                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= (1 << AI_X_SPEED);
             if (itemEffects[2] & ITEM2_X_SPATK)
-                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= 0x8;
+                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= (1 << AI_X_SPATK);
             if (itemEffects[2] & ITEM2_X_ACCURACY)
-                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= 0x20;
+                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= (1 << AI_X_ACCURACY);
             if (itemEffects[0] & ITEM0_DIRE_HIT)
-                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= 0x80;
+                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= (1 << AI_DIRE_HIT);
+        #else
+            if (itemEffects[1] & ITEM1_X_ATTACK)
+                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= (1 << AI_X_ATTACK);
+            if (itemEffects[1] & ITEM1_X_DEFENSE)
+                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= (1 << AI_X_DEFEND);
+            if (itemEffects[1] & ITEM1_X_SPEED)
+                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= (1 << AI_X_SPEED);
+            if (itemEffects[1] & ITEM1_X_SPATK)
+                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= (1 << AI_X_SPATK);
+            if (itemEffects[1] & ITEM1_X_SPDEF)
+                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= (1 << AI_X_SPDEF);
+            if (itemEffects[1] & ITEM1_X_ACCURACY)
+                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= (1 << AI_X_ACCURACY);
+            if (itemEffects[0] & ITEM0_DIRE_HIT)
+                *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= (1 << AI_DIRE_HIT);
+        #endif
             shouldUse = TRUE;
             break;
-        case AI_ITEM_GUARD_SPECS:
+        case AI_ITEM_GUARD_SPEC:
             battlerSide = GetBattlerSide(gActiveBattler);
             if (gDisableStructs[gActiveBattler].isFirstTurn != 0 && gSideTimers[battlerSide].mistTimer == 0)
                 shouldUse = TRUE;

@@ -61,7 +61,6 @@ static void HandleInitWindows(void);
 static void LaunchPokeblockFeedTask(void);
 static void SetPokeblockSpritePal(u8 pokeblockCaseId);
 static void sub_817A5CC(void);
-static void sub_8148108(u8 spriteId, bool8 a1);
 static void DoPokeblockCaseThrowEffect(u8 spriteId, bool8 arg1);
 static void PrepareMonToMoveToPokeblock(u8 spriteId);
 static void Task_HandleMonAtePokeblock(u8 taskId);
@@ -382,22 +381,23 @@ static const struct WindowTemplate sWindowTemplates[] =
     DUMMY_WIN_TEMPLATE
 };
 
+// - 1 excludes PBLOCK_CLR_NONE
 static const u32* const sPokeblocksPals[] =
 {
-    gPokeblockRed_Pal,
-    gPokeblockBlue_Pal,
-    gPokeblockPink_Pal,
-    gPokeblockGreen_Pal,
-    gPokeblockYellow_Pal,
-    gPokeblockPurple_Pal,
-    gPokeblockIndigo_Pal,
-    gPokeblockBrown_Pal,
-    gPokeblockLiteBlue_Pal,
-    gPokeblockOlive_Pal,
-    gPokeblockGray_Pal,
-    gPokeblockBlack_Pal,
-    gPokeblockWhite_Pal,
-    gPokeblockGold_Pal
+    [PBLOCK_CLR_RED - 1]       = gPokeblockRed_Pal,
+    [PBLOCK_CLR_BLUE - 1]      = gPokeblockBlue_Pal,
+    [PBLOCK_CLR_PINK - 1]      = gPokeblockPink_Pal,
+    [PBLOCK_CLR_GREEN - 1]     = gPokeblockGreen_Pal,
+    [PBLOCK_CLR_YELLOW - 1]    = gPokeblockYellow_Pal,
+    [PBLOCK_CLR_PURPLE - 1]    = gPokeblockPurple_Pal,
+    [PBLOCK_CLR_INDIGO - 1]    = gPokeblockIndigo_Pal,
+    [PBLOCK_CLR_BROWN - 1]     = gPokeblockBrown_Pal,
+    [PBLOCK_CLR_LITE_BLUE - 1] = gPokeblockLiteBlue_Pal,
+    [PBLOCK_CLR_OLIVE - 1]     = gPokeblockOlive_Pal,
+    [PBLOCK_CLR_GRAY - 1]      = gPokeblockGray_Pal,
+    [PBLOCK_CLR_BLACK - 1]     = gPokeblockBlack_Pal,
+    [PBLOCK_CLR_WHITE - 1]     = gPokeblockWhite_Pal,
+    [PBLOCK_CLR_GOLD - 1]      = gPokeblockGold_Pal
 };
 
 static const union AffineAnimCmd sSpriteAffineAnim_84120DC[] =
@@ -587,11 +587,11 @@ static bool8 TransitionToPokeblockFeedScene(void)
         gMain.state++;
         break;
     case 12:
-        BlendPalettes(-1, 0x10, 0);
+        BlendPalettes(PALETTES_ALL, 0x10, 0);
         gMain.state++;
         break;
     case 13:
-        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0x10, 0, RGB_BLACK);
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0x10, 0, RGB_BLACK);
         gPaletteFade.bufferTransferDisabled = 0;
         gMain.state++;
         break;
@@ -645,7 +645,7 @@ static bool8 LoadMonAndSceneGfx(struct Pokemon *mon)
     case 0:
         species = GetMonData(mon, MON_DATA_SPECIES2);
         personality = GetMonData(mon, MON_DATA_PERSONALITY);
-        HandleLoadSpecialPokePic_2(&gMonFrontPicTable[species], gMonSpritesGfxPtr->sprites[1], species, personality);
+        HandleLoadSpecialPokePic(&gMonFrontPicTable[species], gMonSpritesGfxPtr->sprites.ptr[1], species, personality);
         sPokeblockFeed->loadGfxState++;
         break;
     case 1:
@@ -805,7 +805,7 @@ static void Task_ReturnAfterPaletteFade(u8 taskId)
 
 static void Task_PaletteFadeToReturn(u8 taskId)
 {
-    BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK);
+    BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
     gTasks[taskId].func = Task_ReturnAfterPaletteFade;
 }
 

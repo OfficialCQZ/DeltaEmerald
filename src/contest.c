@@ -42,8 +42,6 @@
 #include "constants/moves.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
-#include "constants/species.h"
-#include "constants/tv.h"
 
 // This file's functions.
 static void LoadContestPalettes(void);
@@ -351,8 +349,8 @@ EWRAM_DATA u8 gHighestRibbonRank = 0;
 EWRAM_DATA struct ContestResources *gContestResources = NULL;
 EWRAM_DATA u8 sContestBgCopyFlags = 0;
 EWRAM_DATA struct ContestWinner gCurContestWinner = {0};
-EWRAM_DATA bool8 gUnknown_02039F5C = 0;
-EWRAM_DATA u8 gUnknown_02039F5D = 0;
+EWRAM_DATA bool8 gCurContestWinnerIsForArtist = 0;
+EWRAM_DATA u8 gCurContestWinnerSaveIdx = 0;
 
 // IWRAM common vars.
 u32 gContestRngValue;
@@ -951,39 +949,39 @@ const struct SpriteTemplate sSpriteTemplates_ContestantsTurnBlinkEffect[CONTESTA
 
 static const s8 gContestExcitementTable[CONTEST_CATEGORIES_COUNT][CONTEST_CATEGORIES_COUNT] =
 {
-    [CONTEST_CATEGORY_COOL] = { 
-        [CONTEST_CATEGORY_COOL]   = +1,  
-        [CONTEST_CATEGORY_BEAUTY] =  0, 
-        [CONTEST_CATEGORY_CUTE]   = -1, 
-        [CONTEST_CATEGORY_SMART]  = -1,  
+    [CONTEST_CATEGORY_COOL] = {
+        [CONTEST_CATEGORY_COOL]   = +1,
+        [CONTEST_CATEGORY_BEAUTY] =  0,
+        [CONTEST_CATEGORY_CUTE]   = -1,
+        [CONTEST_CATEGORY_SMART]  = -1,
         [CONTEST_CATEGORY_TOUGH]  =  0
     },
-    [CONTEST_CATEGORY_BEAUTY] = { 
-        [CONTEST_CATEGORY_COOL]   =  0,  
-        [CONTEST_CATEGORY_BEAUTY] = +1,  
-        [CONTEST_CATEGORY_CUTE]   =  0, 
-        [CONTEST_CATEGORY_SMART]  = -1, 
+    [CONTEST_CATEGORY_BEAUTY] = {
+        [CONTEST_CATEGORY_COOL]   =  0,
+        [CONTEST_CATEGORY_BEAUTY] = +1,
+        [CONTEST_CATEGORY_CUTE]   =  0,
+        [CONTEST_CATEGORY_SMART]  = -1,
         [CONTEST_CATEGORY_TOUGH]  = -1
     },
     [CONTEST_CATEGORY_CUTE] = {
-        [CONTEST_CATEGORY_COOL]   = -1,  
-        [CONTEST_CATEGORY_BEAUTY] =  0,  
-        [CONTEST_CATEGORY_CUTE]   = +1,  
-        [CONTEST_CATEGORY_SMART]  =  0, 
+        [CONTEST_CATEGORY_COOL]   = -1,
+        [CONTEST_CATEGORY_BEAUTY] =  0,
+        [CONTEST_CATEGORY_CUTE]   = +1,
+        [CONTEST_CATEGORY_SMART]  =  0,
         [CONTEST_CATEGORY_TOUGH]  = -1
     },
     [CONTEST_CATEGORY_SMART] = {
-        [CONTEST_CATEGORY_COOL]   = -1, 
-        [CONTEST_CATEGORY_BEAUTY] = -1,  
-        [CONTEST_CATEGORY_CUTE]   =  0,  
-        [CONTEST_CATEGORY_SMART]  = +1,  
+        [CONTEST_CATEGORY_COOL]   = -1,
+        [CONTEST_CATEGORY_BEAUTY] = -1,
+        [CONTEST_CATEGORY_CUTE]   =  0,
+        [CONTEST_CATEGORY_SMART]  = +1,
         [CONTEST_CATEGORY_TOUGH]  =  0
     },
-    [CONTEST_CATEGORY_TOUGH] = { 
-        [CONTEST_CATEGORY_COOL]   =  0, 
-        [CONTEST_CATEGORY_BEAUTY] = -1, 
-        [CONTEST_CATEGORY_CUTE]   = -1,  
-        [CONTEST_CATEGORY_SMART]  =  0,  
+    [CONTEST_CATEGORY_TOUGH] = {
+        [CONTEST_CATEGORY_COOL]   =  0,
+        [CONTEST_CATEGORY_BEAUTY] = -1,
+        [CONTEST_CATEGORY_CUTE]   = -1,
+        [CONTEST_CATEGORY_SMART]  =  0,
         [CONTEST_CATEGORY_TOUGH]  = +1
     }
 };
@@ -1034,8 +1032,7 @@ void LoadContestBgAfterMoveAnim(void)
     for (i = 0; i < CONTESTANT_COUNT; i++)
     {
         u32 contestantWindowId = 5 + i;
-
-        LoadPalette(eUnknownHeap1A004.cachedWindowPalettes[contestantWindowId], 16 * (5 + gContestantTurnOrder[i]), sizeof((eUnknownHeap1A004.cachedWindowPalettes[contestantWindowId])));
+        LoadPalette(eContestTempSave.cachedWindowPalettes[contestantWindowId], 16 * (5 + gContestantTurnOrder[i]), sizeof((eContestTempSave.cachedWindowPalettes[contestantWindowId])));
     }
 }
 
@@ -1321,7 +1318,7 @@ static bool8 SetupContestGraphics(u8 *stateVar)
         CopyToBgTilemapBuffer(2, gUnknown_08C17170, 0, 0);
         CopyBgTilemapBufferToVram(2);
         // This is a bug, and copies random junk. savedJunk is never read.
-        DmaCopy32Defvars(3, gContestResources->contestBgTilemaps[2], eUnknownHeap1A004.savedJunk, sizeof(eUnknownHeap1A004.savedJunk));
+        DmaCopy32Defvars(3, gContestResources->contestBgTilemaps[2], eContestTempSave.savedJunk, sizeof(eContestTempSave.savedJunk));
         break;
     case 5:
         LoadCompressedPalette(gOldContestPalette, 0, 0x200);
@@ -1329,7 +1326,7 @@ static bool8 SetupContestGraphics(u8 *stateVar)
         CpuCopy32(gPlttBufferUnfaded + (5 + gContestPlayerMonIndex) * 16, tempPalette2, 16 * sizeof(u16));
         CpuCopy32(tempPalette2, gPlttBufferUnfaded + 128, 16 * sizeof(u16));
         CpuCopy32(tempPalette1, gPlttBufferUnfaded + (5 + gContestPlayerMonIndex) * 16, 16 * sizeof(u16));
-        DmaCopy32Defvars(3, gPlttBufferUnfaded, eUnknownHeap1A004.cachedWindowPalettes, sizeof(eUnknownHeap1A004.cachedWindowPalettes));
+        DmaCopy32Defvars(3, gPlttBufferUnfaded, eContestTempSave.cachedWindowPalettes, sizeof(eContestTempSave.cachedWindowPalettes));
         LoadContestPalettes();
         break;
     case 6:
@@ -1389,12 +1386,12 @@ static void Task_RaiseCurtainAtStart(u8 taskId)
         if (gTasks[taskId].data[1]++ <= 60)
             break;
         gTasks[taskId].data[1] = 0;
-        PlaySE12WithPanning(SE_C_MAKU_U, 0);
+        PlaySE12WithPanning(SE_CONTEST_CURTAIN_RISE, 0);
         gTasks[taskId].data[0]++;
         break;
     case 1:
         *(s16*)&gBattle_BG1_Y += 7;
-        if ((s16)gBattle_BG1_Y <= 160)
+        if ((s16)gBattle_BG1_Y <= DISPLAY_HEIGHT)
             break;
         gTasks[taskId].data[0]++;
         break;
@@ -1469,7 +1466,7 @@ static void Task_DisplayAppealNumberText(u8 taskId)
         gBattle_BG0_Y = 0;
         gBattle_BG2_Y = 0;
         ContestDebugDoPrint();
-        DmaCopy32Defvars(3, gPlttBufferUnfaded, eUnknownHeap1A004.unk18204, PLTT_BUFFER_SIZE * 2);
+        DmaCopy32Defvars(3, gPlttBufferUnfaded, eContestTempSave.cachedPlttBufferUnfaded, PLTT_BUFFER_SIZE * 2);
         ConvertIntToDecimalStringN(gStringVar1, eContest.appealNumber + 1, STR_CONV_MODE_LEFT_ALIGN, 1);
         if (!Contest_IsMonsTurnDisabled(gContestPlayerMonIndex))
             StringCopy(gDisplayedStringBattle, gText_AppealNumWhichMoveWillBePlayed);
@@ -1493,7 +1490,7 @@ static void Task_DisplayAppealNumberText(u8 taskId)
 static void Task_TryShowMoveSelectScreen(u8 taskId)
 {
     // Wait for button press to show move select screen
-    if ((gMain.newKeys & A_BUTTON) || (gMain.newKeys == B_BUTTON))
+    if ((JOY_NEW(A_BUTTON)) || (gMain.newKeys == B_BUTTON))
     {
         PlaySE(SE_SELECT);
         if (!Contest_IsMonsTurnDisabled(gContestPlayerMonIndex))
@@ -1514,8 +1511,8 @@ static void Task_ShowMoveSelectScreen(u8 taskId)
     u8 i;
     u8 moveName[32];
 
-    gBattle_BG0_Y = 160;
-    gBattle_BG2_Y = 160;
+    gBattle_BG0_Y = DISPLAY_HEIGHT;
+    gBattle_BG2_Y = DISPLAY_HEIGHT;
 
     for (i = 0; i < MAX_MON_MOVES; i++)
     {
@@ -1559,7 +1556,7 @@ static void Task_HandleMoveSelectInput(u8 taskId)
             numMoves++;
     }
 
-    if (gMain.newKeys & A_BUTTON)
+    if (JOY_NEW(A_BUTTON))
     {
         PlaySE(SE_SELECT);
         gTasks[taskId].func = Task_SelectedMove;
@@ -1668,8 +1665,8 @@ static void Task_HideMoveSelectScreen(u8 taskId)
     }
     Contest_SetBgCopyFlags(0);
     // This seems to be a bug; it should have just copied PLTT_BUFFER_SIZE.
-    DmaCopy32Defvars(3, gPlttBufferFaded, eUnknownHeap1A004.unk18604, PLTT_BUFFER_SIZE * 2);
-    LoadPalette(eUnknownHeap1A004.unk18204, 0, PLTT_BUFFER_SIZE * 2);
+    DmaCopy32Defvars(3, gPlttBufferFaded, eContestTempSave.cachedPlttBufferFaded, PLTT_BUFFER_SIZE * 2);
+    LoadPalette(eContestTempSave.cachedPlttBufferUnfaded, 0, PLTT_BUFFER_SIZE * 2);
     gTasks[taskId].data[0] = 0;
     gTasks[taskId].data[1] = 0;
     gTasks[taskId].func = Task_HideApplauseMeterForAppealStart;
@@ -1961,7 +1958,7 @@ static void Task_DoAppeals(u8 taskId)
         return;
     case APPEALSTATE_UPDATE_MOVE_USERS_STATUS:
         if (DrawStatusSymbol(contestant))
-            PlaySE(SE_C_PASI);
+            PlaySE(SE_CONTEST_ICON_CHANGE);
         gTasks[taskId].tState = APPEALSTATE_UPDATE_OPPONENTS;
         return;
     case APPEALSTATE_UPDATE_OPPONENTS:
@@ -2052,9 +2049,9 @@ static void Task_DoAppeals(u8 taskId)
                 break;
         }
         if (DrawStatusSymbol(i))
-            PlaySE(SE_C_PASI);
+            PlaySE(SE_CONTEST_ICON_CHANGE);
         else
-            PlaySE(SE_C_SYU);
+            PlaySE(SE_CONTEST_ICON_CLEAR);
         if (eContestantStatus[i].judgesAttentionWasRemoved)
         {
             StopFlashJudgeAttentionEye(i);
@@ -2243,7 +2240,7 @@ static void Task_DoAppeals(u8 taskId)
         {
         case 0:
             BlendAudienceBackground(-1, 1);
-            PlayFanfare(MUS_ME_ZANNEN);
+            PlayFanfare(MUS_TOO_BAD);
             gTasks[taskId].tCounter++;
             break;
         case 1:
@@ -2288,7 +2285,7 @@ static void Task_DoAppeals(u8 taskId)
             if (!eContest.waitForAudienceBlend)
             {
                 AnimateAudience();
-                PlaySE(SE_W227B);
+                PlaySE(SE_M_ENCORE2);
                 ShowAndUpdateApplauseMeter(1);
                 gTasks[taskId].tCounter++;
             }
@@ -2555,7 +2552,7 @@ static void Task_WaitForHeartSliders(u8 taskId)
 
 static void sub_80DA348(u8 taskId)
 {
-    DmaCopy32Defvars(3, eUnknownHeap1A004.unk18204, gPlttBufferUnfaded, PLTT_BUFFER_SIZE * 2);
+    DmaCopy32Defvars(3, eContestTempSave.cachedPlttBufferUnfaded, gPlttBufferUnfaded, PLTT_BUFFER_SIZE * 2);
     gTasks[taskId].data[0] = 0;
     gTasks[taskId].data[1] = 2;
     gTasks[taskId].func = Task_WaitPrintRoundResult;
@@ -2682,8 +2679,8 @@ static void Task_WaitForOutOfTimeMsg(u8 taskId)
     {
         SetBgForCurtainDrop();
         gBattle_BG1_X = 0;
-        gBattle_BG1_Y = 160;
-        PlaySE12WithPanning(SE_C_MAKU_D, 0);
+        gBattle_BG1_Y = DISPLAY_HEIGHT;
+        PlaySE12WithPanning(SE_CONTEST_CURTAIN_FALL, 0);
         gTasks[taskId].data[0] = 0;
         gTasks[taskId].func = Task_DropCurtainAtAppealsEnd;
     }
@@ -2712,7 +2709,7 @@ static void Task_TryCommunicateFinalStandings(u8 taskId)
         }
         else
         {
-            BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
+            BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
             gTasks[taskId].func = Task_ContestReturnToField;
         }
     }
@@ -2731,7 +2728,7 @@ static void Task_CommunicateFinalStandings(u8 taskId)
 static void Task_EndCommunicateFinalStandings(u8 taskId)
 {
     DestroyTask(taskId);
-    BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
+    BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
     gTasks[eContest.mainTaskId].func = Task_ContestReturnToField;
 }
 
@@ -3119,9 +3116,9 @@ static u8 CreateContestantSprite(u16 species, u32 otId, u32 personality, u32 ind
     species = SanitizeSpecies(species);
 
     if (index == gContestPlayerMonIndex)
-        HandleLoadSpecialPokePic_2(&gMonBackPicTable[species], gMonSpritesGfxPtr->sprites[0], species, personality);
+        HandleLoadSpecialPokePic_2(&gMonBackPicTable[species], gMonSpritesGfxPtr->sprites.ptr[0], species, personality);
     else
-        HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonBackPicTable[species], gMonSpritesGfxPtr->sprites[0], species, personality);
+        HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonBackPicTable[species], gMonSpritesGfxPtr->sprites.ptr[0], species, personality);
 
     LoadCompressedPalette(GetMonSpritePalFromSpeciesAndPersonality(species, otId, personality), 0x120, 0x20);
     SetMultiuseSpriteTemplateToPokemon(species, 0);
@@ -3134,10 +3131,10 @@ static u8 CreateContestantSprite(u16 species, u32 otId, u32 personality, u32 ind
     gSprites[spriteId].data[0] = gSprites[spriteId].oam.paletteNum;
     gSprites[spriteId].data[2] = species;
     if (IsSpeciesNotUnown(species))
-        gSprites[spriteId].affineAnims = gUnknown_082FF6C0;
+        gSprites[spriteId].affineAnims = gAffineAnims_BattleSpriteContest;
     else
-        gSprites[spriteId].affineAnims = gUnknown_082FF694;
-    StartSpriteAffineAnim(gSprites + spriteId, 0);
+        gSprites[spriteId].affineAnims = gAffineAnims_BattleSpriteOpponentSide;
+    StartSpriteAffineAnim(&gSprites[spriteId], BATTLER_AFFINE_NORMAL);
 
     return spriteId;
 }
@@ -3277,7 +3274,7 @@ static bool8 UpdateConditionStars(u8 contestantIdx, bool8 resetMod)
         ContestBG_FillBoxWithTile(0, GetStarTileOffset(), 19, contestantOffset, 1, numStars, 17);
         if (resetMod)
         {
-            PlaySE(SE_EXPMAX);
+            PlaySE(SE_EXP_MAX);
             eContestantStatus[contestantIdx].conditionMod = CONDITION_NO_CHANGE;
         }
     }
@@ -3286,7 +3283,7 @@ static bool8 UpdateConditionStars(u8 contestantIdx, bool8 resetMod)
         ContestBG_FillBoxWithTile(0, 0, 19, contestantOffset + numStars, 1, 3 - numStars, 17);
         if (resetMod)
         {
-            PlaySE(SE_FU_ZAKU2);
+            PlaySE(SE_CONTEST_CONDITION_LOSE);
             eContestantStatus[contestantIdx].conditionMod = CONDITION_NO_CHANGE;
         }
     }
@@ -3814,7 +3811,7 @@ static void Task_UpdateAppealHearts(u8 taskId)
         ContestBG_FillBoxWithTile(0, heartOffset, newNumHearts + 22, gContestantTurnOrder[contestant] * 5 + 2 + onSecondLine,  1, 1, 17);
         if (heartsDelta > 0)
         {
-            PlaySE(SE_C_GAJI);
+            PlaySE(SE_CONTEST_HEART);
             m4aMPlayImmInit(&gMPlayInfo_SE1);
             m4aMPlayPitchControl(&gMPlayInfo_SE1, 0xFFFF, pitchMod * 256);
         }
@@ -4137,12 +4134,12 @@ static u8 CreateContestantBoxBlinkSprites(u8 contestant)
     CpuFill32(0, gContestResources->boxBlinkTiles2 + 0x500, 0x300);
 
     RequestDma3Copy(gContestResources->boxBlinkTiles1,
-                    (u8 *)(VRAM + 0x10000 + gSprites[spriteId1].oam.tileNum * 32),
+                    (u8 *)(OBJ_VRAM0 + gSprites[spriteId1].oam.tileNum * 32),
                     0x800,
                     1);
 
     RequestDma3Copy(gContestResources->boxBlinkTiles2,
-                    (u8 *)(VRAM + 0x10000 + gSprites[spriteId2].oam.tileNum * 32),
+                    (u8 *)(OBJ_VRAM0 + gSprites[spriteId2].oam.tileNum * 32),
                     0x800,
                     1);
 
@@ -4189,7 +4186,7 @@ static void BlinkContestantBox(u8 spriteId, bool8 b)
     gSprites[spriteId].callback = SpriteCB_BlinkContestantBox;
     gSprites[spriteId2].callback = SpriteCallbackDummy;
     if (b == FALSE)
-        PlaySE(SE_C_PIKON);
+        PlaySE(SE_CONTEST_MONS_TURN);
     else
         PlaySE(SE_PC_LOGIN);
 }
@@ -4410,7 +4407,7 @@ static void DrawContestantWindows(void)
     for (i = 0; i < CONTESTANT_COUNT; i++)
     {
         s32 windowId = i + 5;
-        LoadPalette(eUnknownHeap1A004.cachedWindowPalettes[windowId], (gContestantTurnOrder[i] + 5) * 16, sizeof(eUnknownHeap1A004.cachedWindowPalettes[0]));
+        LoadPalette(eContestTempSave.cachedWindowPalettes[windowId], (gContestantTurnOrder[i] + 5) * 16, sizeof(eContestTempSave.cachedWindowPalettes[0]));
     }
     DrawContestantWindowText();
 }
@@ -4420,7 +4417,6 @@ static void CalculateAppealMoveImpact(u8 contestant)
     u16 move;
     u8 effect;
     u8 rnd;
-    bool8 canUseTurn;
     s32 i;
 
     eContestantStatus[contestant].appeal = 0;
@@ -4480,14 +4476,17 @@ static void CalculateAppealMoveImpact(u8 contestant)
             eContestantStatus[contestant].comboAppealBonus = eContestantStatus[contestant].baseAppeal * eContestantStatus[contestant].completedCombo;
             eContestantStatus[contestant].completedComboFlag = TRUE; // Redundant with completedCombo, used by AI
         }
-        else if (gContestMoves[eContestantStatus[contestant].currMove].comboStarterId != 0)
-        {
-            eContestantStatus[contestant].hasJudgesAttention = TRUE;
-            eContestantStatus[contestant].usedComboMove = TRUE;
-        }
         else
         {
-            eContestantStatus[contestant].hasJudgesAttention = FALSE;
+            if (gContestMoves[eContestantStatus[contestant].currMove].comboStarterId != 0)
+            {
+                eContestantStatus[contestant].hasJudgesAttention = TRUE;
+                eContestantStatus[contestant].usedComboMove = TRUE;
+            }
+            else
+            {
+                eContestantStatus[contestant].hasJudgesAttention = FALSE;
+            }
         }
     }
     if (eContestantStatus[contestant].repeatedMove)
@@ -4678,36 +4677,36 @@ static void DoJudgeSpeechBubble(u8 symbolId)
     case JUDGE_SYMBOL_SWIRL:
     case JUDGE_SYMBOL_SWIRL_UNUSED:
         gSprites[spriteId].oam.tileNum = gSprites[spriteId].data[0];
-        PlaySE(SE_HAZURE);
+        PlaySE(SE_FAILURE);
         break;
     case JUDGE_SYMBOL_ONE_EXCLAMATION:
         gSprites[spriteId].oam.tileNum = gSprites[spriteId].data[0] + 4;
-        PlaySE(SE_SEIKAI);
+        PlaySE(SE_SUCCESS);
         break;
     case JUDGE_SYMBOL_TWO_EXCLAMATIONS:
         gSprites[spriteId].oam.tileNum = gSprites[spriteId].data[0] + 8;
-        PlaySE(SE_SEIKAI);
+        PlaySE(SE_SUCCESS);
         break;
     case JUDGE_SYMBOL_NUMBER_ONE_UNUSED: // Identical to JUDGE_SYMBOL_NUMBER_ONE
         gSprites[spriteId].oam.tileNum = gSprites[spriteId].data[0] + 12;
-        PlaySE(SE_TK_WARPIN);
+        PlaySE(SE_WARP_IN);
         break;
     case JUDGE_SYMBOL_NUMBER_ONE:
         gSprites[spriteId].oam.tileNum = gSprites[spriteId].data[0] + 12;
-        PlaySE(SE_TK_WARPIN);
+        PlaySE(SE_WARP_IN);
         break;
     case JUDGE_SYMBOL_NUMBER_FOUR:
         gSprites[spriteId].oam.tileNum = gSprites[spriteId].data[0] + 16;
-        PlaySE(SE_TK_WARPIN);
+        PlaySE(SE_WARP_IN);
         break;
     case JUDGE_SYMBOL_STAR:
         gSprites[spriteId].oam.tileNum = gSprites[spriteId].data[0] + 24;
-        PlaySE(SE_W215);
+        PlaySE(SE_M_HEAL_BELL);
         break;
     case JUDGE_SYMBOL_QUESTION_MARK:
     default:
         gSprites[spriteId].oam.tileNum = gSprites[spriteId].data[0] + 20;
-        PlaySE(SE_TK_WARPIN);
+        PlaySE(SE_WARP_IN);
         break;
     }
     gSprites[spriteId].data[1] = 0;
@@ -4728,8 +4727,8 @@ static void UpdateApplauseMeter(void)
             src = &gContestApplauseMeterGfx[64];
         else
             src = gContestApplauseMeterGfx;
-        CpuCopy32(src, (void *)(VRAM + 0x10000 + (gSprites[eContest.applauseMeterSpriteId].oam.tileNum + 17 + i) * 32), 32);
-        CpuCopy32(src + 32, (void *)(VRAM + 0x10000 + (gSprites[eContest.applauseMeterSpriteId].oam.tileNum + 25 + i) * 32), 32);
+        CpuCopy32(src, (void *)(OBJ_VRAM0 + (gSprites[eContest.applauseMeterSpriteId].oam.tileNum + 17 + i) * 32), 32);
+        CpuCopy32(src + 32, (void *)(OBJ_VRAM0 + (gSprites[eContest.applauseMeterSpriteId].oam.tileNum + 25 + i) * 32), 32);
 
         if (eContest.applauseLevel > 4)
             StartApplauseOverflowAnimation();
@@ -5010,7 +5009,7 @@ static void ShowHideNextTurnGfx(bool8 show)
     {
         if (eContestantStatus[i].turnOrderMod != 0 && show)
         {
-            CpuCopy32(GetTurnOrderNumberGfx(i), (void *)(VRAM + 0x10000 + (gSprites[eContestGfxState[i].nextTurnSpriteId].oam.tileNum + 6) * 32), 32);
+            CpuCopy32(GetTurnOrderNumberGfx(i), (void *)(OBJ_VRAM0 + (gSprites[eContestGfxState[i].nextTurnSpriteId].oam.tileNum + 6) * 32), 32);
             gSprites[eContestGfxState[i].nextTurnSpriteId].pos1.y = sNextTurnSpriteYPositions[gContestantTurnOrder[i]];
             gSprites[eContestGfxState[i].nextTurnSpriteId].invisible = FALSE;
         }
@@ -5042,7 +5041,7 @@ static void DrawUnnervedSymbols(void)
             ContestBG_FillBoxWithIncrementingTile(0, symbolOffset, 20, contestantOffset, 2, 1, 17, 1);
             symbolOffset += 16;
             ContestBG_FillBoxWithIncrementingTile(0, symbolOffset, 20, contestantOffset + 1, 2, 1, 17, 1);
-            PlaySE(SE_C_PASI);
+            PlaySE(SE_CONTEST_ICON_CHANGE);
         }
     }
 }
@@ -5123,7 +5122,7 @@ static void Task_StartDropCurtainAtRoundEnd(u8 taskId)
 {
     gBattle_BG1_X = 0;
     gBattle_BG1_Y = DISPLAY_HEIGHT;
-    PlaySE12WithPanning(SE_C_MAKU_D, 0);
+    PlaySE12WithPanning(SE_CONTEST_CURTAIN_FALL, 0);
     gTasks[taskId].func = Task_UpdateCurtainDropAtRoundEnd;
 }
 
@@ -5235,7 +5234,7 @@ static void Task_StartRaiseCurtainAtRoundEnd(u8 taskId)
     else
     {
         gTasks[taskId].data[2] = 0;
-        PlaySE12WithPanning(SE_C_MAKU_U, 0);
+        PlaySE12WithPanning(SE_CONTEST_CURTAIN_RISE, 0);
         gTasks[taskId].func = Task_UpdateRaiseCurtainAtRoundEnd;
     }
 }
@@ -5512,40 +5511,46 @@ void ResetContestLinkResults(void)
             gSaveBlock2Ptr->contestLinkResults[i][j] = 0;
 }
 
-bool8 sub_80DEDA8(u8 rank)
+bool8 SaveContestWinner(u8 rank)
 {
     s32 i;
-    u8 r7 = Random() % 3;
+    u8 captionId = Random() % NUM_PAINTING_CAPTIONS;
 
+    // Get the index of the winner among the contestants
     for (i = 0; i < CONTESTANT_COUNT - 1; i++)
-    {
         if (gContestFinalStandings[i] == 0)
             break;
-    }
-    if (rank == 0xFF && i != gContestPlayerMonIndex)
+
+    // Exit if attempting to save a Pokémon other than the player's to the museum
+    if (rank == CONTEST_SAVE_FOR_MUSEUM && i != gContestPlayerMonIndex)
         return FALSE;
+
+    // Adjust the random painting caption depending on the category
     switch (gSpecialVar_ContestCategory)
     {
     case CONTEST_CATEGORY_COOL:
-        r7 += 0;
+        captionId += NUM_PAINTING_CAPTIONS * CONTEST_CATEGORY_COOL;
         break;
     case CONTEST_CATEGORY_BEAUTY:
-        r7 += 3;
+        captionId += NUM_PAINTING_CAPTIONS * CONTEST_CATEGORY_BEAUTY;
         break;
     case CONTEST_CATEGORY_CUTE:
-        r7 += 6;
+        captionId += NUM_PAINTING_CAPTIONS * CONTEST_CATEGORY_CUTE;
         break;
     case CONTEST_CATEGORY_SMART:
-        r7 += 9;
+        captionId += NUM_PAINTING_CAPTIONS * CONTEST_CATEGORY_SMART;
         break;
     case CONTEST_CATEGORY_TOUGH:
-        r7 += 12;
+        captionId += NUM_PAINTING_CAPTIONS * CONTEST_CATEGORY_TOUGH;
         break;
     }
-    if (rank != 0xFE)
-    {
-        u8 id = sub_80DEFA8(rank, 1);
 
+    if (rank != CONTEST_SAVE_FOR_ARTIST)
+    {
+        // Save winner in the saveblock
+        // Used to save any winner for the Contest Hall or the Museum
+        // but excludes the temporary save used by the artist
+        u8 id = GetContestWinnerSaveIdx(rank, TRUE);
         gSaveBlock1Ptr->contestWinners[id].personality = gContestMons[i].personality;
         gSaveBlock1Ptr->contestWinners[id].species = gContestMons[i].species;
         gSaveBlock1Ptr->contestWinners[id].trainerId = gContestMons[i].otId;
@@ -5556,24 +5561,29 @@ bool8 sub_80DEDA8(u8 rank)
         else
             gSaveBlock1Ptr->contestWinners[id].contestRank = gSpecialVar_ContestRank;
 
-        if (rank != 0xFF)
+        if (rank != CONTEST_SAVE_FOR_MUSEUM)
             gSaveBlock1Ptr->contestWinners[id].contestCategory = gSpecialVar_ContestCategory;
         else
-            gSaveBlock1Ptr->contestWinners[id].contestCategory = r7;
+            gSaveBlock1Ptr->contestWinners[id].contestCategory = captionId;
     }
     else
     {
+        // Set the most recent winner so the artist can show the player their painting
         gCurContestWinner.personality = gContestMons[i].personality;
         gCurContestWinner.trainerId = gContestMons[i].otId;
         gCurContestWinner.species = gContestMons[i].species;
         StringCopy(gCurContestWinner.monName, gContestMons[i].nickname);
         StringCopy(gCurContestWinner.trainerName, gContestMons[i].trainerName);
-        gCurContestWinner.contestCategory = r7;
+        gCurContestWinner.contestCategory = captionId;
     }
     return TRUE;
 }
 
-u8 sub_80DEFA8(u8 rank, u8 b)
+// Rank is either a regular contest rank (for saving winners to show in the Contest Hall)
+// Or one of two special IDs listed below (for saving winners to show in Museum, or from the artist)
+// If just retrieving the index where the winner *would* go, shift is FALSE
+// If actually preparing to insert the winner into the saveblock, shift is TRUE
+u8 GetContestWinnerSaveIdx(u8 rank, bool8 shift)
 {
     s32 i;
 
@@ -5583,13 +5593,15 @@ u8 sub_80DEFA8(u8 rank, u8 b)
     case CONTEST_RANK_SUPER:
     case CONTEST_RANK_HYPER:
     case CONTEST_RANK_MASTER:
-        if (b != 0)
+        if (shift)
         {
-            for (i = NUM_CONTEST_HALL_WINNERS - 1; i >= 1; i--)
+            for (i = NUM_CONTEST_HALL_WINNERS - 1; i > 0; i--)
                 memcpy(&gSaveBlock1Ptr->contestWinners[i], &gSaveBlock1Ptr->contestWinners[i - 1], sizeof(struct ContestWinner));
         }
-        return 0;
+        return CONTEST_WINNER_HALL_1 - 1;
     default:
+//  case CONTEST_SAVE_FOR_MUSEUM:
+//  case CONTEST_SAVE_FOR_ARTIST:
         switch (gSpecialVar_ContestCategory)
         {
         case CONTEST_CATEGORY_COOL:
@@ -5611,7 +5623,7 @@ void ClearContestWinnerPicsInContestHall(void)
 {
     s32 i;
 
-    for (i = 0; i < 8; i++)
+    for (i = 0; i < MUSEUM_CONTEST_WINNERS_START; i++)
         gSaveBlock1Ptr->contestWinners[i] = gDefaultContestWinners[i];
 }
 
@@ -5994,7 +6006,7 @@ static u8 GetMonNicknameLanguage(u8 *nickname)
     u8 ret = GAME_LANGUAGE;
 
     if (nickname[0] == EXT_CTRL_CODE_BEGIN && nickname[1] == EXT_CTRL_CODE_JPN)
-        return LANGUAGE_ENGLISH;
+        return GAME_LANGUAGE;
 
     if (StringLength(nickname) < PLAYER_NAME_LENGTH - 1)
     {
@@ -6092,5 +6104,4 @@ void StripPlayerAndMonNamesForLinkContest(struct ContestPokemon *mon, s32 langua
         name[PLAYER_NAME_LENGTH] = EOS;
     }
 }
-
 

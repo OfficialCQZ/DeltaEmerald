@@ -26,7 +26,6 @@
 #include "item_menu_icons.h"
 #include "decompress.h"
 #include "international_string_util.h"
-#include "constants/berry.h"
 #include "constants/items.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
@@ -277,11 +276,11 @@ static bool8 InitBerryTagScreen(void)
         gMain.state++;
         break;
     case 14:
-        BlendPalettes(-1, 0x10, 0);
+        BlendPalettes(PALETTES_ALL, 0x10, 0);
         gMain.state++;
         break;
     case 15:
-        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0x10, 0, RGB_BLACK);
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0x10, 0, RGB_BLACK);
         gPaletteFade.bufferTransferDisabled = 0;
         gMain.state++;
         break;
@@ -515,7 +514,7 @@ static void DestroyFlavorCircleSprites(void)
 static void PrepareToCloseBerryTagScreen(u8 taskId)
 {
     PlaySE(SE_SELECT);
-    BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK);
+    BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
     gTasks[taskId].func = Task_CloseBerryTagScreen;
 }
 
@@ -536,12 +535,12 @@ static void Task_HandleInput(u8 taskId)
 {
     if (!gPaletteFade.active)
     {
-        u16 arrowKeys = gMain.newAndRepeatedKeys & DPAD_ANY;
+        u16 arrowKeys = JOY_REPEAT(DPAD_ANY);
         if (arrowKeys == DPAD_UP)
             TryChangeDisplayedBerry(taskId, -1);
         else if (arrowKeys == DPAD_DOWN)
             TryChangeDisplayedBerry(taskId, 1);
-        else if (gMain.newKeys & (A_BUTTON | B_BUTTON))
+        else if (JOY_NEW(A_BUTTON | B_BUTTON))
             PrepareToCloseBerryTagScreen(taskId);
     }
 }

@@ -22,8 +22,6 @@
 #include "constants/metatile_behaviors.h"
 #include "constants/metatile_labels.h"
 #include "constants/songs.h"
-#include "constants/tv.h"
-
 
 EWRAM_DATA struct MapPosition gPlayerFacingPosition = {0};
 
@@ -387,7 +385,7 @@ static void Task_ComputerScreenOpenEffect(u8 taskId)
             task->tWinRight = DISPLAY_WIDTH;
             SetGpuReg(REG_OFFSET_BLDY, 0);
             SetGpuReg(REG_OFFSET_BLDCNT, task->tBlendCnt);
-            BlendPalettes(0xFFFFFFFF, 0, 0);
+            BlendPalettes(PALETTES_ALL, 0, 0);
             gPlttBufferFaded[0] = 0;
         }
         SetGpuReg(REG_OFFSET_WIN0H, WIN_RANGE(task->tWinLeft, task->tWinRight));
@@ -463,7 +461,7 @@ static void Task_ComputerScreenCloseEffect(u8 taskId)
         {
             task->tWinLeft = DISPLAY_WIDTH / 2;
             task->tWinRight = DISPLAY_WIDTH / 2;
-            BlendPalettes(-1, 16, 0);
+            BlendPalettes(PALETTES_ALL, 16, 0);
             gPlttBufferFaded[0] = 0;
         }
         SetGpuReg(REG_OFFSET_WIN0H, WIN_RANGE(task->tWinLeft, task->tWinRight));
@@ -618,7 +616,7 @@ bool8 FldEff_SecretPowerCave(void)
 
 static void SpriteCB_CaveEntranceInit(struct Sprite *sprite)
 {
-    PlaySE(SE_W088);
+    PlaySE(SE_M_ROCK_THROW);
 
     sprite->data[0] = 0;
     sprite->callback = SpriteCB_CaveEntranceOpen;
@@ -691,7 +689,7 @@ bool8 FldEff_SecretPowerTree(void)
 
 static void SpriteCB_TreeEntranceInit(struct Sprite *sprite)
 {
-    PlaySE(SE_W010);
+    PlaySE(SE_M_SCRATCH);
 
     sprite->animNum = gFieldEffectArguments[7];
     sprite->data[0] = 0;
@@ -754,7 +752,7 @@ bool8 FldEff_SecretPowerShrub(void)
 
 static void SpriteCB_ShrubEntranceInit(struct Sprite *sprite)
 {
-    PlaySE(SE_W077);
+    PlaySE(SE_M_POISON_POWDER);
 
     sprite->data[0] = 0;
     sprite->callback = SpriteCB_ShrubEntranceOpen;
@@ -888,16 +886,16 @@ static void DoBalloonSoundEffect(s16 metatileId)
     switch (metatileId)
     {
     case METATILE_SecretBase_RedBalloon:
-        PlaySE(SE_FUUSEN1);
+        PlaySE(SE_BALLOON_RED);
         break;
     case METATILE_SecretBase_BlueBalloon:
-        PlaySE(SE_FUUSEN2);
+        PlaySE(SE_BALLOON_BLUE);
         break;
     case METATILE_SecretBase_YellowBalloon:
-        PlaySE(SE_FUUSEN3);
+        PlaySE(SE_BALLOON_YELLOW);
         break;
     case METATILE_SecretBase_MudBall:
-        PlaySE(SE_TOY_DANGO);
+        PlaySE(SE_MUD_BALL);
         break;
     }
 }
@@ -914,7 +912,7 @@ bool8 FldEff_Nop48(void)
 
 static void DoSecretBaseBreakableDoorEffect(s16 x, s16 y)
 {
-    PlaySE(SE_TOY_KABE);
+    PlaySE(SE_BREAKABLE_DOOR);
     MapGridSetMetatileIdAt(x, y, METATILE_SecretBase_BreakableDoor_BottomOpen);
     MapGridSetMetatileIdAt(x, y - 1, METATILE_SecretBase_BreakableDoor_TopOpen);
     CurrentMapDrawMetatileAt(x, y);
@@ -959,28 +957,28 @@ static void Task_SecretBaseMusicNoteMatSound(u8 taskId)
         switch (gTasks[taskId].tMetatileID)
         {
         case METATILE_SecretBase_NoteMat_C_Low:
-            PlaySE(SE_TOY_C);
+            PlaySE(SE_NOTE_C);
             break;
         case METATILE_SecretBase_NoteMat_D:
-            PlaySE(SE_TOY_D);
+            PlaySE(SE_NOTE_D);
             break;
         case METATILE_SecretBase_NoteMat_E:
-            PlaySE(SE_TOY_E);
+            PlaySE(SE_NOTE_E);
             break;
         case METATILE_SecretBase_NoteMat_F:
-            PlaySE(SE_TOY_F);
+            PlaySE(SE_NOTE_F);
             break;
         case METATILE_SecretBase_NoteMat_G:
-            PlaySE(SE_TOY_G);
+            PlaySE(SE_NOTE_G);
             break;
         case METATILE_SecretBase_NoteMat_A:
-            PlaySE(SE_TOY_A);
+            PlaySE(SE_NOTE_A);
             break;
         case METATILE_SecretBase_NoteMat_B:
-            PlaySE(SE_TOY_B);
+            PlaySE(SE_NOTE_B);
             break;
         case METATILE_SecretBase_NoteMat_C_High:
-            PlaySE(SE_TOY_C1);
+            PlaySE(SE_NOTE_C_HIGH);
             break;
         }
 
@@ -1006,7 +1004,7 @@ static void SpriteCB_GlitterMatSparkle(struct Sprite *sprite)
     sprite->data[0]++;
 
     if (sprite->data[0] == 8)
-        PlaySE(SE_W215);
+        PlaySE(SE_M_HEAL_BELL);
 
     if (sprite->data[0] >= 32)
         DestroySprite(sprite);
@@ -1081,7 +1079,7 @@ bool8 FldEff_SandPillar(void)
 
 static void SpriteCB_SandPillar_BreakTop(struct Sprite *sprite)
 {
-    PlaySE(SE_W088);
+    PlaySE(SE_M_ROCK_THROW);
 
     if (MapGridGetMetatileIdAt(gFieldEffectArguments[5], gFieldEffectArguments[6] - 1) == METATILE_SecretBase_SandOrnament_TopWall)
         MapGridSetMetatileIdAt(gFieldEffectArguments[5], gFieldEffectArguments[6] - 1, METATILE_SecretBase_Wall_TopMid | METATILE_COLLISION_MASK);
@@ -1226,7 +1224,7 @@ static void Task_FieldPoisonEffect(u8 taskId)
 
 void FldEffPoison_Start(void)
 {
-    PlaySE(SE_DOKU);
+    PlaySE(SE_FIELD_POISON);
     CreateTask(Task_FieldPoisonEffect, 80);
 }
 
@@ -1298,7 +1296,7 @@ u8 CreateRecordMixingLights(void)
     else
     {
         struct Sprite *sprite = &gSprites[spriteId];
-        sub_8092FF0(16, 13, &sprite->pos1.x, &sprite->pos1.y);
+        GetMapCoordsFromSpritePos(16, 13, &sprite->pos1.x, &sprite->pos1.y);
         sprite->coordOffsetEnabled = TRUE;
         sprite->pos1.x += 16;
         sprite->pos1.y += 2;

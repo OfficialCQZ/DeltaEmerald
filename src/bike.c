@@ -659,7 +659,7 @@ static void AcroBikeTransition_SideJump(u8 direction)
         }
     }
     playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
-    PlaySE(SE_JITE_PYOKO);
+    PlaySE(SE_BIKE_HOP);
     playerObjEvent->facingDirectionLocked = 1;
     PlayerSetAnimId(GetJumpMovementAction(direction), 2);
 }
@@ -963,9 +963,10 @@ bool8 IsBikingDisallowedByPlayer(void)
     return TRUE;
 }
 
-bool8 player_should_look_direction_be_enforced_upon_movement(void)
+bool8 IsPlayerNotUsingAcroBikeOnBumpySlope(void)
 {
-    if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_ACRO_BIKE) != FALSE && MetatileBehavior_IsBumpySlope(gObjectEvents[gPlayerAvatar.objectEventId].currentMetatileBehavior) != FALSE)
+    if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_ACRO_BIKE) 
+        && MetatileBehavior_IsBumpySlope(gObjectEvents[gPlayerAvatar.objectEventId].currentMetatileBehavior))
         return FALSE;
     else
         return TRUE;

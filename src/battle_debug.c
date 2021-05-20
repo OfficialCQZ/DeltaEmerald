@@ -1171,7 +1171,7 @@ static void PrintSecondaryEntries(struct BattleDebugMenu *data)
 
 static void DestroyModifyArrows(struct BattleDebugMenu *data)
 {
-    FreeSpritePaletteByTag(gSpritePalette_RtcArrow.tag);
+    FreeSpritePaletteByTag(gSpritePalette_Arrow.tag);
     if (data->modifyArrows.arrowSpriteId[0] != 0xFF)
         DestroySprite(&gSprites[data->modifyArrows.arrowSpriteId[0]]);
     if (data->modifyArrows.arrowSpriteId[1] != 0xFF)
@@ -1440,23 +1440,23 @@ static u8 *GetSideStatusValue(struct BattleDebugMenu *data, bool32 changeStatus,
 
 static void SetUpModifyArrows(struct BattleDebugMenu *data)
 {
-    LoadSpritePalette(&gSpritePalette_RtcArrow);
-    data->modifyArrows.arrowSpriteId[0] = CreateSprite(&gSpriteTemplate_RtcArrow, 207, 12, 0);
-    data->modifyArrows.arrowSpriteId[1] = CreateSprite(&gSpriteTemplate_RtcArrow, 207, 36, 0);
+    LoadSpritePalette(&gSpritePalette_Arrow);
+    data->modifyArrows.arrowSpriteId[0] = CreateSprite(&gSpriteTemplate_Arrow, 207, 12, 0);
+    data->modifyArrows.arrowSpriteId[1] = CreateSprite(&gSpriteTemplate_Arrow, 207, 36, 0);
     gSprites[data->modifyArrows.arrowSpriteId[1]].animNum = 1;
     switch (data->currentMainListItemId)
     {
     case LIST_ITEM_ABILITY:
         data->modifyArrows.minValue = 0;
-        data->modifyArrows.maxValue = ABILITIES_COUNT_GEN7 - 1;
+        data->modifyArrows.maxValue = ABILITIES_COUNT_GEN8 - 1;
         data->modifyArrows.maxDigits = 3;
         data->modifyArrows.modifiedValPtr = &gBattleMons[data->battlerId].ability;
-        data->modifyArrows.typeOfVal = VAL_U8;
+        data->modifyArrows.typeOfVal = VAL_U16;
         data->modifyArrows.currValue = gBattleMons[data->battlerId].ability;
         break;
     case LIST_ITEM_MOVES:
         data->modifyArrows.minValue = 0;
-        data->modifyArrows.maxValue = MOVES_COUNT_GEN7 - 1;
+        data->modifyArrows.maxValue = MOVES_COUNT_GEN8 - 1;
         data->modifyArrows.maxDigits = 3;
         if (data->currentSecondaryListItemId == 4)
         {

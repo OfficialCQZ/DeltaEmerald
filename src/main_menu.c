@@ -3,7 +3,6 @@
 #include "bg.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
-#include "constants/species.h"
 #include "constants/trainers.h"
 #include "decompress.h"
 #include "event_data.h"
@@ -30,7 +29,6 @@
 #include "scanline_effect.h"
 #include "sound.h"
 #include "sprite.h"
-#include "string.h"
 #include "strings.h"
 #include "string_util.h"
 #include "task.h"
@@ -585,9 +583,9 @@ static u32 InitMainMenu(bool8 returningFromOptionsMenu)
     ResetSpriteData();
     FreeAllSpritePalettes();
     if (returningFromOptionsMenu)
-        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0x10, 0, RGB_BLACK); // fade to black
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0x10, 0, RGB_BLACK); // fade to black
     else
-        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0x10, 0, RGB_BLACK); // fade to white -- In the Gen6 remakes, it should now fade from black.
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0x10, 0, RGB_BLACK); // fade to white -- In the Gen6 remakes, it should now fade from black.
     ResetBgsAndClearDma3BusyFlags(0);
     InitBgsFromTemplates(0, sMainMenuBgTemplates, ARRAY_COUNT(sMainMenuBgTemplates));
     ChangeBgX(0, 0, 0);
@@ -698,7 +696,7 @@ static void Task_MainMenuCheckSaveFile(u8 taskId)
 static void Task_WaitForSaveFileErrorWindow(u8 taskId)
 {
     RunTextPrinters();
-    if (!IsTextPrinterActive(7) && (gMain.newKeys & A_BUTTON))
+    if (!IsTextPrinterActive(7) && (JOY_NEW(A_BUTTON)))
     {
         ClearWindowTilemap(7);
         ClearMainMenuWindowTilemap(&sWindowTemplates_MainMenu[7]);
@@ -733,7 +731,7 @@ static void Task_MainMenuCheckBattery(u8 taskId)
 static void Task_WaitForBatteryDryErrorWindow(u8 taskId)
 {
     RunTextPrinters();
-    if (!IsTextPrinterActive(7) && (gMain.newKeys & A_BUTTON))
+    if (!IsTextPrinterActive(7) && (JOY_NEW(A_BUTTON)))
     {
         ClearWindowTilemap(7);
         ClearMainMenuWindowTilemap(&sWindowTemplates_MainMenu[7]);
@@ -889,22 +887,22 @@ static bool8 HandleMainMenuInput(u8 taskId)
 {
     s16* data = gTasks[taskId].data;
 
-    if (gMain.newKeys & A_BUTTON)
+    if (JOY_NEW(A_BUTTON))
     {
         PlaySE(DELTA_SE_SELECT);
         IsWirelessAdapterConnected();   // why bother calling this here? debug? Task_HandleMainMenuAPressed will check too
-        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK);
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
         gTasks[taskId].func = Task_HandleMainMenuAPressed;
     }
-    else if (gMain.newKeys & B_BUTTON)
+    else if (JOY_NEW(B_BUTTON))
     {
         PlaySE(DELTA_SE_SELECT);
-        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK);
-        SetGpuReg(REG_OFFSET_WIN0H, WIN_RANGE(0, 240));
-        SetGpuReg(REG_OFFSET_WIN0V, WIN_RANGE(0, 160));
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
+        SetGpuReg(REG_OFFSET_WIN0H, WIN_RANGE(0, DISPLAY_WIDTH));
+        SetGpuReg(REG_OFFSET_WIN0V, WIN_RANGE(0, DISPLAY_HEIGHT));
         gTasks[taskId].func = Task_HandleMainMenuBPressed;
     }
-    else if ((gMain.newKeys & DPAD_UP) && tCurrItem > 0)
+    else if ((JOY_NEW(DPAD_UP)) && tCurrItem > 0)
     {
         PlaySE(DELTA_SE_CHOOSE);
         if (tMenuType == HAS_MYSTERY_EVENTS && tIsScrolled == TRUE && tCurrItem == 1)
@@ -917,7 +915,7 @@ static bool8 HandleMainMenuInput(u8 taskId)
         sCurrItemAndOptionMenuCheck = tCurrItem;
         return TRUE;
     }
-    else if ((gMain.newKeys & DPAD_DOWN) && tCurrItem < tItemCount - 1)
+    else if ((JOY_NEW(DPAD_DOWN)) && tCurrItem < tItemCount - 1)
     {
         PlaySE(DELTA_SE_CHOOSE);
         if (tMenuType == HAS_MYSTERY_EVENTS && tCurrItem == 3 && tIsScrolled == FALSE)
@@ -1101,7 +1099,7 @@ static void Task_HandleMainMenuAPressed(u8 taskId)
                 SetGpuReg(REG_OFFSET_BG1VOFS, 0);
                 SetGpuReg(REG_OFFSET_BG0HOFS, 0);
                 SetGpuReg(REG_OFFSET_BG0VOFS, 0);
-                BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB_BLACK);
+                BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_BLACK);
                 return;
         }
         FreeAllWindowBuffers();
@@ -1155,10 +1153,10 @@ static void Task_DisplayMainMenuInvalidActionError(u8 taskId)
                 gTasks[taskId].tCurrItem++;
             break;
         case 3:
-            if (gMain.newKeys & (A_BUTTON | B_BUTTON))
+            if (JOY_NEW(A_BUTTON | B_BUTTON))
             {
                 PlaySE(SE_SELECT);
-                BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
+                BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
                 gTasks[taskId].func = Task_HandleMainMenuBPressed;
             }
     }
@@ -1290,13 +1288,13 @@ static void Task_NewGameBirchSpeech_Init(u8 taskId)
     FreeAllSpritePalettes();
     ResetAllPicSprites();
     AddBirchSpeechObjects(taskId);
-    BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB_BLACK);
+    BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_BLACK);
     gTasks[taskId].tBG1HOFS = 0;
     gTasks[taskId].func = Task_NewGameBirchSpeech_WaitToShowBirch;
-    gTasks[taskId].tPlayerSpriteId = 0xFF;
+    gTasks[taskId].tPlayerSpriteId = SPRITE_NONE;
     gTasks[taskId].data[3] = 0xFF;
     gTasks[taskId].tTimer = 0xD8;
-    PlayBGM(MUS_DOORO_X4);
+    PlayBGM(MUS_ROUTE122);
     ShowBg(0);
     ShowBg(1);
 }
@@ -1553,7 +1551,7 @@ static void Task_NewGameBirchSpeech_SlideOutOldGenderSprite(u8 taskId)
             spriteId = gTasks[taskId].tMaySpriteId;
         else
             spriteId = gTasks[taskId].tBrendanSpriteId;
-        gSprites[spriteId].pos1.x = 240;
+        gSprites[spriteId].pos1.x = DISPLAY_WIDTH;
         gSprites[spriteId].pos1.y = 60;
         gSprites[spriteId].invisible = FALSE;
         gTasks[taskId].tPlayerSpriteId = spriteId;
@@ -1598,9 +1596,9 @@ static void Task_NewGameBirchSpeech_WaitForWhatsYourNameToPrint(u8 taskId)
 
 static void Task_NewGameBirchSpeech_WaitPressBeforeNameChoice(u8 taskId)
 {
-    if ((gMain.newKeys & A_BUTTON) || (gMain.newKeys & B_BUTTON))
+    if ((JOY_NEW(A_BUTTON)) || (JOY_NEW(B_BUTTON)))
     {
-        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
         gTasks[taskId].func = Task_NewGameBirchSpeech_StartNamingScreen;
     }
 }
@@ -1764,7 +1762,7 @@ static void Task_NewGameBirchSpeech_ShrinkPlayer(u8 taskId)
             InitSpriteAffineAnim(&gSprites[spriteId]);
             StartSpriteAffineAnim(&gSprites[spriteId], 0);
             gSprites[spriteId].callback = SpriteCB_MovePlayerDownWhileShrinking;
-            BeginNormalPaletteFade(0x0000FFFF, 0, 0, 16, RGB_BLACK);
+            BeginNormalPaletteFade(PALETTES_BG, 0, 0, 16, RGB_BLACK);
             FadeOutBGM(4);
             gTasks[taskId].func = Task_NewGameBirchSpeech_WaitForPlayerShrink;
         }
@@ -1788,7 +1786,7 @@ static void Task_NewGameBirchSpeech_FadePlayerToWhite(u8 taskId)
         spriteId = gTasks[taskId].tPlayerSpriteId;
         gSprites[spriteId].callback = SpriteCB_Null;
         SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP);
-        BeginNormalPaletteFade(0xFFFF0000, 0, 0, 16, RGB_WHITEALPHA);
+        BeginNormalPaletteFade(PALETTES_OBJECTS, 0, 0, 16, RGB_WHITEALPHA);
         gTasks[taskId].func = Task_NewGameBirchSpeech_Cleanup;
     }
 }
@@ -1814,7 +1812,7 @@ static void CB2_NewGameBirchSpeech_ReturnFromNamingScreen(void)
     ResetBgsAndClearDma3BusyFlags(0);
     SetGpuReg(REG_OFFSET_DISPCNT, 0);
     SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP);
-    InitBgsFromTemplates(0, sMainMenuBgTemplates, 2);
+    InitBgsFromTemplates(0, sMainMenuBgTemplates, ARRAY_COUNT(sMainMenuBgTemplates));
     InitBgFromTemplate(&sBirchBgTemplate);
     SetVBlankCallback(NULL);
     SetGpuReg(REG_OFFSET_BG2CNT, 0);
@@ -1858,7 +1856,7 @@ static void CB2_NewGameBirchSpeech_ReturnFromNamingScreen(void)
     gSprites[spriteId].invisible = FALSE;
     gTasks[taskId].tPlayerSpriteId = spriteId;
     SetGpuReg(REG_OFFSET_BG1HOFS, -60);
-    BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB_BLACK);
+    BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_BLACK);
     SetGpuReg(REG_OFFSET_WIN0H, 0);
     SetGpuReg(REG_OFFSET_WIN0V, 0);
     SetGpuReg(REG_OFFSET_WININ, 0);
@@ -2112,7 +2110,7 @@ static void NewGameBirchSpeech_ShowGenderMenu(void)
 {
     DrawMainMenuWindowBorder(&gNewGameBirchSpeechTextWindows[1], 0xF3);
     FillWindowPixelBuffer(1, PIXEL_FILL(1));
-    PrintMenuTable(1, 2, sMenuActions_Gender);
+    PrintMenuTable(1, ARRAY_COUNT(sMenuActions_Gender), sMenuActions_Gender);
     InitMenuInUpperLeftCornerPlaySoundWhenAPressed(1, 2, 0);
     PutWindowTilemap(1);
     CopyWindowToVram(1, 3);
@@ -2132,9 +2130,9 @@ void NewGameBirchSpeech_SetDefaultPlayerName(u8 nameId)
         name = gMalePresetNames[nameId];
     else
         name = gFemalePresetNames[nameId];
-    for (i = 0; i < 7; i++)
+    for (i = 0; i < PLAYER_NAME_LENGTH; i++)
         gSaveBlock2Ptr->playerName[i] = name[i];
-    gSaveBlock2Ptr->playerName[7] = 0xFF;
+    gSaveBlock2Ptr->playerName[PLAYER_NAME_LENGTH] = EOS;
 }
 
 static void CreateMainMenuErrorWindow(const u8* str)
@@ -2144,8 +2142,8 @@ static void CreateMainMenuErrorWindow(const u8* str)
     PutWindowTilemap(7);
     CopyWindowToVram(7, 2);
     DrawMainMenuWindowBorder(&sWindowTemplates_MainMenu[7], MAIN_MENU_BORDER_TILE);
-    SetGpuReg(REG_OFFSET_WIN0H, WIN_RANGE(9, 231));
-    SetGpuReg(REG_OFFSET_WIN0V, WIN_RANGE(113, 159));
+    SetGpuReg(REG_OFFSET_WIN0H, WIN_RANGE(9, DISPLAY_WIDTH - 9));
+    SetGpuReg(REG_OFFSET_WIN0V, WIN_RANGE(113, DISPLAY_HEIGHT - 1));
 }
 
 static void MainMenu_FormatSavegameText(void)

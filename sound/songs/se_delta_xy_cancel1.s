@@ -1,6 +1,6 @@
 	.include "MPlayDef.s"
 
-	.equ	deltase_xy_cancel1_grp, voicegroup127
+	.equ	deltase_xy_cancel1_grp, voicegroup259
 	.equ	deltase_xy_cancel1_pri, 5
 	.equ	deltase_xy_cancel1_rev, reverb_set+50
 	.equ	deltase_xy_cancel1_mvl, 125

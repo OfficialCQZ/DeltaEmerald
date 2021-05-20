@@ -84,7 +84,7 @@ LittlerootTown_MaysHouse_2F_EventScript_MeetMay:: @ 81F934A
 	applymovement LOCALID_RIVAL, Common_Movement_Delay48
 	waitmovement 0
 	delay 10
-	playbgm MUS_GIRL_SUP, 1
+	playbgm MUS_ENCOUNTER_MAY, 1
 	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFastestRight
 	waitmovement 0
 	msgbox RivalsHouse_2F_Text_MayWhoAreYou, MSGBOX_DEFAULT
@@ -92,7 +92,7 @@ LittlerootTown_MaysHouse_2F_EventScript_MeetMay:: @ 81F934A
 	applymovement OBJ_EVENT_ID_PLAYER, LittlerootTown_MaysHouse_2F_Movement_MakeWay
 	applymovement LOCALID_RIVAL, LittlerootTown_MaysHouse_2F_Movement_MayHeadsOut
 	waitmovement 0
-	playse SE_KAIDAN
+	playse SE_EXIT
 	removeobject LOCALID_RIVAL
 	setvar VAR_LITTLEROOT_RIVAL_STATE, 3
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_2F_POKE_BALL

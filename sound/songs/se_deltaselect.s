@@ -1,6 +1,6 @@
 	.include "MPlayDef.s"
 
-	.equ	deltase_select_grp, voicegroup127
+	.equ	deltase_select_grp, voicegroup259
 	.equ	deltase_select_pri, 5
 	.equ	deltase_select_rev, reverb_set+50
 	.equ	deltase_select_mvl, 125

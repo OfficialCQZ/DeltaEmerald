@@ -4,7 +4,6 @@
 #include "decompress.h"
 #include "pokemon.h"
 #include "text.h"
-#include "constants/species.h"
 
 EWRAM_DATA ALIGNED(4) u8 gDecompressionBuffer[0x4000] = {0};
 
@@ -87,7 +86,13 @@ void LoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *dest, s32
 {
     if (species == SPECIES_UNOWN)
     {
-        u32 id = GetUnownSpeciesId(personality);
+        u16 i = GET_UNOWN_LETTER(personality);
+
+        // The other Unowns are separate from Unown A.
+        if (i == 0)
+            i = SPECIES_UNOWN;
+        else
+            i += SPECIES_UNOWN_B - 1;
 
         if (!isFrontPic)
             LZ77UnCompWram(gMonBackPicTable[id].data, dest);
@@ -303,7 +308,13 @@ void LoadSpecialPokePic_2(const struct CompressedSpriteSheet *src, void *dest, s
 {
     if (species == SPECIES_UNOWN)
     {
-        u32 id = GetUnownSpeciesId(personality);
+        u16 i = GET_UNOWN_LETTER(personality);
+
+        // The other Unowns are separate from Unown A.
+        if (i == 0)
+            i = SPECIES_UNOWN;
+        else
+            i += SPECIES_UNOWN_B - 1;
 
         if (!isFrontPic)
             LZ77UnCompWram(gMonBackPicTable[id].data, dest);
@@ -355,7 +366,13 @@ void LoadSpecialPokePic_DontHandleDeoxys(const struct CompressedSpriteSheet *src
 {
     if (species == SPECIES_UNOWN)
     {
-        u32 id = GetUnownSpeciesId(personality);
+        u16 i = GET_UNOWN_LETTER(personality);
+
+        // The other Unowns are separate from Unown A.
+        if (i == 0)
+            i = SPECIES_UNOWN;
+        else
+            i += SPECIES_UNOWN_B - 1;
 
         if (!isFrontPic)
             LZ77UnCompWram(gMonBackPicTable[id].data, dest);
@@ -373,5 +390,5 @@ void LoadSpecialPokePic_DontHandleDeoxys(const struct CompressedSpriteSheet *src
 static void DuplicateDeoxysTiles(void *pointer, s32 species)
 {
     if (species == SPECIES_DEOXYS)
-        CpuCopy32(pointer + 0x800, pointer, 0x800);
+        CpuCopy32(pointer + MON_PIC_SIZE, pointer, MON_PIC_SIZE);
 }

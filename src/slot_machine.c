@@ -876,7 +876,7 @@ static void Task_FadeToSlotMachine(u8 taskId)
     switch (gTasks[taskId].tState)
     {
     case 0:
-        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK);
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
         gTasks[taskId].tState++;
         break;
     case 1:
@@ -985,7 +985,7 @@ static void PlaySlotMachine_Internal(u8 slotMachineIndex, MainCallback exitCallb
 {
     struct Task *task = &gTasks[CreateTask(SlotMachineDummyTask, 0xFF)];
     task->data[0] = slotMachineIndex;
-    StoreWordInTwoHalfwords((u16 *)&task->data[1], (intptr_t)exitCallback);
+    StoreWordInTwoHalfwords(&task->data[1], (intptr_t)exitCallback);
 }
 
 
@@ -1149,7 +1149,7 @@ static void Task_SlotMachine(u8 taskId)
 // SLOT_ACTION_UNFADE
 static bool8 SlotAction_UnfadeScreen(struct Task *task)
 {
-    BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB(0, 0, 0));
+    BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB(0, 0, 0));
     LoadPikaPowerMeter(sSlotMachine->pikaPower);
     sSlotMachine->state++; // SLOT_ACTION_WAIT_FADE
     return FALSE;
@@ -1220,7 +1220,7 @@ static bool8 SlotAction_HandleBetInput(struct Task *task)
             sSlotMachine->coins -= (MAX_BET - sSlotMachine->bet);
             sSlotMachine->bet = MAX_BET;
             sSlotMachine->state = SLOT_ACTION_START_SPIN;
-            PlaySE(SE_REGI);
+            PlaySE(SE_SHOP);
         }
         else  // you didn't have enough coins to bet the max
         {
@@ -1232,7 +1232,7 @@ static bool8 SlotAction_HandleBetInput(struct Task *task)
         // Increase bet
         if (JOY_NEW(DPAD_DOWN) && sSlotMachine->coins != 0)
         {
-            PlaySE(SE_REGI);
+            PlaySE(SE_SHOP);
             LightenBetTiles(sSlotMachine->bet);
             sSlotMachine->coins--;
             sSlotMachine->bet++;
@@ -1335,7 +1335,7 @@ static bool8 SlotAction_AwaitReelStop(struct Task *task)
 {
     if (JOY_NEW(A_BUTTON))
     {
-        PlaySE(SE_JYUNI);
+        PlaySE(SE_CONTEST_PLACE);
         StopSlotReel(sSlotMachine->currReel);
         PressStopReelButton(sSlotMachine->currReel);
         sSlotMachine->state = SLOT_ACTION_AWAIT_ALL_REELS_STOP;
@@ -1381,17 +1381,17 @@ static bool8 SlotAction_CheckMatches(struct Task *task)
         }
         if (sSlotMachine->matchedSymbols & ((1 << MATCHED_777_BLUE) | (1 << MATCHED_777_RED)))
         {
-            PlayFanfare(MUS_ME_B_BIG);
+            PlayFanfare(MUS_SLOTS_JACKPOT);
             CreateDigitalDisplayScene(DIG_DISPLAY_BONUS_BIG);
         }
         else if (sSlotMachine->matchedSymbols & (1 << MATCHED_777_MIXED))
         {
-            PlayFanfare(MUS_ME_B_BIG);
+            PlayFanfare(MUS_SLOTS_JACKPOT);
             CreateDigitalDisplayScene(DIG_DISPLAY_BONUS_REG);
         }
         else
         {
-            PlayFanfare(MUS_ME_B_SMALL);
+            PlayFanfare(MUS_SLOTS_WIN);
             CreateDigitalDisplayScene(DIG_DISPLAY_WIN);
         }
         // if you matched 777...
@@ -1593,7 +1593,7 @@ static bool8 SlotAction_EndGame(struct Task *task)
 {
     SetCoins(sSlotMachine->coins);
     AlertTVOfNewCoinTotal(GetCoins());
-    BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB(0, 0, 0));
+    BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB(0, 0, 0));
     sSlotMachine->state++; // SLOT_ACTION_FREE
     return FALSE;
 }
@@ -1945,7 +1945,7 @@ static bool8 AwardPayoutAction_GivePayoutToPlayer(struct Task *task)
         if (sSlotMachine->coins < MAX_COINS)
             sSlotMachine->coins++;
         task->data[1] = 8;
-        if (gMain.heldKeys & A_BUTTON)
+        if (JOY_HELD(A_BUTTON))
             task->data[1] = 4;
     }
     if (IsFanfareTaskInactive() && JOY_NEW(START_BUTTON))
@@ -3098,7 +3098,7 @@ static void ReelTime_Init(struct Task *task)
     CreateReelTimeNumberGapSprite();
     GetReeltimeDraw();
     StopMapMusic();
-    PlayNewMapMusic(MUS_BD_TIME);
+    PlayNewMapMusic(MUS_ROULETTE);
 }
 
 static void ReelTime_WindowEnter(struct Task *task)
@@ -3240,7 +3240,7 @@ static void ReelTime_PikachuReact(struct Task *task)
         {
             task->data[4] = 0xa0;
             StartSpriteAnimIfDifferent(&gSprites[sSlotMachine->reelTimePikachuSpriteId], 5);
-            PlayFanfare(MUS_ME_ZANNEN);
+            PlayFanfare(MUS_TOO_BAD);
         }
         else
         {
@@ -3252,7 +3252,7 @@ static void ReelTime_PikachuReact(struct Task *task)
                 ResetPikaPowerBolts();
                 sSlotMachine->pikaPower = 0;
             }
-            PlayFanfare(MUS_ME_B_SMALL);
+            PlayFanfare(MUS_SLOTS_WIN);
         }
     }
 }
@@ -3328,8 +3328,8 @@ static void ReelTime_ExplodeMachine(struct Task *task)
     task->data[4] = 4;
     task->data[5] = 0;
     StopMapMusic();
-    PlayFanfare(MUS_ME_ZANNEN);
-    PlaySE(SE_W153);
+    PlayFanfare(MUS_TOO_BAD);
+    PlaySE(SE_M_EXPLOSION);
 }
 
 static void ReelTime_WaitExplode(struct Task *task)
@@ -3409,7 +3409,7 @@ static void OpenInfoBox(u8 digDisplayId)
 
 static bool8 IsInfoBoxClosed(void)
 {
-    if (FindTaskIdByFunc(RunInfoBoxActions) == 0xFF)
+    if (FindTaskIdByFunc(RunInfoBoxActions) == TASK_NONE)
         return TRUE;
     else
         return FALSE;
@@ -3422,7 +3422,7 @@ static void RunInfoBoxActions(u8 taskId)
 
 static void InfoBox_FadeIn(struct Task *task)
 {
-    BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB(0, 0, 0));
+    BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB(0, 0, 0));
     task->tState++;
 }
 
@@ -3446,7 +3446,7 @@ static void InfoBox_AddText(struct Task *task)
 {
     AddTextPrinterParameterized3(1, 1, 2, 5, sColors_ReeltimeHelp, 0, gText_ReelTimeHelp);
     CopyWindowToVram(1, 3);
-    BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB(0, 0, 0));
+    BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB(0, 0, 0));
     task->tState++;
 }
 
@@ -3458,7 +3458,7 @@ static void InfoBox_AwaitPlayerInput(struct Task *task)
         ClearWindowTilemap(1);
         CopyWindowToVram(1, 1);
         RemoveWindow(1);
-        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB(0, 0, 0));
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB(0, 0, 0));
         task->tState++;
     }
 }
@@ -3479,7 +3479,7 @@ static void InfoBox_CreateDigitalDisplay(struct Task *task)
 static void InfoBox_LoadPikaPowerMeter(struct Task *task)
 {
     LoadPikaPowerMeter(sSlotMachine->pikaPower);
-    BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB(0, 0, 0));
+    BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB(0, 0, 0));
     task->tState++;
 }
 

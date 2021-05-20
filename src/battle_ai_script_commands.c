@@ -16,7 +16,6 @@
 #include "constants/battle_move_effects.h"
 #include "constants/hold_effects.h"
 #include "constants/moves.h"
-#include "constants/species.h"
 
 #define AI_ACTION_DONE          0x0001
 #define AI_ACTION_FLEE          0x0002
@@ -100,16 +99,16 @@ static void Cmd_if_equal_u32(void);
 static void Cmd_if_not_equal_u32(void);
 static void Cmd_if_user_goes(void);
 static void Cmd_if_cant_use_belch(void);
-static void Cmd_nullsub_2A(void);
-static void Cmd_nullsub_2B(void);
+static void Cmd_nop_2A(void);
+static void Cmd_nop_2B(void);
 static void Cmd_count_usable_party_mons(void);
 static void Cmd_get_considered_move(void);
 static void Cmd_get_considered_move_effect(void);
 static void Cmd_get_ability(void);
 static void Cmd_get_highest_type_effectiveness(void);
 static void Cmd_if_type_effectiveness(void);
-static void Cmd_nullsub_32(void);
-static void Cmd_nullsub_33(void);
+static void Cmd_nop_32(void);
+static void Cmd_nop_33(void);
 static void Cmd_if_status_in_party(void);
 static void Cmd_if_status_not_in_party(void);
 static void Cmd_get_weather(void);
@@ -145,7 +144,7 @@ static void Cmd_if_field_status(void);
 static void Cmd_get_move_accuracy(void);
 static void Cmd_call_if_eq(void);
 static void Cmd_call_if_move_flag(void);
-static void Cmd_nullsub_57(void);
+static void Cmd_nop_57(void);
 static void Cmd_call(void);
 static void Cmd_goto(void);
 static void Cmd_end(void);
@@ -232,16 +231,16 @@ static const BattleAICmdFunc sBattleAICmdTable[] =
     Cmd_if_not_equal_u32,                           // 0x27
     Cmd_if_user_goes,                               // 0x28
     Cmd_if_cant_use_belch,                          // 0x29
-    Cmd_nullsub_2A,                                 // 0x2A
-    Cmd_nullsub_2B,                                 // 0x2B
+    Cmd_nop_2A,                                     // 0x2A
+    Cmd_nop_2B,                                     // 0x2B
     Cmd_count_usable_party_mons,                    // 0x2C
     Cmd_get_considered_move,                        // 0x2D
     Cmd_get_considered_move_effect,                 // 0x2E
     Cmd_get_ability,                                // 0x2F
     Cmd_get_highest_type_effectiveness,             // 0x30
     Cmd_if_type_effectiveness,                      // 0x31
-    Cmd_nullsub_32,                                 // 0x32
-    Cmd_nullsub_33,                                 // 0x33
+    Cmd_nop_32,                                     // 0x32
+    Cmd_nop_33,                                     // 0x33
     Cmd_if_status_in_party,                         // 0x34
     Cmd_if_status_not_in_party,                     // 0x35
     Cmd_get_weather,                                // 0x36
@@ -277,7 +276,7 @@ static const BattleAICmdFunc sBattleAICmdTable[] =
     Cmd_get_move_accuracy,                          // 0x54
     Cmd_call_if_eq,                                 // 0x55
     Cmd_call_if_move_flag,                          // 0x56
-    Cmd_nullsub_57,                                 // 0x57
+    Cmd_nop_57,                                     // 0x57
     Cmd_call,                                       // 0x58
     Cmd_goto,                                       // 0x59
     Cmd_end,                                        // 0x5A
@@ -343,7 +342,7 @@ void BattleAI_SetupItems(void)
     if ((gBattleTypeFlags & BATTLE_TYPE_TRAINER)
         && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_SAFARI | BATTLE_TYPE_BATTLE_TOWER
                                | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_SECRET_BASE | BATTLE_TYPE_FRONTIER
-                               | BATTLE_TYPE_INGAME_PARTNER | BATTLE_TYPE_x2000000)
+                               | BATTLE_TYPE_INGAME_PARTNER | BATTLE_TYPE_RECORDED_LINK)
             )
        )
     {
@@ -789,7 +788,7 @@ void RecordKnownMove(u8 battlerId, u32 move)
     }
 }
 
-void RecordAbilityBattle(u8 battlerId, u8 abilityId)
+void RecordAbilityBattle(u8 battlerId, u16 abilityId)
 {
     BATTLE_HISTORY->abilities[battlerId] = abilityId;
 }
@@ -1607,11 +1606,11 @@ static void Cmd_if_user_goes(void)
     }
 }
 
-static void Cmd_nullsub_2A(void)
+static void Cmd_nop_2A(void)
 {
 }
 
-static void Cmd_nullsub_2B(void)
+static void Cmd_nop_2B(void)
 {
 }
 
@@ -1802,11 +1801,11 @@ static void Cmd_if_type_effectiveness(void)
         gAIScriptPtr += 6;
 }
 
-static void Cmd_nullsub_32(void)
+static void Cmd_nop_32(void)
 {
 }
 
-static void Cmd_nullsub_33(void)
+static void Cmd_nop_33(void)
 {
 }
 
@@ -2394,7 +2393,7 @@ static void Cmd_call_if_move_flag(void)
     }
 }
 
-static void Cmd_nullsub_57(void)
+static void Cmd_nop_57(void)
 {
 }
 
@@ -2608,7 +2607,7 @@ static bool32 HasMoveWithSplit(u32 battler, u32 split)
 
     for (i = 0; i < MAX_MON_MOVES; i++)
     {
-        if (moves[i] != MOVE_NONE && moves[i] != 0xFFFF && gBattleMoves[moves[i]].split == split)
+        if (moves[i] != MOVE_NONE && moves[i] != 0xFFFF && GetBattleMoveSplit(moves[i]) == split)
             return TRUE;
     }
 
@@ -2644,7 +2643,7 @@ static bool32 MovesWithSplitUnusable(u32 attacker, u32 target, u32 split)
     {
         if (moves[i] != MOVE_NONE
              && moves[i] != 0xFFFF
-             && gBattleMoves[moves[i]].split == split
+             && GetBattleMoveSplit(moves[i]) == split
              && !(unusable & gBitTable[i]))
         {
             SetTypeBeforeUsingMove(moves[i], attacker);
@@ -2802,13 +2801,13 @@ static void Cmd_get_curr_dmg_hp_percent(void)
 
 static void Cmd_get_move_split_from_result(void)
 {
-    AI_THINKING_STRUCT->funcResult = gBattleMoves[AI_THINKING_STRUCT->funcResult].split;
+    AI_THINKING_STRUCT->funcResult = GetBattleMoveSplit(AI_THINKING_STRUCT->funcResult);
     gAIScriptPtr += 1;
 }
 
 static void Cmd_get_considered_move_split(void)
 {
-    AI_THINKING_STRUCT->funcResult = gBattleMoves[AI_THINKING_STRUCT->moveConsidered].split;
+    AI_THINKING_STRUCT->funcResult = GetBattleMoveSplit(AI_THINKING_STRUCT->moveConsidered);
     gAIScriptPtr += 1;
 }
 
