@@ -118,7 +118,7 @@ static const u16 sQuizLadyQuestion8[] =
     EC_MOVE2(BLOCK),
     EC_WORD_ESCAPE,
     EC_WORD_QUES,
-    EC_EMPTY_WORD, 
+    EC_EMPTY_WORD,
     EC_WORD_RUN_AWAY,
     EC_WORD_SHADOW_TAG,
     EC_WORD_WONDER_GUARD

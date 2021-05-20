@@ -3,18 +3,22 @@
 
 #include "constants/pokemon.h"
 #include "sprite.h"
+#include "constants/region_map_sections.h"
+#include "constants/pokemon_config.h"
+#include "constants/map_groups.h"
 
 #define GET_BASE_SPECIES_ID(speciesId) (GetFormSpeciesId(speciesId, 0))
 
 struct PokemonSubstruct0
 {
-    u16 species;
-    u16 heldItem;
-    u32 experience;
-    u8 ppBonuses;
-    u8 friendship;
-    u16 filler;
-};
+    /*0x00*/ u16 species;
+    /*0x02*/ u16 heldItem;
+    /*0x04*/ u32 experience;
+    /*0x08*/ u8 ppBonuses;
+    /*0x09*/ u8 friendship;
+    /*0x0A*/ u16 pokeball:5; //31 balls
+             u16 filler:11;
+}; /* size = 12 */
 
 struct PokemonSubstruct1
 {
@@ -73,9 +77,11 @@ struct PokemonSubstruct3
  /* 0x0B */ u32 nationalRibbon:1;
  /* 0x0B */ u32 earthRibbon:1;
  /* 0x0B */ u32 worldRibbon:1; // distributed during Pokémon Festa '04 and '05 to tournament winners
- /* 0x0B */ u32 unusedRibbons:4; // discarded in Gen 4
+ /* 0x0B */ u32 unusedRibbons:2; // discarded in Gen 4
+ /* 0x0B */ u32 abilityNum:2;
  /* 0x0B */ u32 eventLegal:1; // controls Mew & Deoxys obedience; if set, Pokémon is a fateful encounter in Gen 4+; set for in-game event island legendaries, some distributed events, and Pokémon from XD: Gale of Darkness.
-};
+
+}; /* size = 12 */
 
 union PokemonSubstruct
 {
@@ -200,10 +206,14 @@ struct BaseStats
  /* 0x13 */ u8 growthRate;
  /* 0x14 */ u8 eggGroup1;
  /* 0x15 */ u8 eggGroup2;
- /* 0x16 */ u16 abilities[NUM_ABILITY_SLOTS];
+ /* 0x16 */ u16 abilities[2];
+#ifdef POKEMON_EXPANSION
+            u16 abilityHidden;
+#endif
             u8 safariZoneFleeRate;
             u8 bodyColor : 7;
             u8 noFlip : 1;
+ /* 0x1B */ u8 flags;
 };
 
 #include "constants/battle_config.h"
@@ -291,7 +301,6 @@ void CreateMonWithEVSpreadNatureOTID(struct Pokemon *mon, u16 species, u8 level,
 void ConvertPokemonToBattleTowerPokemon(struct Pokemon *mon, struct BattleTowerPokemon *dest);
 void CreateEventLegalMon(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV, u8 hasFixedPersonality, u32 fixedPersonality, u8 otIdType, u32 fixedOtId);
 bool8 ShouldIgnoreDeoxysForm(u8 caseId, u8 battlerId);
-void SetDeoxysStats(void);
 u16 GetUnionRoomTrainerPic(void);
 u16 GetUnionRoomTrainerClass(void);
 void CreateEventLegalEnemyMon(void);
@@ -359,7 +368,7 @@ u8 GetItemEffectParamOffset(u16 itemId, u8 effectByte, u8 effectBit);
 u8 *UseStatIncreaseItem(u16 itemId);
 u8 GetNature(struct Pokemon *mon);
 u8 GetNatureFromPersonality(u32 personality);
-u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 type, u16 evolutionItem);
+u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 type, u16 evolutionItem, u16 tradePartnerSpecies);
 u16 HoennPokedexNumToSpecies(u16 hoennNum);
 u16 NationalPokedexNumToSpecies(u16 nationalNum);
 u16 NationalToHoennOrder(u16 nationalNum);
