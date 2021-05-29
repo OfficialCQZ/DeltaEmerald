@@ -55,6 +55,7 @@ enum { // Delta Emerald
     DEBUG_DELTA_MENU_ITEM_BGMSOARING,
     DEBUG_DELTA_MENU_ITEM_BGMTITLE,
     DEBUG_DELTA_MENU_ITEM_BGMWILD,
+    DEBUG_DELTA_MENU_ITEM_BGMTRAINER,
     DEBUG_DELTA_MENU_ITEM_STOPBGM,
     DEBUG_DELTA_MENU_ITEM_TIMEVARS,
     DEBUG_DELTA_MENU_ITEM_CANCEL,
@@ -227,6 +228,7 @@ static void DebugAction_Delta_BGM_Soaring(u8);
 static void DebugAction_Delta_BGM_Title(u8);
 static void DebugAction_Delta_BGM_Stop(u8);
 static void DebugAction_Delta_BGM_Wild(u8);
+static void DebugAction_Delta_BGM_Trainer(u8);
 static void DebugAction_Delta_Cancel(u8);
 static void DebugAction_Delta_SetTimeVars(u8);
 
@@ -318,6 +320,7 @@ static const u8 gDebugText_DeltaEm[] =        _("DeltaEm");
 static const u8 gDebugText_Delta_BGM_Soaring_Day[] = _("BGM SoarDay");
 static const u8 gDebugText_Delta_BGM_Title[] = _("BGM Title");
 static const u8 gDebugText_Delta_BGM_Wild[] = _("BGM Wild");
+static const u8 gDebugText_Delta_BGM_Trainer[] = _("BGM Trainer");
 static const u8 gDebugText_Delta_BGM_Stop[] = _("Stop BGM");
 static const u8 gDebugText_Delta_SetTimeVars[] = _("RTC to Var");
 
@@ -413,6 +416,7 @@ static const struct ListMenuItem sDebugMenu_Items_Delta[] =
     [DEBUG_DELTA_MENU_ITEM_BGMSOARING] = {gDebugText_Delta_BGM_Soaring_Day, DEBUG_DELTA_MENU_ITEM_BGMSOARING},
     [DEBUG_DELTA_MENU_ITEM_BGMTITLE] = {gDebugText_Delta_BGM_Title, DEBUG_DELTA_MENU_ITEM_BGMTITLE},
     [DEBUG_DELTA_MENU_ITEM_BGMWILD] = {gDebugText_Delta_BGM_Wild, DEBUG_DELTA_MENU_ITEM_BGMWILD},
+    [DEBUG_DELTA_MENU_ITEM_BGMTRAINER] = {gDebugText_Delta_BGM_Wild, DEBUG_DELTA_MENU_ITEM_BGMTRAINER},
     [DEBUG_DELTA_MENU_ITEM_STOPBGM] = {gDebugText_Delta_BGM_Stop, DEBUG_DELTA_MENU_ITEM_STOPBGM},
     [DEBUG_DELTA_MENU_ITEM_TIMEVARS] = {gDebugText_Delta_SetTimeVars, DEBUG_DELTA_MENU_ITEM_TIMEVARS},
     [DEBUG_DELTA_MENU_ITEM_CANCEL] = {gDebugText_Cancel, DEBUG_DELTA_MENU_ITEM_CANCEL}
@@ -477,6 +481,7 @@ static void (*const sDebugMenu_Actions_Delta[])(u8) =
     [DEBUG_DELTA_MENU_ITEM_BGMSOARING] = DebugAction_Delta_BGM_Soaring,
     [DEBUG_DELTA_MENU_ITEM_BGMTITLE] = DebugAction_Delta_BGM_Title,
     [DEBUG_DELTA_MENU_ITEM_BGMWILD] = DebugAction_Delta_BGM_Wild,
+    [DEBUG_DELTA_MENU_ITEM_BGMTRAINER] = DebugAction_Delta_BGM_Trainer,
     [DEBUG_DELTA_MENU_ITEM_STOPBGM] = DebugAction_Delta_BGM_Stop,
     [DEBUG_DELTA_MENU_ITEM_TIMEVARS] = DebugAction_Delta_SetTimeVars,
     [DEBUG_DELTA_MENU_ITEM_CANCEL] = DebugAction_Delta_Cancel,
@@ -2439,12 +2444,17 @@ static void DebugAction_Delta_BGM_Soaring(u8 taskId)
 
 static void DebugAction_Delta_BGM_Title(u8 taskId)
 {
-    m4aSongNumStart(MUS_TITLE3);
+    m4aSongNumStart(MUS_TITLE);
 }
 
 static void DebugAction_Delta_BGM_Wild(u8 taskId)
 {
     m4aSongNumStart(MUS_VS_WILD);
+}
+
+static void DebugAction_Delta_BGM_Trainer(u8 taskId)
+{
+    m4aSongNumStart(MUS_VS_TRAINER);
 }
 
 static void DebugAction_Delta_BGM_Stop(u8 taskId)

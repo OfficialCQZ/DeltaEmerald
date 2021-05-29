@@ -402,7 +402,7 @@ static const struct WindowTemplate sSelect_WindowTemplates[] =
 };
 
 static const u16 sSelectText_Pal[] = INCBIN_U16("graphics/battle_frontier/factory_screen/text.gbapal");
-static const u8 sMenuOptionTextColors[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GREY, TEXT_COLOR_TRANSPARENT};
+static const u8 sMenuOptionTextColors[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_TRANSPARENT};
 static const u8 sSpeciesNameTextColors[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_RED, TEXT_COLOR_TRANSPARENT};
 
 static const struct OamData sOam_Select_Pokeball =
@@ -1024,7 +1024,7 @@ static const struct WindowTemplate sSwap_WindowTemplates[] =
 };
 
 static const u16 sSwapText_Pal[] = INCBIN_U16("graphics/battle_frontier/factory_screen/text.gbapal"); // Identical to sSelectText_Pal
-static const u8 sSwapMenuOptionsTextColors[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GREY, TEXT_COLOR_TRANSPARENT};
+static const u8 sSwapMenuOptionsTextColors[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_TRANSPARENT};
 static const u8 sSwapSpeciesNameTextColors[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_RED, TEXT_COLOR_TRANSPARENT};
 
 #define SWAPACTION_MON           1
@@ -1476,7 +1476,7 @@ static void Select_Task_OpenSummaryScreen(u8 taskId)
         sFactorySelectMons = AllocZeroed(sizeof(struct Pokemon) * SELECTABLE_MONS_COUNT);
         for (i = 0; i < SELECTABLE_MONS_COUNT; i++)
             sFactorySelectMons[i] = sFactorySelectScreen->mons[i].monData;
-        ShowPokemonSummaryScreen(PSS_MODE_LOCK_MOVES, sFactorySelectMons, currMonId, SELECTABLE_MONS_COUNT - 1, CB2_InitSelectScreen);
+        ShowPokemonSummaryScreen(SUMMARY_MODE_LOCK_MOVES, sFactorySelectMons, currMonId, SELECTABLE_MONS_COUNT - 1, CB2_InitSelectScreen);
         break;
     }
 }
@@ -2008,7 +2008,7 @@ static void Select_CreateMonSprite(void)
     u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL);
     u32 otId = GetMonData(mon, MON_DATA_OT_ID, NULL);
 
-    sFactorySelectScreen->monPics[1].monSpriteId = CreateMonPicSprite(species, otId, personality, TRUE, 88, 32, 15, 0xFFFF);
+    sFactorySelectScreen->monPics[1].monSpriteId = CreateMonPicSprite_HandleDeoxys(species, otId, personality, TRUE, 88, 32, 15, 0xFFFF);
     gSprites[sFactorySelectScreen->monPics[1].monSpriteId].centerToCornerVecX = 0;
     gSprites[sFactorySelectScreen->monPics[1].monSpriteId].centerToCornerVecY = 0;
 
@@ -2034,7 +2034,7 @@ static void Select_ReshowMonSprite(void)
     personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL);
     otId = GetMonData(mon, MON_DATA_OT_ID, NULL);
 
-    sFactorySelectScreen->monPics[1].monSpriteId = CreateMonPicSprite(species, otId, personality, TRUE, 88, 32, 15, 0xFFFF);
+    sFactorySelectScreen->monPics[1].monSpriteId = CreateMonPicSprite_HandleDeoxys(species, otId, personality, TRUE, 88, 32, 15, 0xFFFF);
     gSprites[sFactorySelectScreen->monPics[1].monSpriteId].centerToCornerVecX = 0;
     gSprites[sFactorySelectScreen->monPics[1].monSpriteId].centerToCornerVecY = 0;
 
@@ -2056,7 +2056,7 @@ static void Select_CreateChosenMonsSprites(void)
                 u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL);
                 u32 otId = GetMonData(mon, MON_DATA_OT_ID, NULL);
 
-                sFactorySelectScreen->monPics[i].monSpriteId = CreateMonPicSprite(species, otId, personality, TRUE, (i * 72) + 16, 32, i + 13, 0xFFFF);
+                sFactorySelectScreen->monPics[i].monSpriteId = CreateMonPicSprite_HandleDeoxys(species, otId, personality, TRUE, (i * 72) + 16, 32, i + 13, 0xFFFF);
                 gSprites[sFactorySelectScreen->monPics[i].monSpriteId].centerToCornerVecX = 0;
                 gSprites[sFactorySelectScreen->monPics[i].monSpriteId].centerToCornerVecY = 0;
                 break;
@@ -2390,7 +2390,7 @@ static void Swap_Task_OpenSummaryScreen(u8 taskId)
         DestroyTask(taskId);
         sFactorySwapScreen->fromSummaryScreen = TRUE;
         sFactorySwapScreen->speciesNameColorBackup = gPlttBufferUnfaded[244];
-        ShowPokemonSummaryScreen(PSS_MODE_NORMAL, gPlayerParty, sFactorySwapScreen->cursorPos, FRONTIER_PARTY_SIZE - 1, CB2_InitSwapScreen);
+        ShowPokemonSummaryScreen(SUMMARY_MODE_NORMAL, gPlayerParty, sFactorySwapScreen->cursorPos, FRONTIER_PARTY_SIZE - 1, CB2_InitSwapScreen);
         break;
     }
 }
@@ -4072,9 +4072,9 @@ static void Swap_ShowSummaryMonSprite(void)
     otId = GetMonData(mon, MON_DATA_OT_ID, NULL);
 
 #ifdef BUGFIX
-    sFactorySwapScreen->monPic.monSpriteId = CreateMonPicSprite(species, otId, personality, TRUE, 88, 32, 15, 0xFFFF);
+    sFactorySwapScreen->monPic.monSpriteId = CreateMonPicSprite_HandleDeoxys(species, otId, personality, TRUE, 88, 32, 15, 0xFFFF);
 #else
-    sFactorySwapScreen->monPic.monSpriteId = CreateMonPicSprite(species, personality, otId, TRUE, 88, 32, 15, 0xFFFF);
+    sFactorySwapScreen->monPic.monSpriteId = CreateMonPicSprite_HandleDeoxys(species, personality, otId, TRUE, 88, 32, 15, 0xFFFF);
 #endif
     gSprites[sFactorySwapScreen->monPic.monSpriteId].centerToCornerVecX = 0;
     gSprites[sFactorySwapScreen->monPic.monSpriteId].centerToCornerVecY = 0;
@@ -4221,12 +4221,17 @@ static void Task_OpenMonPic(u8 taskId)
             return;
         break;
     default:
+        #ifndef UBFIX
         DestroyTask(taskId);
+        #endif
         // UB: Should not use the task after it has been deleted.
         if (gTasks[taskId].tIsSwapScreen == TRUE)
             Swap_CreateMonSprite();
         else
             Select_CreateMonSprite();
+        #ifdef UBFIX
+        DestroyTask(taskId);
+        #endif
         return;
     }
     task->tState++;
@@ -4291,7 +4296,7 @@ static void Swap_CreateMonSprite(void)
     personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL);
     otId = GetMonData(mon, MON_DATA_OT_ID, NULL);
 
-    sFactorySwapScreen->monPic.monSpriteId = CreateMonPicSprite(species, otId, personality, TRUE, 88, 32, 15, 0xFFFF);
+    sFactorySwapScreen->monPic.monSpriteId = CreateMonPicSprite_HandleDeoxys(species, otId, personality, TRUE, 88, 32, 15, 0xFFFF);
     gSprites[sFactorySwapScreen->monPic.monSpriteId].centerToCornerVecX = 0;
     gSprites[sFactorySwapScreen->monPic.monSpriteId].centerToCornerVecY = 0;
 

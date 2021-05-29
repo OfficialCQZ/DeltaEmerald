@@ -1032,6 +1032,7 @@ void LoadContestBgAfterMoveAnim(void)
     for (i = 0; i < CONTESTANT_COUNT; i++)
     {
         u32 contestantWindowId = 5 + i;
+
         LoadPalette(eContestTempSave.cachedWindowPalettes[contestantWindowId], 16 * (5 + gContestantTurnOrder[i]), sizeof((eContestTempSave.cachedWindowPalettes[contestantWindowId])));
     }
 }
@@ -3115,7 +3116,10 @@ static u8 CreateContestantSprite(u16 species, u32 otId, u32 personality, u32 ind
     u8 spriteId;
     species = SanitizeSpecies(species);
 
-    HandleLoadSpecialPokePic(&gMonBackPicTable[species], gMonSpritesGfxPtr->sprites.ptr[0], species, personality);
+    if (index == gContestPlayerMonIndex)
+        HandleLoadSpecialPokePic_2(&gMonBackPicTable[species], gMonSpritesGfxPtr->sprites.ptr[0], species, personality);
+    else
+        HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonBackPicTable[species], gMonSpritesGfxPtr->sprites.ptr[0], species, personality);
 
     LoadCompressedPalette(GetMonSpritePalFromSpeciesAndPersonality(species, otId, personality), 0x120, 0x20);
     SetMultiuseSpriteTemplateToPokemon(species, 0);
@@ -3402,7 +3406,8 @@ static void GetAllChosenMoves(void)
 
 static void RankContestants(void)
 {
-    s32 i, j;
+    s32 i;
+    s32 j;
     s16 arr[CONTESTANT_COUNT];
 
     for (i = 0; i < CONTESTANT_COUNT; i++)
@@ -3477,7 +3482,8 @@ static bool8 ContestantCanUseTurn(u8 contestant)
 {
     if (eContestantStatus[contestant].numTurnsSkipped != 0 || eContestantStatus[contestant].noMoreTurns)
         return FALSE;
-    return TRUE;
+    else
+        return TRUE;
 }
 
 static void SetContestantStatusesForNextRound(void)
@@ -3531,7 +3537,8 @@ bool8 Contest_IsMonsTurnDisabled(u8 contestant)
 {
     if (eContestantStatus[contestant].numTurnsSkipped != 0 || eContestantStatus[contestant].noMoreTurns)
         return TRUE;
-    return FALSE;
+    else
+        return FALSE;
 }
 
 static void CalculateTotalPointsForContestant(u8 contestant)

@@ -4633,7 +4633,7 @@ static void Cmd_playstatchangeanimation(void)
         }
     }
 
-    if (flags & STAT_CHANGE_ONLY_MULTIPLE && changeableStatsCount < 2)
+    if (flags & STAT_CHANGE_MULTIPLE_STATS && changeableStatsCount < 2)
     {
         gBattlescriptCurrInstr += 4;
     }
@@ -4641,7 +4641,7 @@ static void Cmd_playstatchangeanimation(void)
     {
         BtlController_EmitBattleAnimation(0, B_ANIM_STATS_CHANGE, statAnimId);
         MarkBattlerForControllerExec(gActiveBattler);
-        if (flags & STAT_CHANGE_ONLY_MULTIPLE && changeableStatsCount > 1)
+        if (flags & STAT_CHANGE_MULTIPLE_STATS && changeableStatsCount > 1)
             gBattleScripting.statAnimPlayed = TRUE;
         gBattlescriptCurrInstr += 4;
     }
@@ -5480,7 +5480,7 @@ static void Cmd_openpartyscreen(void)
                 {
                     gAbsentBattlerFlags |= gBitTable[gActiveBattler];
                     gHitMarker &= ~(HITMARKER_FAINTED(gActiveBattler));
-                    BtlController_EmitCmd42(0);
+                    BtlController_EmitCantSwitch(0);
                     MarkBattlerForControllerExec(gActiveBattler);
                 }
                 else if (!gSpecialStatuses[gActiveBattler].flag40)
@@ -5502,7 +5502,7 @@ static void Cmd_openpartyscreen(void)
                 {
                     gAbsentBattlerFlags |= gBitTable[gActiveBattler];
                     gHitMarker &= ~(HITMARKER_FAINTED(gActiveBattler));
-                    BtlController_EmitCmd42(0);
+                    BtlController_EmitCantSwitch(0);
                     MarkBattlerForControllerExec(gActiveBattler);
                 }
                 else if (!gSpecialStatuses[gActiveBattler].flag40)
@@ -5523,7 +5523,7 @@ static void Cmd_openpartyscreen(void)
                 {
                     gAbsentBattlerFlags |= gBitTable[gActiveBattler];
                     gHitMarker &= ~(HITMARKER_FAINTED(gActiveBattler));
-                    BtlController_EmitCmd42(0);
+                    BtlController_EmitCantSwitch(0);
                     MarkBattlerForControllerExec(gActiveBattler);
                 }
                 else if (!gSpecialStatuses[gActiveBattler].flag40)
@@ -5545,7 +5545,7 @@ static void Cmd_openpartyscreen(void)
                 {
                     gAbsentBattlerFlags |= gBitTable[gActiveBattler];
                     gHitMarker &= ~(HITMARKER_FAINTED(gActiveBattler));
-                    BtlController_EmitCmd42(0);
+                    BtlController_EmitCantSwitch(0);
                     MarkBattlerForControllerExec(gActiveBattler);
                 }
                 else if (!gSpecialStatuses[gActiveBattler].flag40)
@@ -5608,7 +5608,7 @@ static void Cmd_openpartyscreen(void)
                     {
                         gAbsentBattlerFlags |= gBitTable[gActiveBattler];
                         gHitMarker &= ~(HITMARKER_FAINTED(gActiveBattler));
-                        BtlController_EmitCmd42(0);
+                        BtlController_EmitCantSwitch(0);
                         MarkBattlerForControllerExec(gActiveBattler);
                     }
                     else if (!gSpecialStatuses[gActiveBattler].flag40)
@@ -5624,7 +5624,7 @@ static void Cmd_openpartyscreen(void)
                     {
                         gAbsentBattlerFlags |= gBitTable[gActiveBattler];
                         gHitMarker &= ~(HITMARKER_FAINTED(gActiveBattler));
-                        BtlController_EmitCmd42(0);
+                        BtlController_EmitCantSwitch(0);
                         MarkBattlerForControllerExec(gActiveBattler);
                     }
                     else if (!gSpecialStatuses[gActiveBattler].flag40)
@@ -6704,7 +6704,7 @@ static void PutLevelAndGenderOnLvlUpBox(void)
     printerTemplate.unk = 0;
     printerTemplate.fgColor = TEXT_COLOR_WHITE;
     printerTemplate.bgColor = TEXT_COLOR_TRANSPARENT;
-    printerTemplate.shadowColor = TEXT_COLOR_DARK_GREY;
+    printerTemplate.shadowColor = TEXT_COLOR_DARK_GRAY;
 
     AddTextPrinter(&printerTemplate, 0xFF, NULL);
 
@@ -6715,7 +6715,7 @@ static void PutLevelAndGenderOnLvlUpBox(void)
     var = (u32)(txtPtr);
     txtPtr = ConvertIntToDecimalStringN(txtPtr, monLevel, STR_CONV_MODE_LEFT_ALIGN, 3);
     var = (u32)(txtPtr) - var;
-    txtPtr = StringFill(txtPtr, CHAR_UNK_SPACER, 4 - var);
+    txtPtr = StringFill(txtPtr, CHAR_GENDERLESS, 4 - var);
 
     if (monGender != MON_GENDERLESS)
     {
