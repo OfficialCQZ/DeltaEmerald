@@ -4541,3 +4541,84 @@ DirectSoundWaveData_sd90_classical_whistle::
 	.align 2
 DirectSoundWaveData_sd90_enhanced_delay_shaku::
 	.incbin "sound/direct_sound_samples/sd90_enhanced_delay_shaku.bin"
+
+@ ----- Delta Emerald ----- @
+
+	.align 2
+Cry_Pikachu_Battle::
+	.incbin "sound/direct_sound_samples/cries/pikachu_battle.bin"
+
+	.align 2
+Cry_Pikachu_Faint::
+	.incbin "sound/direct_sound_samples/cries/pikachu_faint.bin"
+
+	.align 2
+Delta_SE_ChooseMenuItem::
+	.incbin "sound/delta_samples/sg_se_select.bin"
+
+	.align 2
+Delta_SE_SelectMenuItem::
+	.incbin "sound/delta_samples/se_choose.bin"
+
+	.align 2
+Delta_SE_Complete::
+	.incbin "sound/delta_samples/se_complete.bin"
+
+	.align 2
+Delta_SE_XY_CANCEL1::
+	.incbin "sound/delta_samples/se_xy_cancel1.bin"
+
+	.align 2
+Delta_SE_XY_DECIDE1::
+	.incbin "sound/delta_samples/se_xy_decide1.bin"
+
+	.align 2
+Delta_SE_XY_PAGE3::
+	.incbin "sound/delta_samples/se_xy_page3.bin"
+
+@ ----- Delta - ORAS Instruments ----- @
+
+	.align 2
+DeltaMus_stylusrmx_crash_cymbal::
+	.incbin "sound/delta_samples/stylusrmx_crash_cymbal.bin"
+
+	.align 2
+DeltaMus_stylusrmx_kick::
+	.incbin "sound/delta_samples/stylusrmx_kick.bin"
+
+	.align 2
+DeltaMus_stylusrmx_snare::
+	.incbin "sound/delta_samples/stylusrmx_snare.bin"
+
+	.align 2
+DeltaMus_ad2_close_hihat::
+	.incbin "sound/delta_samples/ad2_close_hihat.bin"
+
+	.align 2
+DeltaMus_ad2_open_hihat::
+	.incbin "sound/delta_samples/ad2_open_hihat.bin"
+
+	.align 2
+DeltaMus_ad2_crash_sabian_aax::
+	.incbin "sound/delta_samples/ad2_crash_sabian_aax.bin"
+
+	.align 2
+DeltaMus_ad2_crash_sabian_vault::
+	.incbin "sound/delta_samples/ad2_crash_sabian_vault.bin"
+
+	.align 2
+DeltaMus_ad2_pearl_snare::
+	.incbin "sound/delta_samples/ad2_pearl_snare.bin"
+
+	.align 2
+DeltaMus_ad2_ride_sabian_hhx::
+	.incbin "sound/delta_samples/ad2_ride_sabian_hhx.bin"
+
+	.align 2
+DeltaMus_omnisphere_gaga_saw::
+	.incbin "sound/delta_samples/omnisphere_gaga_saw.bin"
+
+	.align 2
+DeltaMus_omnisphere_3_osc_fooling::
+	.incbin "sound/delta_samples/omnisphere_3_osc_fooling.bin"
+

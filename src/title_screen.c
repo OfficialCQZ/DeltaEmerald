@@ -22,10 +22,11 @@
 #include "graphics.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
+#include "constants/species.h"
 
 #define VERSION_BANNER_RIGHT_TILEOFFSET 64
-#define VERSION_BANNER_LEFT_X 98
-#define VERSION_BANNER_RIGHT_X 162
+#define VERSION_BANNER_LEFT_X 88
+#define VERSION_BANNER_RIGHT_X 152
 #define VERSION_BANNER_Y 2
 #define VERSION_BANNER_Y_GOAL 66
 #define START_BANNER_X 128
@@ -582,7 +583,7 @@ void CB2_InitTitleScreen(void)
         break;
     }
     case 3:
-        BeginNormalPaletteFade(PALETTES_ALL, 1, 0x10, 0, RGB_WHITEALPHA);
+        BeginNormalPaletteFade(PALETTES_ALL, 1, 0x10, 0, RGB_BLACK);
         SetVBlankCallback(VBlankCB);
         gMain.state = 4;
         break;
@@ -729,10 +730,11 @@ static void Task_TitleScreenPhase2(u8 taskId)
 // Show Rayquaza silhouette and process main title screen input
 static void Task_TitleScreenPhase3(u8 taskId)
 {
-    if ((JOY_NEW(A_BUTTON)) || (JOY_NEW(START_BUTTON)))
+    if ((JOY_NEW(8)) || (JOY_NEW(START_BUTTON)))
     {
+        PlayCryInternal(SPECIES_RAYQUAZA, 0, 100, 10, 0);
         FadeOutBGM(4);
-        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_WHITEALPHA);
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
         SetMainCallback2(CB2_GoToMainMenu);
     }
     else if (JOY_HELD(CLEAR_SAVE_BUTTON_COMBO) == CLEAR_SAVE_BUTTON_COMBO)

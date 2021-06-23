@@ -146,6 +146,7 @@ LittlerootTown_EventScript_StepOffTruckFemale:: @ 81E7EF9
 	end
 
 LittlerootTown_EventScript_GoInsideWithMom:: @ 81E7F17
+	setflag FLAG_SYS_B_DASH
 	delay 15
 	playse SE_LEDGE
 	applymovement OBJ_EVENT_ID_PLAYER, LittlerootTown_Movement_PlayerStepOffTruck
@@ -288,10 +289,21 @@ LittlerootTown_EventScript_GoSaveBirch:: @ 81E805D
 	end
 
 LittlerootTown_EventScript_YouSavedBirch:: @ 81E807A
-	special GetPlayerBigGuyGirlString
-	msgbox LittlerootTown_Text_YouSavedBirch, MSGBOX_DEFAULT
+	checkplayergender
+	compare VAR_RESULT, MALE
+	call_if_eq Delta_Littleroot_Event_IntrepidGuy
+	compare VAR_RESULT, FEMALE
+	call_if_eq Delta_Littleroot_Event_IntrepidGirl
 	release
 	end
+
+Delta_Littleroot_Event_IntrepidGuy::
+	msgbox DeltaLittleroot_Text_IntrepidGuy, MSGBOX_DEFAULT
+	return
+
+Delta_Littleroot_Event_IntrepidGirl::
+	msgbox DeltaLittleroot_Text_IntrepidGirl, MSGBOX_DEFAULT
+	return
 
 LittlerootTown_EventScript_GoodLuck:: @ 81E8087
 	msgbox LittlerootTown_Text_GoodLuckCatchingPokemon, MSGBOX_DEFAULT
@@ -950,47 +962,42 @@ LittlerootTown_EventScript_SetReceivedRunningShoes:: @ 81E8686
 
 LittlerootTown_EventScript_GiveRunningShoes:: @ 81E8693
 	msgbox LittlerootTown_Text_WearTheseRunningShoes, MSGBOX_DEFAULT
-	playfanfare MUS_OBTAIN_ITEM
-	message LittlerootTown_Text_SwitchShoesWithRunningShoes
-	waitfanfare
 	setflag FLAG_RECEIVED_RUNNING_SHOES
-	msgbox LittlerootTown_Text_ExplainRunningShoes, MSGBOX_DEFAULT
 	msgbox LittlerootTown_Text_ComeHomeIfAnythingHappens, MSGBOX_DEFAULT
 	closemessage
 	delay 30
 	return
 
-LittlerootTown_Text_OurNewHomeLetsGoInside: @ 81E86BC
-	.string "MOM: {PLAYER}, we're here, honey!\p"
-	.string "It must be tiring riding with our things\n"
-	.string "in the moving truck.\p"
-	.string "Well, this is LITTLEROOT TOWN.\p"
-	.string "How do you like it?\n"
-	.string "This is our new home!\p"
-	.string "It has a quaint feel, but it seems to be\n"
-	.string "an easy place to live, don't you think?\p"
-	.string "And, you get your own room, {PLAYER}!\n"
-	.string "Let's go inside.$"
+LittlerootTown_Text_OurNewHomeLetsGoInside:
+	.string "{PLAYER}! You're here at last!\p"
+	.string "Wasn't it tough riding in the back of\n"
+	.string "the bumpy moving truck all that way?\p"
+	.string "Well, this is Littleroot Town.\p"
+	.string "What do you think?\n"
+	.string "This is going to be our new home!\p"
+	.string "It has a quaint feel, but it looks like\n"
+	.string "it should be a nice place to live,\l"
+	.string "don't you think?\p"
+	.string "And you get your own room this time,\n"
+	.string "{PLAYER}!\p"
+	.string "Come on. You have to see the inside!$"
 
 LittlerootTown_Text_WaitPlayer: @ 81E87E1
-	.string "MOM: Wait, {PLAYER}!$"
+	.string "{PLAYER}! Wait!$"
 
 LittlerootTown_Text_WearTheseRunningShoes: @ 81E87F0
-	.string "MOM: {PLAYER}! {PLAYER}! Did you\n"
-	.string "introduce yourself to PROF. BIRCH?\p"
-	.string "Oh! What an adorable POKéMON!\n"
-	.string "You got it from PROF. BIRCH. How nice!\p"
-	.string "You're your father's child, all right.\n"
-	.string "You look good together with POKéMON!\p"
-	.string "Here, honey! If you're going out on an\n"
-	.string "adventure, wear these RUNNING SHOES.\p"
-	.string "They'll put a zip in your step!$"
+	.string "{PLAYER}! {PLAYER}! Did you introduce\n"
+	.string "yourself to Professor Birch?\p"
+	.string "Oh! What an adorable Pokémon! You\n"
+	.string "got it from the professor? How nice!\p"
+	.string "You are your father's child, all right.\n"
+	.string "You look good together with a Pokémon!$"
 
-LittlerootTown_Text_SwitchShoesWithRunningShoes: @ 81E8925
+LittlerootTown_Text_SwitchShoesWithRunningShoes: @ 81E8925, unused in Delta Hack
 	.string "{PLAYER} switched shoes with the\n"
 	.string "RUNNING SHOES.$"
 
-LittlerootTown_Text_ExplainRunningShoes: @ 81E894F
+LittlerootTown_Text_ExplainRunningShoes: @ 81E894F, unused in Delta Hack
 	.string "MOM: {PLAYER}, those shoes came with\n"
 	.string "instructions.\p"
 	.string "“Press the B Button while wearing these\n"
@@ -999,65 +1006,71 @@ LittlerootTown_Text_ExplainRunningShoes: @ 81E894F
 	.string "in the great outdoors!”$"
 
 LittlerootTown_Text_ComeHomeIfAnythingHappens: @ 81E8A03
-	.string "… … … … … … … …\n"
-	.string "… … … … … … … …\p"
+	.string "…\p"
 	.string "To think that you have your very own\n"
-	.string "POKéMON now…\l"
+	.string "Pokémon now…\l"
 	.string "Your father will be overjoyed.\p"
-	.string "…But please be careful.\n"
-	.string "If anything happens, you can come home.\p"
-	.string "Go on, go get them, honey!$"
+	.string "But don't push yourself too hard.\p"
+	.string "If anything happens, you can always\n"
+	.string "come home, honey.$"
 
 LittlerootTown_Text_CanUsePCToStoreItems: @ 81E8ACF
 	.string "If you use a PC, you can store items\n"
-	.string "and POKéMON.\p"
+	.string "and Pokémon.\p"
 	.string "The power of science is staggering!$"
 
 LittlerootTown_Text_BirchSpendsDaysInLab: @ 81E8B25
-	.string "PROF. BIRCH spends days in his LAB\n"
-	.string "studying, then he'll suddenly go out in\l"
-	.string "the wild to do more research…\p"
-	.string "When does PROF. BIRCH spend time\n"
-	.string "at home?$"
+	.string "Professor Birch will spend days on\n"
+	.string "end in his lab researching something,\l"
+	.string "then he'll suddenly go out into the\l"
+	.string "field to gather more data…\p"
+	.string "When does he ever spend time at home?$"
 
 LittlerootTown_Text_IfYouGoInGrassPokemonWillJumpOut: @ 81E8BB8
-	.string "Um, um, um!\p"
-	.string "If you go outside and go in the grass,\n"
-	.string "wild POKéMON will jump out!$"
+	.string "If you step into the tall grass on the\n"
+	.string "route up ahead, wild Pokémon will\l"
+	.string "jump out at you!$"
 
 LittlerootTown_Text_DangerousIfYouDontHavePokemon: @ 81E8C07
-	.string "It's dangerous if you don't have\n"
-	.string "your own POKéMON.$"
+	.string "It's not safe to go out there if\n"
+	.string "you don't have any Pokémon with you.$"
 
 LittlerootTown_Text_CanYouGoSeeWhatsHappening: @ 81E8C3A
-	.string "Um, hi!\p"
-	.string "There are scary POKéMON outside!\n"
-	.string "I can hear their cries!\p"
-	.string "I want to go see what's going on,\n"
-	.string "but I don't have any POKéMON…\p"
-	.string "Can you go see what's happening\n"
-	.string "for me?$"
+	.string "I think I hear someone screaming\n"
+	.string "up ahead!\p"
+	.string "What should I do? What should we do?\n"
+	.string "Somebody has to go help…$"
 
-LittlerootTown_Text_YouSavedBirch: @ 81E8CE3
+LittlerootTown_Text_YouSavedBirch: @ 81E8CE3 unused
 	.string "You saved PROF. BIRCH!\n"
 	.string "I'm so glad!$"
+
+DeltaLittleroot_Text_IntrepidGuy:
+	.string "Boy, am I glad there was an\n"
+	.string "intrepid guy like you around to\l"
+	.string "rescue the professor.$"
+
+DeltaLittleroot_Text_IntrepidGirl:
+	.string "Boy, am I glad there was an\n"
+	.string "intrepid girl like you around to\l"
+	.string "rescue the professor.$"
 
 LittlerootTown_Text_GoodLuckCatchingPokemon: @ 81E8D07
 	.string "Are you going to catch POKéMON?\n"
 	.string "Good luck!$"
 
 LittlerootTown_Text_TownSign: @ 81E8D32
-	.string "LITTLEROOT TOWN\n"
+	.string "Littleroot Town\n"
 	.string "“A town that can't be shaded any hue.”$"
 
 LittlerootTown_Text_ProfBirchsLab: @ 81E8D69
-	.string "PROF. BIRCH'S POKéMON LAB$"
+	.string "Professor Birch's Pokémon Lab$"
 
 LittlerootTown_Text_PlayersHouse: @ 81E8D83
-	.string "{PLAYER}'s HOUSE$"
+	.string "{PLAYER}'s House$"
 
 LittlerootTown_Text_ProfBirchsHouse: @ 81E8D8E
-	.string "PROF. BIRCH'S HOUSE$"
+	.string "Professor Birch's House$"
 
 LittlerootTown_Text_BirchSomethingToShowYouAtLab: @ 81E8DA2
 	.string "PROF. BIRCH: Well, well, {PLAYER}{KUN}!\n"

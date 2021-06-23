@@ -541,6 +541,17 @@
 #define PH_NURSE_HELD               608
 #define PH_NURSE_SOLO               609
 
+/* DELTA EMERALD NEW SOUNDS */
+
+#define DELTA_SEQ_SOARING_DAY 626
+
+#define DELTA_SE_CHOOSE 640
+#define DELTA_SE_SELECT 641
+#define DELTA_SE_COMPLETE 642
+#define DELTA_SE_XY_CANCEL1 643
+#define DELTA_SE_XY_DECIDE1 644
+#define DELTA_SE_XY_PAGE3 645
+
 #define MUS_ROUTE118                0x7FFF  // Map is split into 2 music sections. controlled by GetCurrLocationDefaultMusic().
 
 #define MUS_NONE                    0xFFFF

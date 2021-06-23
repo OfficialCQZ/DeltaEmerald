@@ -103,8 +103,8 @@ LittlerootTown_BrendansHouse_1F_EventScript_YoureNewNeighbor:: @ 81F785E
 	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFastestLeft
 	applymovement LOCALID_RIVAL_MOM, LittlerootTown_BrendansHouse_1F_Movement_RivalMomApproach
 	waitmovement 0
-	special GetRivalSonDaughterString
-	msgbox RivalsHouse_1F_Text_OhYoureTheNewNeighbor, MSGBOX_DEFAULT
+	@ special GetRivalSonDaughterString					@ Ah, this gender-based message is now separated in ORAS.
+	msgbox BrendansHouse_1F_Text_OhYoureTheNewNeighbor, MSGBOX_DEFAULT
 	setflag FLAG_MET_RIVAL_MOM
 	setvar VAR_LITTLEROOT_HOUSES_STATE_MAY, 2
 	releaseall
@@ -300,46 +300,49 @@ LittlerootTown_BrendansHouse_1F_Movement_BrendanGoUpstairs2: @ 81F7A16
 	step_end
 
 PlayersHouse_1F_Text_IsntItNiceInHere: @ 81F7A1C
-	.string "MOM: See, {PLAYER}?\n"
+	.string "See, {PLAYER}?\n"
 	.string "Isn't it nice in here, too?$"
 
 PlayersHouse_1F_Text_MoversPokemonGoSetClock: @ 81F7A46
-	.string "The mover's POKéMON do all the work\n"
-	.string "of moving us in and cleaning up after.\l"
-	.string "This is so convenient!\p"
-	.string "{PLAYER}, your room is upstairs.\n"
-	.string "Go check it out, dear!\p"
-	.string "DAD bought you a new clock to mark\n"
-	.string "our move here.\l"
-	.string "Don't forget to set it!$"
+	.string "The moving company's Pokémon even\n"
+	.string "help with the unpacking and cleanup.\l"
+	.string "They really make moving a cinch!\p"
+	.string "You should go and see your new\n"
+	.string "room upstairs, {PLAYER}!\p"
+	.string "Dad even bought a new clock for\n"
+	.string "it to help celebrate the big move.\l"
+	.string "You'll need to set the time, though!$"
 
 PlayersHouse_1F_Text_ArentYouInterestedInRoom: @ 81F7B24
-	.string "MOM: Well, {PLAYER}?\p"
-	.string "Aren't you interested in seeing your\n"
-	.string "very own room?$"
+	.string "Well, {PLAYER}?\p"
+	.string "Don't you want to go see your new room?$"
 
 PlayersHouse_1F_Text_GoSetTheClock: @ 81F7B67
-	.string "MOM: {PLAYER}.\p"
-	.string "Go set the clock in your room, honey.$"
+	.string "{PLAYER}, go set the clock in your\p"
+	.string "room, honey.\p"
+	.string "I hung it on the wall, right between\p"
+	@ .string "your desk and that big map.$" @ Uncommenting this once I finally get to map editing.
+	.string "the TV and the stairs.$"
 
 PlayersHouse_1F_Text_OhComeQuickly: @ 81F7B96
-	.string "MOM: Oh! {PLAYER}, {PLAYER}!\n"
+	.string "Oh! {PLAYER}! {PLAYER}!!!\n"
 	.string "Quick! Come quickly!$"
 
 PlayersHouse_1F_Text_MaybeDadWillBeOn: @ 81F7BBC
-	.string "MOM: Look! It's PETALBURG GYM!\n"
-	.string "Maybe DAD will be on!$"
+	.string "It's the Petalburg Gym!\n"
+	.string "Maybe Dad will be on TV!$"
 
 PlayersHouse_1F_Text_ItsOverWeMissedHim: @ 81F7BF1
-	.string "MOM: Oh… It's over.\p"
-	.string "I think DAD was on, but we missed him.\n"
-	.string "Too bad.$"
+	.string "Oh… It's already ended.\p"
+	.string "Looks like your dad was on,\n"
+	.string "but we missed his part.\l"
+	.string "What a shame.$"
 
 PlayersHouse_1F_Text_GoIntroduceYourselfNextDoor: @ 81F7C35
-	.string "Oh, yes.\n"
-	.string "One of DAD's friends lives in town.\p"
-	.string "PROF. BIRCH is his name.\p"
-	.string "He lives right next door, so you should\n"
+	.string "But that reminds me… One of\n"
+	.string "Dad's friends lives in this town.\p"
+	.string "{COLOR}{BLUE}Professor Birch{COLOR}{DARK_GREY} is his name.\p"
+	.string "He lives {COLOR}{BLUE}right next door{COLOR}{DARK_GREY}, so you should\n"
 	.string "go over and introduce yourself.$"
 
 PlayersHouse_1F_Text_SeeYouHoney: @ 81F7CC3
@@ -384,11 +387,16 @@ PlayersHouse_1F_Text_Vigoroth2: @ 81F7EB3
 	.string "Huggoh, uggo uggo…$"
 
 PlayersHouse_1F_Text_ReportFromPetalburgGym: @ 81F7EC6
-	.string "INTERVIEWER: …We brought you this\n"
-	.string "report from in front of PETALBURG GYM.$"
+	.string "Interviewer: …\p"
+	.string "Interviewer: We brought you this\n"
+	.string "report live from in front of\l"
+	.string "Petalburg Gym.\p"
+	.string "Next up, a special look at a long-\n"
+	.string "awaited meteor shower in the next\l"
+	.string "star show…$"
 
 PlayersHouse_1F_Text_TheresAMovieOnTV: @ 81F7F0F
-	.string "There is a movie on TV.\p"
+	.string "A movie is on TV.\p"
 	.string "Two men are dancing on a big piano\n"
 	.string "keyboard.\p"
 	.string "Better get going!$"

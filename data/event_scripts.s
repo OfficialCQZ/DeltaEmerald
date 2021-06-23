@@ -577,6 +577,8 @@ gStdScripts_End:: @ 81DC2CC
 	.include "data/scripts/new_game.inc"
 	.include "data/scripts/hall_of_fame.inc"
 
+	.include "data/scripts/debug.inc"
+
 EventScript_WhiteOut:: @ 8271857
 	call EverGrandeCity_HallOfFame_EventScript_ResetEliteFour
 	goto EventScript_ResetMrBriney
@@ -1061,3 +1063,5 @@ Common_EventScript_LegendaryFlewAway:: @ 8273776
 	.include "data/text/frontier_brain.inc"
 	.include "data/text/save.inc"
 	.include "data/text/birch_speech.inc"
+
+	.include "data/maps/TestMap/scripts.inc"

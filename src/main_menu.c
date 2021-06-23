@@ -212,6 +212,7 @@ static void Task_NewGameBirchSpeech_StartPlayerFadeIn(u8);
 static void Task_NewGameBirchSpeech_WaitForPlayerFadeIn(u8);
 static void Task_NewGameBirchSpeech_BoyOrGirl(u8);
 static void LoadMainMenuWindowFrameTiles(u8, u16);
+static void Delta_LoadORASGUITiles(u8 bgId, u16 tileOffset, u8 frame);
 static void DrawMainMenuWindowBorder(const struct WindowTemplate*, u16);
 static void Task_HighlightSelectedMainMenuItem(u8);
 static void Task_NewGameBirchSpeech_WaitToShowGenderMenu(u8);
@@ -583,7 +584,7 @@ static u32 InitMainMenu(bool8 returningFromOptionsMenu)
     if (returningFromOptionsMenu)
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0x10, 0, RGB_BLACK); // fade to black
     else
-        BeginNormalPaletteFade(PALETTES_ALL, 0, 0x10, 0, RGB_WHITEALPHA); // fade to white
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0x10, 0, RGB_BLACK); // fade to white // OR-AS fades in from black instead of WHITEALPHA
     ResetBgsAndClearDma3BusyFlags(0);
     InitBgsFromTemplates(0, sMainMenuBgTemplates, ARRAY_COUNT(sMainMenuBgTemplates));
     ChangeBgX(0, 0, 0);
@@ -887,14 +888,14 @@ static bool8 HandleMainMenuInput(u8 taskId)
 
     if (JOY_NEW(A_BUTTON))
     {
-        PlaySE(SE_SELECT);
+        PlaySE(DELTA_SE_SELECT);
         IsWirelessAdapterConnected();   // why bother calling this here? debug? Task_HandleMainMenuAPressed will check too
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
         gTasks[taskId].func = Task_HandleMainMenuAPressed;
     }
     else if (JOY_NEW(B_BUTTON))
     {
-        PlaySE(SE_SELECT);
+        PlaySE(DELTA_SE_SELECT);
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_WHITEALPHA);
         SetGpuReg(REG_OFFSET_WIN0H, WIN_RANGE(0, 240));
         SetGpuReg(REG_OFFSET_WIN0V, WIN_RANGE(0, 160));
@@ -902,6 +903,7 @@ static bool8 HandleMainMenuInput(u8 taskId)
     }
     else if ((JOY_NEW(DPAD_UP)) && tCurrItem > 0)
     {
+        PlaySE(DELTA_SE_CHOOSE);
         if (tMenuType == HAS_MYSTERY_EVENTS && tIsScrolled == TRUE && tCurrItem == 1)
         {
             ChangeBgY(0, 0x2000, 2);
@@ -914,6 +916,7 @@ static bool8 HandleMainMenuInput(u8 taskId)
     }
     else if ((JOY_NEW(DPAD_DOWN)) && tCurrItem < tItemCount - 1)
     {
+        PlaySE(DELTA_SE_CHOOSE);
         if (tMenuType == HAS_MYSTERY_EVENTS && tCurrItem == 3 && tIsScrolled == FALSE)
         {
             ChangeBgY(0, 0x2000, 1);
@@ -1374,7 +1377,7 @@ static void Task_NewGameBirchSpeechSub_InitPokeBall(u8 taskId)
     gSprites[spriteId].invisible = FALSE;
     gSprites[spriteId].data[0] = 0;
 
-    CreatePokeballSpriteToReleaseMon(spriteId, gSprites[spriteId].oam.paletteNum, 112, 58, 0, 0, 32, 0x0000FFFF, SPECIES_LOTAD);
+    CreatePokeballSpriteToReleaseMon(spriteId, gSprites[spriteId].oam.paletteNum, 112, 58, 0, 0, 32, 0x0000FFFF, SPECIES_MARILL);
     gTasks[taskId].func = Task_NewGameBirchSpeechSub_WaitForLotad;
     gTasks[sBirchSpeechMainTaskId].tTimer = 0;
 }
@@ -1394,7 +1397,7 @@ static void Task_NewGameBirchSpeechSub_WaitForLotad(u8 taskId)
             }
             break;
         case 1:
-            if (gTasks[sBirchSpeechMainTaskId].tTimer >= 96)
+            if (gTasks[sBirchSpeechMainTaskId].tTimer >= 16)
             {
                 DestroyTask(taskId);
                 if (gTasks[sBirchSpeechMainTaskId].tTimer < 0x4000)
@@ -1621,6 +1624,10 @@ static void Task_NewGameBirchSpeech_SoItsPlayerName(u8 taskId)
 
 static void Task_NewGameBirchSpeech_CreateNameYesNo(u8 taskId)
 {
+    Delta_LoadORASGUITiles(0, 0xF3, 0);
+    PutWindowTilemap(0);
+    CopyWindowToVram(0, 2);
+
     if (!RunTextPrintersAndIsPrinter0Active())
     {
         CreateYesNoMenuParameterized(2, 1, 0xF3, 0xDF, 2, 15);
@@ -1633,6 +1640,10 @@ static void Task_NewGameBirchSpeech_ProcessNameYesNoMenu(u8 taskId)
     switch (Menu_ProcessInputNoWrapClearOnChoose())
     {
         case 0:
+            LoadMainMenuWindowFrameTiles(0, 0xF3);
+            PutWindowTilemap(0);
+            CopyWindowToVram(0, 2);
+
             PlaySE(SE_SELECT);
             gSprites[gTasks[taskId].tPlayerSpriteId].oam.objMode = ST_OAM_OBJ_BLEND;
             NewGameBirchSpeech_StartFadeOutTarget1InTarget2(taskId, 2);
@@ -1641,6 +1652,10 @@ static void Task_NewGameBirchSpeech_ProcessNameYesNoMenu(u8 taskId)
             break;
         case -1:
         case 1:
+            LoadMainMenuWindowFrameTiles(0, 0xF3);
+            PutWindowTilemap(0);
+            CopyWindowToVram(0, 2);
+
             PlaySE(SE_SELECT);
             gTasks[taskId].func = Task_NewGameBirchSpeech_BoyOrGirl;
     }
@@ -1881,7 +1896,7 @@ static void SpriteCB_MovePlayerDownWhileShrinking(struct Sprite *sprite)
 
 static u8 NewGameBirchSpeech_CreateLotadSprite(u8 a, u8 b)
 {
-    return CreatePicSprite2(SPECIES_LOTAD, SHINY_ODDS, 0, 1, a, b, 14, -1);
+    return CreatePicSprite2(SPECIES_MARILL, SHINY_ODDS, 0, 1, a, b, 14, -1);
 }
 
 static void AddBirchSpeechObjects(u8 taskId)
@@ -2200,6 +2215,12 @@ static void LoadMainMenuWindowFrameTiles(u8 bgId, u16 tileOffset)
 {
     LoadBgTiles(bgId, GetWindowFrameTilesPal(gSaveBlock2Ptr->optionsWindowFrameType)->tiles, 0x120, tileOffset);
     LoadPalette(GetWindowFrameTilesPal(gSaveBlock2Ptr->optionsWindowFrameType)->pal, 32, 32);
+}
+
+static void Delta_LoadORASGUITiles(u8 bgId, u16 tileOffset, u8 frame)
+{
+    LoadBgTiles(bgId, GetWindowFrameTilesPalDelta(frame)->tiles, 0x120, tileOffset);
+    LoadPalette(GetWindowFrameTilesPalDelta(frame)->pal, 32, 32);
 }
 
 static void DrawMainMenuWindowBorder(const struct WindowTemplate *template, u16 baseTileNum)

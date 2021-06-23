@@ -27,6 +27,7 @@ static const u8 sTextWindowFrame17_Gfx[] = INCBIN_U8("graphics/text_window/17.4b
 static const u8 sTextWindowFrame18_Gfx[] = INCBIN_U8("graphics/text_window/18.4bpp");
 static const u8 sTextWindowFrame19_Gfx[] = INCBIN_U8("graphics/text_window/19.4bpp");
 static const u8 sTextWindowFrame20_Gfx[] = INCBIN_U8("graphics/text_window/20.4bpp");
+static const u8 sDelta1_Gfx[] = INCBIN_U8("graphics/text_window/delta1.4bpp");
 
 const u16 gTextWindowFrame1_Pal[] = INCBIN_U16("graphics/text_window/1.gbapal");
 static const u16 sTextWindowFrame2_Pal[] = INCBIN_U16("graphics/text_window/2.gbapal");
@@ -48,6 +49,12 @@ static const u16 sTextWindowFrame17_Pal[] = INCBIN_U16("graphics/text_window/17.
 static const u16 sTextWindowFrame18_Pal[] = INCBIN_U16("graphics/text_window/18.gbapal");
 static const u16 sTextWindowFrame19_Pal[] = INCBIN_U16("graphics/text_window/19.gbapal");
 static const u16 sTextWindowFrame20_Pal[] = INCBIN_U16("graphics/text_window/20.gbapal");
+static const u16 sDelta1_Pal[] = INCBIN_U16("graphics/text_window/delta1.gbapal");
+
+static const u8 sDelta_GenVI_Menu1_Gfx[] = INCBIN_U8("graphics/text_window/gen6_choicemenu.4bpp");
+static const u16 sDelta_GenVI_Menu1_Pal[] = INCBIN_U16("graphics/text_window/gen6_choicemenu.gbapal");
+static const u8 sDelta_Battle_Menu1_Gfx[] = INCBIN_U8("graphics/text_window/delta_battle1.4bpp");
+static const u16 sDelta_Battle_Menu1_Pal[] = INCBIN_U16("graphics/text_window/delta_battle1.gbapal");
 
 static const u16 sTextWindowPalettes[][16] =
 {
@@ -79,7 +86,14 @@ static const struct TilesPal sWindowFrames[WINDOW_FRAMES_COUNT] =
     {sTextWindowFrame17_Gfx, sTextWindowFrame17_Pal},
     {sTextWindowFrame18_Gfx, sTextWindowFrame18_Pal},
     {sTextWindowFrame19_Gfx, sTextWindowFrame19_Pal},
-    {sTextWindowFrame20_Gfx, sTextWindowFrame20_Pal}
+    {sTextWindowFrame20_Gfx, sTextWindowFrame20_Pal},
+    {sDelta1_Gfx, sDelta1_Pal}
+};
+
+static const struct TilesPalDelta deltaWindowFrames[] =
+{
+    {sDelta_GenVI_Menu1_Gfx, sDelta_GenVI_Menu1_Pal},          // 31 (GEN6 Styled Yes/No Menu - OR/AS)
+    {sDelta_Battle_Menu1_Gfx, sDelta_Battle_Menu1_Pal}          // 31 (GEN6 Styled Yes/No Menu - OR/AS)
 };
 
 // code
@@ -89,6 +103,11 @@ const struct TilesPal *GetWindowFrameTilesPal(u8 id)
         return &sWindowFrames[0];
     else
         return &sWindowFrames[id];
+}
+
+const struct TilesPalDelta *GetWindowFrameTilesPalDelta(u8 id)
+{
+    return &deltaWindowFrames[id];
 }
 
 void LoadMessageBoxGfx(u8 windowId, u16 destOffset, u8 palOffset)
@@ -111,6 +130,22 @@ void LoadWindowGfx(u8 windowId, u8 frameId, u16 destOffset, u8 palOffset)
 void LoadUserWindowBorderGfx(u8 windowId, u16 destOffset, u8 palOffset)
 {
     LoadWindowGfx(windowId, gSaveBlock2Ptr->optionsWindowFrameType, destOffset, palOffset);
+}
+
+void LoadBattleMenuWindowBorderGfx(u8 windowId, u16 destOffset, u8 palOffset)
+{
+    LoadCustomWindowGfx(windowId, 1, destOffset, palOffset);
+}
+
+void LoadORASChoiceWindowBorderGfx(u8 windowId, u16 destOffset, u8 palOffset)
+{
+    LoadCustomWindowGfx(windowId, 0, destOffset, palOffset);
+}
+
+void LoadCustomWindowGfx(u8 windowId, u8 frameId, u16 destOffset, u8 palOffset)
+{
+    LoadBgTiles(GetWindowAttribute(windowId, WINDOW_BG), deltaWindowFrames[frameId].tiles, 0x120, destOffset);
+    LoadPalette(deltaWindowFrames[frameId].pal, palOffset, 0x20);
 }
 
 void DrawTextBorderOuter(u8 windowId, u16 tileNum, u8 palNum)

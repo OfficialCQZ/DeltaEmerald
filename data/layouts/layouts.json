@@ -6,7 +6,7 @@
       "name": "PetalburgCity_Layout",
       "width": 30,
       "height": 30,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Petalburg",
       "border_filepath": "data/layouts/PetalburgCity/border.bin",
       "blockdata_filepath": "data/layouts/PetalburgCity/map.bin"
@@ -16,7 +16,7 @@
       "name": "SlateportCity_Layout",
       "width": 40,
       "height": 60,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Slateport",
       "border_filepath": "data/layouts/SlateportCity/border.bin",
       "blockdata_filepath": "data/layouts/SlateportCity/map.bin"
@@ -26,7 +26,7 @@
       "name": "MauvilleCity_Layout",
       "width": 40,
       "height": 20,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Mauville",
       "border_filepath": "data/layouts/MauvilleCity/border.bin",
       "blockdata_filepath": "data/layouts/MauvilleCity/map.bin"
@@ -36,7 +36,7 @@
       "name": "RustboroCity_Layout",
       "width": 40,
       "height": 60,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Rustboro",
       "border_filepath": "data/layouts/RustboroCity/border.bin",
       "blockdata_filepath": "data/layouts/RustboroCity/map.bin"
@@ -56,7 +56,7 @@
       "name": "LilycoveCity_Layout",
       "width": 80,
       "height": 40,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Lilycove",
       "border_filepath": "data/layouts/LilycoveCity/border.bin",
       "blockdata_filepath": "data/layouts/LilycoveCity/map.bin"
@@ -66,7 +66,7 @@
       "name": "MossdeepCity_Layout",
       "width": 80,
       "height": 40,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Mossdeep",
       "border_filepath": "data/layouts/MossdeepCity/border.bin",
       "blockdata_filepath": "data/layouts/MossdeepCity/map.bin"
@@ -86,7 +86,7 @@
       "name": "EverGrandeCity_Layout",
       "width": 40,
       "height": 80,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_EverGrande",
       "border_filepath": "data/layouts/EverGrandeCity/border.bin",
       "blockdata_filepath": "data/layouts/EverGrandeCity/map.bin"
@@ -96,7 +96,7 @@
       "name": "LittlerootTown_Layout",
       "width": 20,
       "height": 20,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Petalburg",
       "border_filepath": "data/layouts/LittlerootTown/border.bin",
       "blockdata_filepath": "data/layouts/LittlerootTown/map.bin"
@@ -106,7 +106,7 @@
       "name": "OldaleTown_Layout",
       "width": 20,
       "height": 20,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Petalburg",
       "border_filepath": "data/layouts/OldaleTown/border.bin",
       "blockdata_filepath": "data/layouts/OldaleTown/map.bin"
@@ -116,7 +116,7 @@
       "name": "DewfordTown_Layout",
       "width": 20,
       "height": 20,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Dewford",
       "border_filepath": "data/layouts/DewfordTown/border.bin",
       "blockdata_filepath": "data/layouts/DewfordTown/map.bin"
@@ -126,7 +126,7 @@
       "name": "LavaridgeTown_Layout",
       "width": 20,
       "height": 20,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Lavaridge",
       "border_filepath": "data/layouts/LavaridgeTown/border.bin",
       "blockdata_filepath": "data/layouts/LavaridgeTown/map.bin"
@@ -136,7 +136,7 @@
       "name": "FallarborTown_Layout",
       "width": 20,
       "height": 20,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Fallarbor",
       "border_filepath": "data/layouts/FallarborTown/border.bin",
       "blockdata_filepath": "data/layouts/FallarborTown/map.bin"
@@ -146,7 +146,7 @@
       "name": "VerdanturfTown_Layout",
       "width": 20,
       "height": 20,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Mauville",
       "border_filepath": "data/layouts/VerdanturfTown/border.bin",
       "blockdata_filepath": "data/layouts/VerdanturfTown/map.bin"
@@ -156,7 +156,7 @@
       "name": "PacifidlogTown_Layout",
       "width": 20,
       "height": 40,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Pacifidlog",
       "border_filepath": "data/layouts/PacifidlogTown/border.bin",
       "blockdata_filepath": "data/layouts/PacifidlogTown/map.bin"
@@ -166,7 +166,7 @@
       "name": "Route101_Layout",
       "width": 20,
       "height": 20,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Petalburg",
       "border_filepath": "data/layouts/Route101/border.bin",
       "blockdata_filepath": "data/layouts/Route101/map.bin"
@@ -176,7 +176,7 @@
       "name": "Route102_Layout",
       "width": 50,
       "height": 20,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Petalburg",
       "border_filepath": "data/layouts/Route102/border.bin",
       "blockdata_filepath": "data/layouts/Route102/map.bin"
@@ -186,7 +186,7 @@
       "name": "Route103_Layout",
       "width": 80,
       "height": 22,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Petalburg",
       "border_filepath": "data/layouts/Route103/border.bin",
       "blockdata_filepath": "data/layouts/Route103/map.bin"
@@ -196,7 +196,7 @@
       "name": "Route104_Layout",
       "width": 40,
       "height": 80,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Rustboro",
       "border_filepath": "data/layouts/Route104/border.bin",
       "blockdata_filepath": "data/layouts/Route104/map.bin"
@@ -206,7 +206,7 @@
       "name": "Route105_Layout",
       "width": 40,
       "height": 80,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Dewford",
       "border_filepath": "data/layouts/Route105/border.bin",
       "blockdata_filepath": "data/layouts/Route105/map.bin"
@@ -216,7 +216,7 @@
       "name": "Route106_Layout",
       "width": 80,
       "height": 20,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Dewford",
       "border_filepath": "data/layouts/Route106/border.bin",
       "blockdata_filepath": "data/layouts/Route106/map.bin"
@@ -226,7 +226,7 @@
       "name": "Route107_Layout",
       "width": 60,
       "height": 20,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Dewford",
       "border_filepath": "data/layouts/Route107/border.bin",
       "blockdata_filepath": "data/layouts/Route107/map.bin"
@@ -236,7 +236,7 @@
       "name": "Route108_Layout",
       "width": 60,
       "height": 20,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Slateport",
       "border_filepath": "data/layouts/Route108/border.bin",
       "blockdata_filepath": "data/layouts/Route108/map.bin"
@@ -246,7 +246,7 @@
       "name": "Route109_Layout",
       "width": 40,
       "height": 63,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Slateport",
       "border_filepath": "data/layouts/Route109/border.bin",
       "blockdata_filepath": "data/layouts/Route109/map.bin"
@@ -256,7 +256,7 @@
       "name": "Route110_Layout",
       "width": 40,
       "height": 100,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Mauville",
       "border_filepath": "data/layouts/Route110/border.bin",
       "blockdata_filepath": "data/layouts/Route110/map.bin"
@@ -266,7 +266,7 @@
       "name": "Route111_Layout",
       "width": 40,
       "height": 140,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Mauville",
       "border_filepath": "data/layouts/Route111/border.bin",
       "blockdata_filepath": "data/layouts/Route111/map.bin"
@@ -276,7 +276,7 @@
       "name": "Route112_Layout",
       "width": 40,
       "height": 60,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Lavaridge",
       "border_filepath": "data/layouts/Route112/border.bin",
       "blockdata_filepath": "data/layouts/Route112/map.bin"
@@ -286,7 +286,7 @@
       "name": "Route113_Layout",
       "width": 100,
       "height": 20,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Fallarbor",
       "border_filepath": "data/layouts/Route113/border.bin",
       "blockdata_filepath": "data/layouts/Route113/map.bin"
@@ -296,7 +296,7 @@
       "name": "Route114_Layout",
       "width": 40,
       "height": 80,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Fallarbor",
       "border_filepath": "data/layouts/Route114/border.bin",
       "blockdata_filepath": "data/layouts/Route114/map.bin"
@@ -306,7 +306,7 @@
       "name": "Route115_Layout",
       "width": 40,
       "height": 80,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Fallarbor",
       "border_filepath": "data/layouts/Route115/border.bin",
       "blockdata_filepath": "data/layouts/Route115/map.bin"
@@ -316,7 +316,7 @@
       "name": "Route116_Layout",
       "width": 100,
       "height": 20,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Rustboro",
       "border_filepath": "data/layouts/Route116/border.bin",
       "blockdata_filepath": "data/layouts/Route116/map.bin"
@@ -326,7 +326,7 @@
       "name": "Route117_Layout",
       "width": 60,
       "height": 20,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Mauville",
       "border_filepath": "data/layouts/Route117/border.bin",
       "blockdata_filepath": "data/layouts/Route117/map.bin"
@@ -336,7 +336,7 @@
       "name": "Route118_Layout",
       "width": 80,
       "height": 20,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Mauville",
       "border_filepath": "data/layouts/Route118/border.bin",
       "blockdata_filepath": "data/layouts/Route118/map.bin"
@@ -346,7 +346,7 @@
       "name": "Route119_Layout",
       "width": 40,
       "height": 140,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Fortree",
       "border_filepath": "data/layouts/Route119/border.bin",
       "blockdata_filepath": "data/layouts/Route119/map.bin"
@@ -356,7 +356,7 @@
       "name": "Route120_Layout",
       "width": 40,
       "height": 100,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Fortree",
       "border_filepath": "data/layouts/Route120/border.bin",
       "blockdata_filepath": "data/layouts/Route120/map.bin"
@@ -366,7 +366,7 @@
       "name": "Route121_Layout",
       "width": 80,
       "height": 20,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Lilycove",
       "border_filepath": "data/layouts/Route121/border.bin",
       "blockdata_filepath": "data/layouts/Route121/map.bin"
@@ -376,7 +376,7 @@
       "name": "Route122_Layout",
       "width": 40,
       "height": 40,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Lilycove",
       "border_filepath": "data/layouts/Route122/border.bin",
       "blockdata_filepath": "data/layouts/Route122/map.bin"
@@ -386,7 +386,7 @@
       "name": "Route123_Layout",
       "width": 140,
       "height": 20,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Lilycove",
       "border_filepath": "data/layouts/Route123/border.bin",
       "blockdata_filepath": "data/layouts/Route123/map.bin"
@@ -396,7 +396,7 @@
       "name": "Route124_Layout",
       "width": 80,
       "height": 80,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Mossdeep",
       "border_filepath": "data/layouts/Route124/border.bin",
       "blockdata_filepath": "data/layouts/Route124/map.bin"
@@ -406,7 +406,7 @@
       "name": "Route125_Layout",
       "width": 80,
       "height": 40,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Mossdeep",
       "border_filepath": "data/layouts/Route125/border.bin",
       "blockdata_filepath": "data/layouts/Route125/map.bin"
@@ -416,7 +416,7 @@
       "name": "Route126_Layout",
       "width": 80,
       "height": 80,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Mossdeep",
       "border_filepath": "data/layouts/Route126/border.bin",
       "blockdata_filepath": "data/layouts/Route126/map.bin"
@@ -426,7 +426,7 @@
       "name": "Route127_Layout",
       "width": 80,
       "height": 80,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Mossdeep",
       "border_filepath": "data/layouts/Route127/border.bin",
       "blockdata_filepath": "data/layouts/Route127/map.bin"
@@ -436,7 +436,7 @@
       "name": "Route128_Layout",
       "width": 120,
       "height": 40,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Mossdeep",
       "border_filepath": "data/layouts/Route128/border.bin",
       "blockdata_filepath": "data/layouts/Route128/map.bin"
@@ -446,7 +446,7 @@
       "name": "Route129_Layout",
       "width": 80,
       "height": 40,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Mossdeep",
       "border_filepath": "data/layouts/Route129/border.bin",
       "blockdata_filepath": "data/layouts/Route129/map.bin"
@@ -466,7 +466,7 @@
       "name": "Route131_Layout",
       "width": 60,
       "height": 40,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Pacifidlog",
       "border_filepath": "data/layouts/Route131/border.bin",
       "blockdata_filepath": "data/layouts/Route131/map.bin"
@@ -476,7 +476,7 @@
       "name": "Route132_Layout",
       "width": 80,
       "height": 40,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Pacifidlog",
       "border_filepath": "data/layouts/Route132/border.bin",
       "blockdata_filepath": "data/layouts/Route132/map.bin"
@@ -486,7 +486,7 @@
       "name": "Route133_Layout",
       "width": 80,
       "height": 40,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Pacifidlog",
       "border_filepath": "data/layouts/Route133/border.bin",
       "blockdata_filepath": "data/layouts/Route133/map.bin"
@@ -496,7 +496,7 @@
       "name": "Route134_Layout",
       "width": 80,
       "height": 40,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Pacifidlog",
       "border_filepath": "data/layouts/Route134/border.bin",
       "blockdata_filepath": "data/layouts/Route134/map.bin"
@@ -2626,7 +2626,7 @@
       "name": "Route130_Layout",
       "width": 80,
       "height": 40,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_DeltaGeneral",
       "secondary_tileset": "gTileset_Cave",
       "border_filepath": "data/layouts/Route130/border.bin",
       "blockdata_filepath": "data/layouts/Route130/map.bin"
@@ -4410,6 +4410,16 @@
       "secondary_tileset": "gTileset_MysteryEventsHouse",
       "border_filepath": "data/layouts/SootopolisCity_MysteryEventsHouse_1F_StairsUnblocked/border.bin",
       "blockdata_filepath": "data/layouts/SootopolisCity_MysteryEventsHouse_1F_StairsUnblocked/map.bin"
+    },
+    {
+      "id": "LAYOUT_TEST_MAP",
+      "name": "TestMap_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_DeltaGeneral",
+      "secondary_tileset": "gTileset_Petalburg",
+      "border_filepath": "data/layouts/TestMap/border.bin",
+      "blockdata_filepath": "data/layouts/TestMap/map.bin"
     }
   ]
 }

@@ -752,7 +752,7 @@ static bool8 MainState_StartPageSwap(void)
     StartPageSwapAnim();
     SetCursorInvisibility(TRUE);
     TryStartButtonFlash(BUTTON_PAGE, FALSE, TRUE);
-    PlaySE(SE_WIN_OPEN);
+    PlaySE(DELTA_SE_XY_PAGE3);
     sNamingScreen->state = STATE_WAIT_PAGE_SWAP;
     return FALSE;
 }
@@ -1514,7 +1514,7 @@ static bool8 KeyboardKeyHandler_OK(u8 input)
     TryStartButtonFlash(BUTTON_OK, TRUE, FALSE);
     if (input == INPUT_A_BUTTON)
     {
-        PlaySE(SE_SELECT);
+        PlaySE(DELTA_SE_COMPLETE);
         sNamingScreen->state = STATE_PRESSED_OK;
         return TRUE;
     }
@@ -1697,6 +1697,11 @@ static void HandleDpadMovement(struct Task *task)
             cursorY = 0;
     }
     SetCursorPos(cursorX, cursorY);
+
+    if (input != INPUT_NONE)
+    {
+        PlaySE(DELTA_SE_CHOOSE);
+    }
 }
 
 #undef tState
@@ -1836,7 +1841,7 @@ static bool8 AddTextCharacter(void)
     BufferCharacter(GetCharAtKeyboardPos(x, y));
     DrawTextEntry();
     CopyBgTilemapBufferToVram(3);
-    PlaySE(SE_SELECT);
+    PlaySE(DELTA_SE_XY_DECIDE1);
 
     if (GetPreviousTextCaretPosition() != sNamingScreen->template->maxChars - 1)
         return FALSE;

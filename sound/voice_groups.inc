@@ -190,3 +190,8 @@
 .include "sound/voicegroups/voicegroup188.inc"
 .include "sound/voicegroups/voicegroup189.inc"
 .include "sound/voicegroups/voicegroup190.inc"
+
+.include "sound/cry_tables_pikachu.inc"
+.include "sound/voicegroups/voicegroup256.inc"
+.include "sound/voicegroups/voicegroup257.inc"
+.include "sound/voicegroups/voicegroup258.inc"

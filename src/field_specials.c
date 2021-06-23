@@ -4376,3 +4376,88 @@ u8 Script_TryGainNewFanFromCounter(void)
 {
     return TryGainNewFanFromCounter(gSpecialVar_0x8004);
 }
+
+// Delta Emerald Pronouns
+void RivalSubjectStringVar2Caps(void)
+{
+    if (gSaveBlock2Ptr->playerGender == MALE)
+    {
+        StringCopy(gStringVar2, gText_Delta_SheCaps);
+    }
+    else
+    {
+        StringCopy(gStringVar2, gText_Delta_HeCaps);
+    }
+}
+
+void RivalSubjectStringVar2(void)
+{
+    if (gSaveBlock2Ptr->playerGender == MALE)
+    {
+        StringCopy(gStringVar2, gText_Delta_She);
+    }
+    else
+    {
+        StringCopy(gStringVar2, gText_Delta_He);
+    }
+}
+
+void PlayerSubjectStringVar2Caps(void)
+{
+    if (gSaveBlock2Ptr->playerGender == MALE)
+    {
+        StringCopy(gStringVar2, gText_Delta_HeCaps);
+    }
+    else
+    {
+        StringCopy(gStringVar2, gText_Delta_SheCaps);
+    }
+}
+
+void PlayerSubjectStringVar2(void)
+{
+    if (gSaveBlock2Ptr->playerGender == MALE)
+    {
+        StringCopy(gStringVar2, gText_Delta_He);
+    }
+    else
+    {
+        StringCopy(gStringVar2, gText_Delta_She);
+    }
+}
+
+void RivalPossessiveStringVar3Caps(void)
+{
+    if (gSaveBlock2Ptr->playerGender == MALE)
+    {
+        StringCopy(gStringVar3, gText_Delta_HerCaps);
+    }
+    else
+    {
+        StringCopy(gStringVar3, gText_Delta_HisCaps);
+    }
+}
+
+void RivalPossessiveStringVar3(void)
+{
+    if (gSaveBlock2Ptr->playerGender == MALE)
+    {
+        StringCopy(gStringVar3, gText_Delta_Her);
+    }
+    else
+    {
+        StringCopy(gStringVar3, gText_Delta_His);
+    }
+}
+
+void RivalObjectStringVar3(void)
+{
+    if (gSaveBlock2Ptr->playerGender == MALE)
+    {
+        StringCopy(gStringVar3, gText_Delta_Her);
+    }
+    else
+    {
+        StringCopy(gStringVar3, gText_Delta_Him);
+    }
+}

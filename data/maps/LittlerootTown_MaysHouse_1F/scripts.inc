@@ -102,10 +102,10 @@ LittlerootTown_MaysHouse_1F_EventScript_YoureNewNeighbor:: @ 81F89AE
 	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFastestRight
 	applymovement LOCALID_RIVAL_MOM, LittlerootTown_MaysHouse_1F_Movement_RivalMomApproach
 	waitmovement 0
-	special GetRivalSonDaughterString
-	msgbox RivalsHouse_1F_Text_OhYoureTheNewNeighbor, MSGBOX_DEFAULT
+	@ special GetRivalSonDaughterString					@ Ah, this gender-based message is now separated in ORAS.
+	msgbox MaysHouse_1F_Text_OhYoureTheNewNeighbor, MSGBOX_DEFAULT
 	setflag FLAG_MET_RIVAL_MOM
-	setvar VAR_LITTLEROOT_HOUSES_STATE_BRENDAN, 2
+	setvar VAR_LITTLEROOT_HOUSES_STATE_BRENDAN, 33
 	releaseall
 	end
 
@@ -123,10 +123,19 @@ RivalsHouse_1F_EventScript_RivalMom:: @ 81F89F3
 	faceplayer
 	goto_if_set FLAG_DEFEATED_RIVAL_ROUTE103, RivalsHouse_1F_EventScript_GoHomeEverySoOften
 	goto_if_set FLAG_SYS_POKEMON_GET, RivalsHouse_1F_EventScript_RivalIsOnRoute103
+	compare VAR_LITTLEROOT_HOUSES_STATE_BRENDAN, 33
+	goto_if_eq Delta_RivalsHouse_EventScript_GoOnUp
 	compare VAR_LITTLEROOT_RIVAL_STATE, 3
 	goto_if_eq RivalsHouse_1F_EventScript_RivalTooBusy
 	special GetRivalSonDaughterString
 	msgbox RivalsHouse_1F_Text_LikeChildLikeFather, MSGBOX_DEFAULT
+	release
+	end
+
+Delta_RivalsHouse_EventScript_GoOnUp:: @ 81F8A1F
+	special GetRivalSonDaughterString
+	special RivalSubjectStringVar2Caps
+	msgbox Delta_RivalsHouse_GoOnUp, MSGBOX_DEFAULT
 	release
 	end
 
@@ -333,17 +342,35 @@ LittlerootTown_MaysHouse_1F_Movement_MayGoUpstairs2: @ 81F8BBF
 	walk_up
 	step_end
 
-RivalsHouse_1F_Text_OhYoureTheNewNeighbor: @ 81F8BC5
+MaysHouse_1F_Text_OhYoureTheNewNeighbor: @ 81F8BC5
 	.string "Oh, hello. And you are?\p"
-	.string "… … … … … … … … …\n"
-	.string "… … … … … … … … …\p"
-	.string "Oh, you're {PLAYER}{KUN}, our new next-door\n"
-	.string "neighbor! Hi!\p"
-	.string "We have a {STR_VAR_1} about the same\n"
+	.string "…\p"
+	.string "Oh, you're {PLAYER}, our new next-door\n"
+	.string "neighbor! Welcome!\p"
+	.string "We have a daughter about the same\n"
 	.string "age as you.\p"
-	.string "Our {STR_VAR_1} was excited about making\n"
+	.string "She has been so excited about making\n"
 	.string "a new friend.\p"
-	.string "Our {STR_VAR_1} is upstairs, I think.$"
+	.string "She should be in {COLOR}{BLUE}her room upstairs{COLOR}{DARK_GREY}. I\n"
+	.string "hope you'll go and introduce yourself!$"
+
+BrendansHouse_1F_Text_OhYoureTheNewNeighbor: @ 81F8BC5
+	.string "Oh, hello. And you are?\p"
+	.string "…\p"
+	.string "Oh, you're {PLAYER}, our new next-door\n"
+	.string "neighbor! Welcome!\p"
+	.string "We have a son who is just about the\n"
+	.string "same age as you.\p"
+	.string "He has been so excited about making\n"
+	.string "a new friend.\p"
+	.string "He should be in {COLOR}{BLUE}his room upstairs{COLOR}{DARK_GREY}. I\n"
+	.string "hope you'll go and introduce yourself!$"
+
+Delta_RivalsHouse_GoOnUp: @ 81F8CA5
+	.string "I do hope you'll be friends with my\n"
+	.string "{STR_VAR_1}.\p"
+	.string "{STR_VAR_2} should be upstairs. Go on up\n"
+	.string "and say hi.$"
 
 RivalsHouse_1F_Text_LikeChildLikeFather: @ 81F8CA5
 	.string "Like child, like father.\p"
