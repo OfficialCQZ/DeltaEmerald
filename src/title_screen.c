@@ -730,7 +730,7 @@ static void Task_TitleScreenPhase2(u8 taskId)
 // Show Rayquaza silhouette and process main title screen input
 static void Task_TitleScreenPhase3(u8 taskId)
 {
-    if ((JOY_NEW(8)) || (JOY_NEW(START_BUTTON)))
+    if ((JOY_NEW(A_BUTTON)) || (JOY_NEW(START_BUTTON)))
     {
         PlayCryInternal(SPECIES_RAYQUAZA, 0, 100, 10, 0);
         FadeOutBGM(4);

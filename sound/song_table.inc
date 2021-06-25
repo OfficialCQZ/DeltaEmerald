@@ -610,8 +610,24 @@ gSongTable:: @ 86B49F0
 	song ph_cure_solo, 2, 2
 	song ph_nurse_blend, 2, 2
 	song ph_nurse_held, 2, 2
-	song ph_nurse_solo, 2, 2
-	song dseq_mus_soaring_day, 0, 0            @ 102 - Soaring Dreams
+	song ph_nurse_solo, 2, 2                   @ 609
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dseq_mus_soaring_day, 0, 0            @ 625 - 102 - Soaring Dreams
 	song dummy_song_header, 0, 0
 	song dummy_song_header, 0, 0
 	song dummy_song_header, 0, 0

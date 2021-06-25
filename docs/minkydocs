@@ -1,0 +1,35 @@
+minkydocs
+
+BattleWindowText
+sTextOnWindowsInfo_Normal[]
+
+	fillValue = background
+	bgColor = highlight
+
+gText_BattleMenu
+
+PlayerHandleChooseAction
+
+
+
+voicegroup256
+Battle! (Wild Pokemon)
+- Omnisphere
+	- Gaga Saw				- 002/128
+	- 3 Osc Fooling			- 003/128
+
+- voicegroup257 drumset		- 001/128
+
+voicegroup257
+Battle! (Trainer)
+- Stylus RMX
+	- Electric Flower Kick
+	- Rue The Day Snare
+	- Iron Boy Hi-hats
+	- MENU - Crash Cymbals
+
+voicegroup258
+- Omnisphere
+	- Gaga Saw				- 004/128
+
+- voicegroup257 drumset		- 003/128

@@ -536,3 +536,10 @@ gSpecials:: @ 81DBA64
 	def_special CloseDeptStoreElevatorWindow
 	def_special TrySetBattleTowerLinkType
 	def_special SetTotemBoost
+	def_special RivalSubjectStringVar2Caps
+	def_special RivalSubjectStringVar2
+	def_special PlayerSubjectStringVar2Caps
+	def_special PlayerSubjectStringVar2
+	def_special RivalPossessiveStringVar3Caps
+	def_special RivalPossessiveStringVar3
+	def_special RivalObjectStringVar3

@@ -68,6 +68,18 @@ PlayersHouse_2F_EventScript_WallClock:: @ 8292799
 	setflag FLAG_SET_WALL_CLOCK
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_PLAYERS_HOUSE_VIGOROTH_1
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_PLAYERS_HOUSE_VIGOROTH_2
+	gettime
+	@ compare VAR_0x8000, 0			@ As seen in ZackScottGames's walkthrough, it's in 24-hour format.
+	@ call_if_eq Delta_Hour_MN
+	@ compare VAR_0x8000, 24
+	@ call_if_ge Delta_Hour_MN
+	@ compare VAR_0x8000, 12
+	@ call_if_gt Delta_Hour_PM
+	buffernumberstring 0, VAR_0x8000 @ hour
+	buffernumberstring 1, VAR_0x8001 @ minute
+	buffernumberstring 2, VAR_0x8002 @ second
+	msgbox Delta_PlayersHouse_HandsWereSet, MSGBOX_DEFAULT
+	closemessage
 	checkplayergender
 	compare VAR_RESULT, MALE
 	call_if_eq PlayersHouse_2F_EventScript_MomComesUpstairsMale
@@ -77,6 +89,14 @@ PlayersHouse_2F_EventScript_WallClock:: @ 8292799
 	removeobject VAR_0x8008
 	releaseall
 	end
+
+Delta_Hour_MN::
+	setvar VAR_0x8000, 12
+	return
+
+Delta_Hour_PM::
+	subvar VAR_0x8000, 12
+	return
 
 PlayersHouse_2F_EventScript_MomComesUpstairsMale:: @ 82927DF
 	setvar VAR_0x8008, LOCALID_MOM_2F
@@ -501,7 +521,7 @@ PlayersHouse_1F_EventScript_GetSSTicketAndSeeLatiTV:: @ 8292AF2
 	compare VAR_0x8008, FEMALE
 	call_if_eq PlayersHouse_1F_EventScript_MomApproachPlayerAfterTVFemale
 	msgbox PlayersHouse_1F_Text_WhatColorDidTheySay, MSGBOX_DEFAULT
-	multichoice 22, 8, MULTI_TV_LATI, TRUE
+	multichoice 22, 8, MULTI_TV_LATI, 1
 	copyvar VAR_0x8004, VAR_RESULT
 	special InitRoamer
 	copyvar VAR_ROAMER_POKEMON, VAR_RESULT
@@ -705,3 +725,7 @@ PlayersHouse_1F_Movement_PlayerApproachTVForLatiFemale: @ 8292DDE
 EventScript_RunningShoesManual:: @ 8292DE5
 	msgbox PlayersHouse_1F_Text_RunningShoesManual, MSGBOX_SIGN
 	end
+
+Delta_PlayersHouse_HandsWereSet:
+	.string "The hour hand was set to {STR_VAR_1}\n"
+	.string "and the minute hand to {STR_VAR_2}!$"
