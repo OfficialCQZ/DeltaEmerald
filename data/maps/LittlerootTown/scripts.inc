@@ -269,11 +269,11 @@ LittlerootTown_EventScript_Boy:: @ 81E802B
 
 LittlerootTown_EventScript_Twin:: @ 81E8034
 	lock
-	faceplayer
 	goto_if_set FLAG_ADVENTURE_STARTED, LittlerootTown_EventScript_GoodLuck
 	goto_if_set FLAG_RESCUED_BIRCH, LittlerootTown_EventScript_YouSavedBirch
 	compare VAR_LITTLEROOT_TOWN_STATE, 0
 	goto_if_ne LittlerootTown_EventScript_GoSaveBirch
+	faceplayer
 	msgbox LittlerootTown_Text_IfYouGoInGrassPokemonWillJumpOut, MSGBOX_DEFAULT
 	release
 	end
