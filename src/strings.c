@@ -1817,17 +1817,3 @@ const u8 gText_Answer[] = _("ANSWER");
 const u8 gText_PokeBalls[] = _("POKé BALLS");
 const u8 gText_Berry[] = _("BERRY");
 const u8 gText_Berries[] = _("BERRIES");
-
-// Delta Emerald
-
-const u8 gText_Delta_HeCaps[] = _("He");
-const u8 gText_Delta_SheCaps[] = _("She");
-const u8 gText_Delta_He[] = _("he");
-const u8 gText_Delta_She[] = _("she");
-
-const u8 gText_Delta_HisCaps[] = _("His");
-const u8 gText_Delta_HerCaps[] = _("Her");
-const u8 gText_Delta_His[] = _("his");
-const u8 gText_Delta_Her[] = _("her");
-
-const u8 gText_Delta_Him[] = _("him");

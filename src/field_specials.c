@@ -5,6 +5,7 @@
 #include "cable_club.h"
 #include "data.h"
 #include "decoration.h"
+#include "delta_strings.h"
 #include "diploma.h"
 #include "event_data.h"
 #include "event_object_movement.h"

@@ -5,6 +5,7 @@
 #include "constants/songs.h"
 #include "constants/trainers.h"
 #include "decompress.h"
+// #include "delta_sprites_interface.h"
 #include "event_data.h"
 #include "field_effect.h"
 #include "gpu_regs.h"
@@ -247,6 +248,8 @@ static void MainMenu_FormatSavegamePokedex(void);
 static void MainMenu_FormatSavegameTime(void);
 static void MainMenu_FormatSavegameBadges(void);
 static void NewGameBirchSpeech_CreateDialogueWindowBorder(u8, u8, u8, u8, u8, u8);
+
+// static void MainMenu_AddDeltaSprites(u8);
 
 // .rodata
 
@@ -846,6 +849,7 @@ static void Task_DisplayMainMenu(u8 taskId)
                 AddTextPrinterParameterized3(5, 1, 0, 1, sTextColor_Headers, -1, gText_MainMenuMysteryEvents);
                 AddTextPrinterParameterized3(6, 1, 0, 1, sTextColor_Headers, -1, gText_MainMenuOption);
                 MainMenu_FormatSavegameText();
+                // MainMenu_AddDeltaSprites(taskId);
                 PutWindowTilemap(2);
                 PutWindowTilemap(3);
                 PutWindowTilemap(4);
@@ -1602,6 +1606,20 @@ static void Task_NewGameBirchSpeech_WaitPressBeforeNameChoice(u8 taskId)
     }
 }
 
+void NewGameBirchSpeech_SetDefaultPlayerName(u8 nameId)
+{
+    const u8* name;
+    u8 i;
+
+    if (gSaveBlock2Ptr->playerGender == MALE)
+        name = gMalePresetNames[nameId];
+    else
+        name = gFemalePresetNames[nameId];
+    for (i = 0; i < PLAYER_NAME_LENGTH; i++)
+        gSaveBlock2Ptr->playerName[i] = name[i];
+    gSaveBlock2Ptr->playerName[PLAYER_NAME_LENGTH] = EOS;
+}
+
 static void Task_NewGameBirchSpeech_StartNamingScreen(u8 taskId)
 {
     if (!gPaletteFade.active)
@@ -2108,6 +2126,21 @@ static void NewGameBirchSpeech_StartFadePlatformOut(u8 taskId, u8 delay)
 #undef tDelay
 #undef tDelayTimer
 
+// #define tPlayerDeltaSprite data[7]
+
+// static void MainMenu_AddDeltaSprites(u8 taskId)
+// {
+//     u8 playerDeltaSprite;
+
+//     playerDeltaSprite = AddDeltaEmeraldObject(1, 0x88, 0x3C, 1);
+//     gSprites[playerDeltaSprite].callback = SpriteCB_Null;
+//     gSprites[playerDeltaSprite].oam.priority = 0;
+//     gSprites[playerDeltaSprite].invisible = FALSE;
+//     gTasks[taskId].tPlayerDeltaSprite = playerDeltaSprite;
+// }
+
+// #undef tPlayerDeltaSprite
+
 static void NewGameBirchSpeech_ShowGenderMenu(void)
 {
     DrawMainMenuWindowBorder(&gNewGameBirchSpeechTextWindows[1], 0xF3);
@@ -2121,20 +2154,6 @@ static void NewGameBirchSpeech_ShowGenderMenu(void)
 static s8 NewGameBirchSpeech_ProcessGenderMenuInput(void)
 {
     return Menu_ProcessInputNoWrap();
-}
-
-void NewGameBirchSpeech_SetDefaultPlayerName(u8 nameId)
-{
-    const u8* name;
-    u8 i;
-
-    if (gSaveBlock2Ptr->playerGender == MALE)
-        name = gMalePresetNames[nameId];
-    else
-        name = gFemalePresetNames[nameId];
-    for (i = 0; i < PLAYER_NAME_LENGTH; i++)
-        gSaveBlock2Ptr->playerName[i] = name[i];
-    gSaveBlock2Ptr->playerName[PLAYER_NAME_LENGTH] = EOS;
 }
 
 static void CreateMainMenuErrorWindow(const u8* str)

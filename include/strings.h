@@ -3015,16 +3015,4 @@ extern const u8 gText_PkmnForSwap[];
 extern const u8 gText_SamePkmnInPartyAlready[];
 extern const u8 gText_Cancel3[];
 
-extern const u8 gText_Delta_HeCaps[];
-extern const u8 gText_Delta_SheCaps[];
-extern const u8 gText_Delta_He[];
-extern const u8 gText_Delta_She[];
-
-extern const u8 gText_Delta_HisCaps[];
-extern const u8 gText_Delta_HerCaps[];
-extern const u8 gText_Delta_His[];
-extern const u8 gText_Delta_Her[];
-
-extern const u8 gText_Delta_Him[];
-
 #endif // GUARD_STRINGS_H

@@ -1,0 +1,125 @@
+#include "global.h"
+#include "delta_sprites_interface.h"
+#include "palette.h"
+#include "sprite.h"
+
+static const struct OamData sOam_64x64 =
+{
+    .y = 0,
+    .affineMode = ST_OAM_AFFINE_OFF,
+    .objMode = ST_OAM_OBJ_NORMAL,
+    .bpp = ST_OAM_4BPP,
+    .shape = SPRITE_SHAPE(64x64),
+    .x = 0,
+    .size = SPRITE_SIZE(64x64),
+    .tileNum = 0,
+    .priority = 0,
+    .paletteNum = 0,
+};
+
+static const struct OamData sOam_8x8 =
+{
+    .y = 0,
+    .affineMode = ST_OAM_AFFINE_OFF,
+    .objMode = ST_OAM_OBJ_NORMAL,
+    .bpp = ST_OAM_4BPP,
+    .shape = SPRITE_SHAPE(8x8),
+    .x = 0,
+    .size = SPRITE_SIZE(8x8),
+    .tileNum = 0,
+    .priority = 0,
+    .paletteNum = 0,
+};
+
+static const struct OamData sOam_16x16 =
+{
+    .y = 0,
+    .affineMode = ST_OAM_AFFINE_OFF,
+    .objMode = ST_OAM_OBJ_NORMAL,
+    .bpp = ST_OAM_4BPP,
+    .shape = SPRITE_SHAPE(16x16),
+    .x = 0,
+    .size = SPRITE_SIZE(16x16),
+    .tileNum = 0,
+    .priority = 0,
+    .paletteNum = 0,
+};
+
+static const u32 sDeltaEmeraldBrendan_Gfx[] = INCBIN_U32("graphics/delta_interface/brendan.4bpp");
+static const u16 sDeltaEmeraldBrendan_Pal[16] = INCBIN_U16("graphics/delta_interface/brendan.gbapal");
+
+static const u32 sDeltaEmeraldMay_Gfx[] = INCBIN_U32("graphics/delta_interface/may.4bpp");
+static const u16 sDeltaEmeraldMay_Pal[16] = INCBIN_U16("graphics/delta_interface/may.gbapal");
+
+static const struct SpriteFrameImage sPicTable_DeltaEmeraldBrendan[] =
+{
+    obj_frame_tiles(sDeltaEmeraldBrendan_Gfx)
+};
+
+static const struct SpritePalette sSpritePalette_DeltaEmeraldBrendan =
+{
+    .data = sDeltaEmeraldBrendan_Pal,
+    .tag = 0x7000
+};
+
+static const union AnimCmd sAnim_DeltaDummy[] =
+{
+    ANIMCMD_FRAME(.imageValue = 0, .duration = 1),
+    ANIMCMD_END
+};
+
+static const union AnimCmd *const sAnimTable_DeltaDummy[] =
+{
+    sAnim_DeltaDummy
+};
+
+static const struct SpriteTemplate *sSpriteTemplate_DeltaEmeraldBrendan =
+{
+    .tileTag = 0xFFFF,
+    .paletteTag = 0x1006,
+    .oam = &sOam_64x64,
+    .anims = sAnimTable_DeltaDummy,
+    .images = sPicTable_DeltaEmeraldBrendan,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCallbackDummy
+};
+
+static const struct SpriteFrameImage sPicTable_DeltaEmeraldMay[] =
+{
+    obj_frame_tiles(sDeltaEmeraldMay_Gfx)
+};
+
+static const struct SpritePalette sSpritePalette_DeltaEmeraldMay =
+{
+    .data = sDeltaEmeraldMay_Pal,
+    .tag = 0x7000
+};
+
+static const struct SpriteTemplate *sSpriteTemplate_DeltaEmeraldMay =
+{
+    .tileTag = 0xFFFF,
+    .paletteTag = 0x1006,
+    .oam = &sOam_64x64,
+    .anims = sAnimTable_DeltaDummy,
+    .images = sPicTable_DeltaEmeraldMay,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCallbackDummy
+};
+
+static const struct DeltaOAMs sDeltaOAMs[2] =
+{
+    {sDeltaEmeraldBrendan_Pal, *sSpriteTemplate_DeltaEmeraldBrendan},
+    {sDeltaEmeraldMay_Pal, *sSpriteTemplate_DeltaEmeraldMay}
+};
+
+
+static const struct DeltaOAMs *GetDeltaOAM(u8 id)
+{
+    return &sDeltaOAMs[id];
+}
+
+u8 AddDeltaEmeraldObject(u8 id, s16 x, s16 y, u8 subpriority)
+{
+    LoadSpritePalette(GetDeltaOAM(id)->palette);
+    return CreateSprite(GetDeltaOAM(id)->template, x, y, subpriority);
+}
